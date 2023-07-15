@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LaserHitbox : MonoBehaviour
 {
+    public GameManager gameManager;
+
     private BoxCollider2D hitbox;
 
     void Start()
@@ -13,6 +15,8 @@ public class LaserHitbox : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        gameManager.AddPoints(1);
+        Destroy(collision.gameObject);
         Destroy(transform.parent.gameObject);
     }
 }

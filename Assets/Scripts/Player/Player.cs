@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     private GameObject ui, game;
 
     private UIManager uiManager;
-    // private GameManager gameManager;
+    private GameManager gameManager;
     private new SpriteRenderer renderer;
 
     [HideInInspector]
@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     {
         renderer = GetComponent<SpriteRenderer>();
         uiManager = ui.GetComponent<UIManager>();
-        // gameManager = game.GetComponent<GameManager>();
+        gameManager = game.GetComponent<GameManager>();
         uiManager.SetHP(hitpoints);
         uiManager.SetBombs(bombs);
     }
@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
         {
             --bombs;
             uiManager.SetBombs(bombs);
-            // gameManager.Bomb();
+            gameManager.Bomb();
         }
     }
 
@@ -75,6 +75,7 @@ public class Player : MonoBehaviour
     private void Fire()
     {
         GameObject newLaser = Instantiate(laser);
+        newLaser.transform.GetChild(0).GetComponent<LaserHitbox>().gameManager = gameManager;
         int dir = direction == Direction.Right ? 1 : -1;
         newLaser.transform.position = new Vector2(
             transform.position.x + laserSpawnOffset.x * dir, 
@@ -90,6 +91,20 @@ public class Player : MonoBehaviour
     {
         --hitpoints;
         uiManager.SetHP(hitpoints);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            --hitpoints;
+            uiManager.SetHP(hitpoints);
+            Destroy(collision.gameObject);
+            if (hitpoints < 1)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 }
 

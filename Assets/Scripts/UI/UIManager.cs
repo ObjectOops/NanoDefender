@@ -21,6 +21,8 @@ public class UIManager : MonoBehaviour
         {
             i.SetActive(false);
         }
+
+        SetPoints(0);
     }
 
     public void SetHP(int hp)
