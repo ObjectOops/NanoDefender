@@ -417,7 +417,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Points: 0'
+  m_text: Points
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1159,8 +1159,13 @@ MonoBehaviour:
   laser: {fileID: 3353885199601552695, guid: 85a8aa03de751534a813b3f43be6b875, type: 3}
   laserSpawnOffset: {x: 8.47, y: 0.17}
   laserSpeed: 0
+  renderer: {fileID: 0}
   direction: 1
-  accelerate: 0
+  accelerating: 0
+  firing: 0
+  usedBomb: 0
+  axisX: 0
+  axisY: 0
 --- !u!212 &1869540047
 SpriteRenderer:
   m_ObjectHideFlags: 0

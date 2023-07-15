@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class Player : MonoBehaviour
 {
+    [SerializeField]
+    private int hitpoints, bombs;
     [SerializeField]
     private float maxY, minY, posY, deltaY;
     [SerializeField]
@@ -11,35 +13,48 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Vector2 laserSpawnOffset;
     [SerializeField]
-    private float laserSpeed;
+    private GameObject ui, game;
 
+    private UIManager uiManager;
+    // private GameManager gameManager;
     private new SpriteRenderer renderer;
 
     [HideInInspector]
     public Direction direction = Direction.Right;
     [HideInInspector]
-    public bool accelerate;
+    public bool accelerating, firing, usedBomb;
 
     private float axisX, axisY;
 
     void Start()
     {
         renderer = GetComponent<SpriteRenderer>();
+        uiManager = ui.GetComponent<UIManager>();
+        // gameManager = game.GetComponent<GameManager>();
+        uiManager.SetHP(hitpoints);
+        uiManager.SetBombs(bombs);
     }
 
     void Update()
     {
         axisY = Input.GetAxisRaw("Vertical");
         axisX = Input.GetAxisRaw("Horizontal");
-        accelerate = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.Space);
-        bool fireNow = Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown(KeyCode.Return);
+        accelerating = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.Space);
+        firing = Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown(KeyCode.Return);
+        usedBomb = Input.GetKeyDown(KeyCode.B) && bombs > 0;
         posY = Mathf.Clamp(posY + deltaY * axisY, minY, maxY);
 
         UpdatePositionY();
         UpdateOrientation();
-        if (fireNow)
+        if (firing)
         {
             Fire();
+        }
+        if (usedBomb)
+        {
+            --bombs;
+            uiManager.SetBombs(bombs);
+            // gameManager.Bomb();
         }
     }
 
@@ -69,6 +84,12 @@ public class PlayerController : MonoBehaviour
         {
             newLaser.transform.rotation = Quaternion.Euler(0, 180, 0);
         }
+    }
+
+    public void TakeDamage()
+    {
+        --hitpoints;
+        uiManager.SetHP(hitpoints);
     }
 }
 
