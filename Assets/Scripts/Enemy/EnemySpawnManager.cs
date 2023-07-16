@@ -19,7 +19,7 @@ public class EnemySpawnManager : MonoBehaviour
 		Human[] allHumans = FindObjectsOfType<Human>();
 		foreach (Human human in allHumans)
 		{
-			if (!human.isTargeted)
+			if (!human.isTargeted && human.onGround)
 			{
 				humans.Add(human);
 			}

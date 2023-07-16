@@ -48,6 +48,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isTargeted: 0
+  frameFallDistance: 0.01
+  fallDamageDistance: 2
+  groundElevationY: -4
   mutantPrefab: {fileID: 4282684119748027090, guid: 8d52e079791c142889e1600685cf2f3c, type: 3}
   scroller: {fileID: 0}
 --- !u!61 &4876531597942297488
