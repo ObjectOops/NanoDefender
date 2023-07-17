@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Game.Core.Rendering;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

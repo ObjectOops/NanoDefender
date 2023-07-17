@@ -45,6 +45,7 @@ public class MutantEnemy : EnemyController
 
 	public override void Die()
 	{
+		AudioManager.instance.PlaySound("Enemy Death");
 		freeze = true;
 		Destroy(this.gameObject);
 	}
