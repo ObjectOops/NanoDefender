@@ -8,10 +8,11 @@ public class EnemySpawnManager : MonoBehaviour
 {
 	public LanderEnemy landerPrefab;
 	public Transform landerSpawnY;
-	
+
 	public Transform scroller;
 
 	private List<Human> humans = new List<Human>();
+	private List<EnemyController> spawnedEnemies = new List<EnemyController>();
 
 	public void PopulateLevel(int enemyCount)
 	{
@@ -24,7 +25,7 @@ public class EnemySpawnManager : MonoBehaviour
 				humans.Add(human);
 			}
 		}
-
+		
 		if (humans.Count == 0)
 		{
 			return;
@@ -36,21 +37,40 @@ public class EnemySpawnManager : MonoBehaviour
 			{
 				return;
 			}
-			
+
 			float randX = UnityEngine.Random.Range(-50, 51);
 			Vector2 pos = new Vector2(randX, landerSpawnY.position.y);
 			LanderEnemy enemy = Instantiate(landerPrefab, pos, Quaternion.identity, scroller);
 
 			Human nonTargeted = humans[UnityEngine.Random.Range(0, humans.Count)];
 
+			enemy.Init();
 			enemy.SetTarget(nonTargeted);
+			spawnedEnemies.Add(enemy);
 
 			humans.Remove(nonTargeted);
 		}
 	}
 
-	private void Update()
+	public void FreezeEnemies()
 	{
+		foreach (EnemyController enemy in spawnedEnemies)
+		{
+			if (enemy != null)
+			{
+				enemy.Freeze();
+			}
+		}
+	}
 
+	public void UnFreezeEnemies()
+	{
+		foreach (EnemyController enemy in spawnedEnemies)
+		{
+			if (enemy != null)
+			{
+				enemy.UnFreeze();
+			}
+		}
 	}
 }
