@@ -11,7 +11,6 @@ public class HumanSpawnManager : MonoBehaviour
 
 	public void PopulateLevel(int humanCount)
 	{
-		//5 enemies
 		for (int i = 0; i < humanCount; i++)
 		{
 			float randX = UnityEngine.Random.Range(-50, 51);

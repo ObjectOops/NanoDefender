@@ -16,6 +16,10 @@ public class LanderEnemy : EnemyController
 		{
 			return;
 		}
+		if (freeze)
+		{
+			return;
+		}
 		switch (state)
 		{
 			case State.TOWARDS_BOTTOM:
@@ -40,6 +44,21 @@ public class LanderEnemy : EnemyController
 				break;
 		}
 	}
+
+	public override void Die()
+	{
+		freeze = true;
+		GetComponent<Collider2D>().enabled = false;
+		if (human.transform.parent.Equals(this.transform))
+		{
+			human.transform.parent = GameObject.Find("Scroller").transform;
+			human.isTargeted = false;
+		}
+
+		animator.SetTrigger("death");
+		Invoke("Destroy", 0.533f);
+	}
+
 
 	public void SetTarget(Human human)
 	{
@@ -112,6 +131,7 @@ public class LanderEnemy : EnemyController
 		if (difference < 0.5f)
 		{
 			human.transform.parent = this.transform;
+			human.Frown();
 			state = State.UP;
 		}
 	}
@@ -138,14 +158,15 @@ public class LanderEnemy : EnemyController
 
 	private void ExplodeActions()
 	{
-        human.transform.parent = null;
-        human.SpawnMutant();
-        Destroy(this.gameObject);
+		human.transform.parent = GameObject.Find("Scroller").transform;
+		// human.transform.position = 
+		human.DieSequence();
+		Destroy(this.gameObject);
 	}
 
 	private void ExplodeTransitions()
 	{
-        
+
 	}
 
 	public enum State

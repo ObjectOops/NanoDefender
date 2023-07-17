@@ -10,14 +10,19 @@ public class MutantEnemy : EnemyController
 	public float moveSpeed;
 	public float downSpeed;
 
-	void Start()
+	new void Start()
 	{
-        player = GameObject.Find("TestPlayer");
+        player = FindObjectOfType<PlayerController>();
+        base.Start();
 	}
 
 	void Update()
 	{
 		if (player == null)
+		{
+			return;
+		}
+		if (freeze)
 		{
 			return;
 		}
@@ -36,6 +41,12 @@ public class MutantEnemy : EnemyController
 				UpTransitions();
 				break;
 		}
+	}
+
+	public override void Die()
+	{
+		freeze = true;
+		Destroy(this.gameObject);
 	}
 
 	private void TowardsActions()
@@ -81,6 +92,16 @@ public class MutantEnemy : EnemyController
 		{
 			state = State.UP;
 		}
+
+		float enemyX = transform.position.x;
+		float humanX = player.transform.position.x;
+
+		float differenceX = Mathf.Abs(enemyX - humanX);
+
+		if (difference >= 0.5f)
+		{
+			state = State.TOWARDS_HUMAN;
+		}
 	}
 
 	private void UpActions()
@@ -92,7 +113,6 @@ public class MutantEnemy : EnemyController
 	{
 		
 	}
-
 
 	public enum State
 	{

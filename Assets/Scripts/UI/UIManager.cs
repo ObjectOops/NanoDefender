@@ -1,48 +1,159 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField]
-    private List<GameObject> hitpoints;
-    [SerializeField]
-    private List<GameObject> bombs;
-    [SerializeField]
-    private GameObject points;
+	public static UIManager instance;
 
-    private TextMeshProUGUI pointsText;
+	private List<GameObject> healthObjects = new List<GameObject>();
+	public int health;
+	private List<GameObject> bombObjects = new List<GameObject>();
+	public int smartBombs;
+	public TMP_Text pointsText;
+	public TMP_Text gameOverText;
 
-    void Start()
-    {
-        pointsText = points.GetComponent<TextMeshProUGUI>();
-        foreach (GameObject i in hitpoints)
-        {
-            i.SetActive(false);
-        }
+	public Transform healthHolder;
+	public Transform bombHolder;
+	public GameObject refreshScreen;
 
-        SetPoints(0);
-    }
+	public int points;
 
-    public void SetHP(int hp)
-    {
-        for (int i = 0; i < hitpoints.Count; ++i)
-        {
-            hitpoints[i].SetActive(i < hp);
-        }
-    }
+	[Header("Prefabs")]
+	public GameObject healthIcon;
+	public GameObject bombIcon;
 
-    public void SetBombs(int count)
-    {
-        for (int i = 0; i < bombs.Count; ++i)
-        {
-            bombs[i].SetActive(i < count);
-        }
-    }
+	private bool flash;
+	private float flashTimer;
 
-    public void SetPoints(int count)
-    {
-        pointsText.text = $"{count}";
-    }
+	void Start()
+	{
+		instance = this;
+		gameOverText.gameObject.SetActive(false);
+		for (int i = 0; i < health; i++)
+		{
+			healthObjects.Add(Instantiate(healthIcon, Vector3.zero, Quaternion.identity, healthHolder));
+		}
+		for (int i = 0; i < smartBombs; i++)
+		{
+			bombObjects.Add(Instantiate(bombIcon, Vector3.zero, Quaternion.Euler(0, 0, 90), bombHolder));
+		}
+	}
+
+	void Update()
+	{
+		if (flashTimer >= 0.25f && !flash)
+		{
+			flash = true;
+			flashTimer = 0f;
+		}
+		if (flashTimer >= 0.1f && flash)
+		{
+			flash = false;
+			flashTimer = 0f;
+		}
+		if (flash)
+		{
+			pointsText.text = "";
+		}
+		else
+		{
+			pointsText.text = $"{points}";
+		}
+		flashTimer += Time.deltaTime;
+	}
+
+	public void SetHealth(int health)
+	{
+		this.health = health;
+		int i = 0;
+		foreach (GameObject healthObj in healthObjects)
+		{
+			if (i < this.health)
+			{
+				healthObj.SetActive(true);
+			}
+			else
+			{
+				healthObj.SetActive(false);
+			}
+			i++;
+		}
+	}
+
+	public bool DecrementHealth()
+	{
+		if (health <= 0)
+		{
+			return false;
+		}
+		else
+		{
+			SetHealth(health - 1);
+			return true;
+		}
+	}
+
+	public bool UseBomb()
+	{
+		if (smartBombs > 0)
+		{
+			SetBombs(smartBombs - 1);
+			return true;
+		}
+		return false;
+	}
+
+	public void SetBombs(int count)
+	{
+		smartBombs = count;
+		int i = 0;
+		foreach (GameObject smartBomb in bombObjects)
+		{
+			if (i < count)
+			{
+				smartBomb.SetActive(true);
+			}
+			else
+			{
+				smartBomb.SetActive(false);
+			}
+			i++;
+		}
+	}
+
+	public void SetPoints(int count)
+	{
+		points = count;
+		pointsText.text = $"{points}";
+	}
+
+	public void AddPoints(int count)
+	{
+		points += count;
+		pointsText.text = $"{points}";
+	}
+
+	public void ShowRefreshScreen()
+	{
+		refreshScreen.SetActive(true);
+	}
+
+	public void HideRefreshScreen()
+	{
+		refreshScreen.SetActive(false);
+	}
+
+	public void ShowGameOver()
+	{
+		gameOverText.gameObject.SetActive(true);
+	}
+
+	public IEnumerator ResetScene()
+	{
+		yield return new WaitForSeconds(2f);
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+	}
 }
