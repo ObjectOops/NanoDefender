@@ -49,8 +49,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isTargeted: 0
   onGround: 1
-  frameFallDistance: 0.5
-  fallDamageDistance: 1
+  fallSpeed: 2
+  deathDistance: 1
   groundElevationY: -4
   mutantPrefab: {fileID: 4282684119748027090, guid: 8d52e079791c142889e1600685cf2f3c, type: 3}
   animator: {fileID: 4850655447055656175}

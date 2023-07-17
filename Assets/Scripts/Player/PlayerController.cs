@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
 	public CameraOffset offset;
 	public Laser laserPrefab;
 	public Transform shootPoint;
+	public Transform humanHoldPoint;
 	public ParticleSystem deathParticles;
 
 	/***********************************
@@ -249,7 +250,7 @@ public class PlayerController : MonoBehaviour
 		offset.freeze = true;
         
         animator.DieAnim();
-        deathParticles.Play();
+        deathParticles.Play();		
 		manager.FreezeEnemies();
 		AudioManager.instance.PlaySound("Player Death");
 

@@ -47,3 +47,4 @@ sysinfo.txt
 # Custom
 Logs/
 UserSettings/
+.DS_Store
