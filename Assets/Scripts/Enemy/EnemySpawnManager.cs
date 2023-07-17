@@ -61,6 +61,10 @@ public class EnemySpawnManager : MonoBehaviour
 				enemy.Freeze();
 			}
 		}
+		
+		foreach(EnemyController enemy in FindObjectsOfType<MutantEnemy>()) {
+			enemy.Freeze();
+		}
 	}
 
 	public void UnFreezeEnemies()
@@ -71,6 +75,11 @@ public class EnemySpawnManager : MonoBehaviour
 			{
 				enemy.UnFreeze();
 			}
+		}
+
+		foreach (EnemyController enemy in FindObjectsOfType<MutantEnemy>())
+		{
+			enemy.Freeze();
 		}
 	}
 }

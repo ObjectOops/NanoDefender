@@ -6,11 +6,13 @@ public class Human : MonoBehaviour
 {
 	public bool isTargeted;
 	public bool onGround = true;
-	public float frameFallDistance, fallDamageDistance, groundElevationY;
+	public bool isHeld;
+	public float fallSpeed, deathDistance, groundElevationY;
 	public MutantEnemy mutantPrefab;
 	public Animator animator;
 
 	private float distanceFallen = 0;
+	private float velocity;
 
 	void Start()
 	{
@@ -20,13 +22,25 @@ public class Human : MonoBehaviour
 	void Update()
 	{
 		onGround = OnGround();
-		if (!onGround && !isTargeted)
+		if (!onGround && !isTargeted && !isHeld)
 		{
 			Fall();
 		}
-		else if (onGround)
+
+		if (onGround)
 		{
-			TestFallDamage();
+			if (isHeld)
+			{
+				distanceFallen = 0;
+				isHeld = false;
+				transform.parent = GameObject.Find("Scroller").transform;
+				animator.SetBool("frown", false);
+				UIManager.instance.AddPoints(500);
+			}
+			else
+			{
+				TestFallDamage();
+			}
 		}
 	}
 
@@ -45,7 +59,7 @@ public class Human : MonoBehaviour
 
 	public void Frown()
 	{
-		animator.SetTrigger("frown");
+		animator.SetBool("frown", true);
 	}
 
 	public bool OnGround()
@@ -55,15 +69,31 @@ public class Human : MonoBehaviour
 
 	private void Fall()
 	{
-		transform.position = new Vector2(transform.position.x, transform.position.y - frameFallDistance * Time.deltaTime);
-		distanceFallen += frameFallDistance * Time.deltaTime;
+		velocity += fallSpeed * Time.deltaTime;
+		distanceFallen += velocity * Time.deltaTime;
+
+		transform.position = new Vector2(transform.position.x, transform.position.y - velocity * Time.deltaTime);
 	}
 
 	private void TestFallDamage()
 	{
-		if (distanceFallen >= fallDamageDistance)
+		if (distanceFallen >= deathDistance)
 		{
 			Destroy(this.gameObject);
+		}
+	}
+
+	private void OnCollisionEnter2D(Collision2D other)
+	{
+		if (other.gameObject.TryGetComponent<PlayerController>(out PlayerController player))
+		{
+			if (!onGround && !isTargeted)
+			{
+				transform.parent = player.humanHoldPoint;
+				transform.position = player.humanHoldPoint.position;
+				isHeld = true;
+				UIManager.instance.AddPoints(500);
+			}
 		}
 	}
 

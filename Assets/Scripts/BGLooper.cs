@@ -5,15 +5,14 @@ using UnityEngine;
 
 public class BGLooper : MonoBehaviour
 {
-	public List<GameObject> loopObjects;
-	public SpriteRenderer spriteRenderer;
 	private Vector3 originalPosition;
 	public float maxDif = 16.39f;
+	public float size;
 
 	private void Start()
 	{
 		originalPosition = transform.position;
-		// maxDif = spriteRenderer.bounds.max.x;
+		size = GetComponentInChildren<SpriteRenderer>().sprite.bounds.max.x;
 	}
 
 	private void Update()
