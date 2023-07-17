@@ -47,6 +47,7 @@ public class LanderEnemy : EnemyController
 
 	public override void Die()
 	{
+		AudioManager.instance.PlaySound("Enemy Death");
 		freeze = true;
 		GetComponent<Collider2D>().enabled = false;
 		if (human.transform.parent.Equals(this.transform))

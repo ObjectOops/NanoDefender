@@ -115,6 +115,7 @@ public class PlayerController : MonoBehaviour
 		if (input.gameInput.AttackPressed)
 		{
 			ShootLaser();
+			AudioManager.instance.PlaySound("Laser");
 		}
 		if (input.gameInput.BombPressed)
 		{
@@ -130,9 +131,21 @@ public class PlayerController : MonoBehaviour
 						UIManager.AddPoints(enemy.GetPointValue());
 					}
 				}
+				AudioManager.instance.PlaySound("Smart Bomb");
+				StartCoroutine(BombRinging());
 			}
 		}
 	}
+
+	private IEnumerator BombRinging()
+    {
+		int iterations = 5;
+		for (int i = 0; i < iterations; ++i)
+        {
+			yield return new WaitForSeconds(1);
+			AudioManager.instance.PlaySound("Smart Bomb Ringing", 1 - (float)i / iterations);
+        }
+    }
 
 	public void AnyTransitions()
 	{
@@ -237,7 +250,9 @@ public class PlayerController : MonoBehaviour
         
         animator.DieAnim();
         deathParticles.Play();
-		manager.FreezeEnemies();    
+		manager.FreezeEnemies();
+		AudioManager.instance.PlaySound("Player Death");
+
 		yield return new WaitForSeconds(1.4f);
 		
 		bool dead = !UIManager.DecrementHealth();
