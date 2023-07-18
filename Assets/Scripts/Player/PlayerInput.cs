@@ -12,10 +12,10 @@ public class PlayerInput : MonoBehaviour
 		gameInput = new FrameInput
 		{
 			yMovement = yMove,
-			LeftPressed = Input.GetKeyDown(KeyCode.A),
-			RightPressed = Input.GetKeyDown(KeyCode.D),
-			Accelerating = Input.GetKey(KeyCode.LeftShift),
-			AttackPressed = Input.GetKeyDown(KeyCode.K),
+			LeftPressed = Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow),
+			RightPressed = Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow),
+			Accelerating = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.Space),
+			AttackPressed = Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown(KeyCode.Return),
 			BombPressed = Input.GetKeyDown(KeyCode.E)
 		};
 	}
