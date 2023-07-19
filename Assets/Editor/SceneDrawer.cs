@@ -4,10 +4,8 @@ using UnityEngine;
 [CustomPropertyDrawer(typeof(SceneAttribute))]
 public class SceneDrawer : PropertyDrawer
 {
-
 	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 	{
-
 		if (property.propertyType == SerializedPropertyType.String)
 		{
 			var sceneObject = GetSceneObject(property.stringValue);
@@ -21,7 +19,7 @@ public class SceneDrawer : PropertyDrawer
 				var sceneObj = GetSceneObject(scene.name);
 				if (sceneObj == null)
 				{
-					Debug.LogWarning("The scene " + scene.name + " cannot be used. To use this scene add it to the build settings for the project");
+					Debug.LogWarning("The scene " + scene.name + " cannot be used. To use this scene add it to the build settings for the project.");
 				}
 				else
 				{
@@ -30,8 +28,11 @@ public class SceneDrawer : PropertyDrawer
 			}
 		}
 		else
+		{
 			EditorGUI.LabelField(position, label.text, "Use [Scene] with strings.");
+		}
 	}
+
 	protected SceneAsset GetSceneObject(string sceneObjectName)
 	{
 		if (string.IsNullOrEmpty(sceneObjectName))
