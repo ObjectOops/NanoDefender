@@ -1,30 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class OptionsMenuManager : MonoBehaviour
 {
-
-	public AudioMixer mixer;
+	[SerializeField]
+	private AudioMixer mixer;
 
 	[Header("Menus")]
-	public GameObject pauseMenu;
+	[SerializeField]
+	private GameObject pauseMenu;
 
 	[Header("UI Elements")]
-	public Button backButton;
-	public Slider musicSlider;
-	public Slider sfxSlider;
+	[SerializeField]
+	private Button backButton;
+	[SerializeField]
+	private Slider musicSlider, sfxSlider;
 
 	private float musicVolume;
 	private float sfxVolume;
 
-	void Start()
+	private void Start()
 	{
-		backButton.onClick.AddListener(OpenPause);
-
 		musicVolume = PlayerPrefs.GetFloat("musicvolume", 1f);
 		sfxVolume = PlayerPrefs.GetFloat("sfxvolume", 1f);
 
@@ -34,6 +34,7 @@ public class OptionsMenuManager : MonoBehaviour
 		UpdateMixerFloat("musicVol", musicVolume);
 		UpdateMixerFloat("sfxVol", musicVolume);
 
+		backButton.onClick.AddListener(OpenPause);
 		musicSlider.onValueChanged.AddListener(UpdateMusicVolume);
 		sfxSlider.onValueChanged.AddListener(UpdateSFXVolume);
 
@@ -52,27 +53,27 @@ public class OptionsMenuManager : MonoBehaviour
 		PlayerPrefs.SetFloat("sfxvolume", sfxVolume);
 	}
 
-	void OpenPause()
+	private void OpenPause()
 	{
 		pauseMenu.SetActive(true);
 		gameObject.SetActive(false);
 	}
 
-	void UpdateMusicVolume(float newVol)
+	private void UpdateMusicVolume(float newVolume)
 	{
-		musicVolume = newVol;
+		musicVolume = newVolume;
 		UpdateMixerFloat("musicVol", musicVolume);
 	}
 
-	void UpdateSFXVolume(float newVol)
+	private void UpdateSFXVolume(float newVolume)
 	{
-		sfxVolume = newVol;
+		sfxVolume = newVolume;
 		UpdateMixerFloat("sfxVol", sfxVolume);
 	}
 
-	void UpdateMixerFloat(string name, float newValue)
+	private void UpdateMixerFloat(string name, float newValue)
 	{
+		// Convert linear values to decibels, which are on a logarithmic scale.
 		mixer.SetFloat(name, Mathf.Log10(newValue) * 20);
 	}
-
 }

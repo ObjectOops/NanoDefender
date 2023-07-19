@@ -6,22 +6,28 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+	// Singleton.
 	public static UIManager instance;
 
-	private List<GameObject> healthObjects = new List<GameObject>();
+	[Header("Parameters")]
 	public int health;
-	private List<GameObject> bombObjects = new List<GameObject>();
 	public int smartBombs;
-	public TMP_Text pointsText;
-	public TMP_Text gameOverText;
-
-	public Transform healthHolder;
-	public Transform bombHolder;
-	public GameObject refreshScreen;
-
-	public PauseMenuManager pauseMenu;
-
 	public int points;
+
+	[Header("HUD")]
+	[SerializeField]
+	private TMP_Text pointsText, gameOverText;
+	[SerializeField]
+	private Transform healthHolder, bombHolder;
+	[SerializeField]
+	private GameObject refreshScreen;
+
+	private List<GameObject> healthObjects = new List<GameObject>();
+	private List<GameObject> bombObjects = new List<GameObject>();
+
+	[Header("Additional Menus")]
+	[SerializeField]
+	private PauseMenuManager pauseMenu;
 
 	[Header("Prefabs")]
 	public GameObject healthIcon;
@@ -32,7 +38,7 @@ public class UIManager : MonoBehaviour
 
 	public static bool paused;
 
-	void Start()
+	private void Start()
 	{
 		instance = this;
 		gameOverText.gameObject.SetActive(false);
@@ -46,7 +52,7 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
-	void Update()
+	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
@@ -58,6 +64,7 @@ public class UIManager : MonoBehaviour
 			}
 		}
 
+		// Freeze all objects and stop audio.
 		if (paused)
 		{
 			Time.timeScale = 0f;
@@ -69,6 +76,7 @@ public class UIManager : MonoBehaviour
 			AudioListener.pause = false;
 		}
 
+		// Add flashing effect to point counter.
 		if (flashTimer >= 0.25f && !flash)
 		{
 			flash = true;

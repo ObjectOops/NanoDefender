@@ -5,13 +5,15 @@ using UnityEngine.UI;
 
 public class PauseMenuManager : MonoBehaviour
 {
-	public Button optionsButton;
-	public Button quitButton;
-
 	[Header("Menus")]
-	public GameObject optionsMenu;
+	[SerializeField]
+	private GameObject optionsMenu;
 
-	void Start()
+	[Header("UI Elements")]
+	[SerializeField]
+	private Button optionsButton, quitButton;
+
+	private void Start()
 	{
 		optionsButton.onClick.AddListener(OpenOptions);
 		quitButton.onClick.AddListener(Quit);
@@ -25,15 +27,14 @@ public class PauseMenuManager : MonoBehaviour
 		optionsMenu.SetActive(false);
 	}
 
-	void OpenOptions()
+	private void OpenOptions()
 	{
 		optionsMenu.SetActive(true);
 		gameObject.SetActive(false);
 	}
 
-	void Quit()
+	private void Quit()
 	{
 		Application.Quit();
 	}
-
 }

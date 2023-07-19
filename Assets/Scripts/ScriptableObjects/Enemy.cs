@@ -11,6 +11,4 @@ public class Enemy : ScriptableObject
 	public Sprite minimapSprite;
 	
 	public int pointValue;
-	
 }
-
