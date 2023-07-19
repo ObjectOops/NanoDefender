@@ -6,11 +6,16 @@ using UnityEngine.SceneManagement;
 
 public class MenuManagerEnd : MonoBehaviour
 {
-	[Scene]
-	public string gameScene;
+	[SerializeField][Scene]
+	private string gameScene;
 
-	public TMP_Text scoreText;
-	public AudioSource source;
+	[SerializeField]
+	private TMP_Text scoreText;
+	[SerializeField]
+	private AudioSource source;
+
+	[SerializeField]
+	private float sceneTransitionDelay;
 
 	private void Start()
 	{
@@ -22,10 +27,8 @@ public class MenuManagerEnd : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
 			source.Play();
-			
-			Invoke("LoadScene", 0.2f);
+			Invoke(nameof(LoadScene), sceneTransitionDelay);
 		}
-
 	}
 	
 	private void LoadScene() {
