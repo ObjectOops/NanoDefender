@@ -25,7 +25,7 @@ public class EnemySpawnManager : MonoBehaviour
 				humans.Add(human);
 			}
 		}
-		
+
 		if (humans.Count == 0)
 		{
 			return;
@@ -52,6 +52,27 @@ public class EnemySpawnManager : MonoBehaviour
 		}
 	}
 
+	public int GetAliveEnemies()
+	{
+		int i = 0;
+		foreach (EnemyController enemy in spawnedEnemies)
+		{
+			if (enemy != null)
+			{
+				i++;
+			}
+		}
+
+		foreach (EnemyController enemy in FindObjectsOfType<MutantEnemy>())
+		{
+			if (enemy != null)
+			{
+				i++;
+			}
+		}
+		return i;
+	}
+
 	public void FreezeEnemies()
 	{
 		foreach (EnemyController enemy in spawnedEnemies)
@@ -61,8 +82,9 @@ public class EnemySpawnManager : MonoBehaviour
 				enemy.Freeze();
 			}
 		}
-		
-		foreach(EnemyController enemy in FindObjectsOfType<MutantEnemy>()) {
+
+		foreach (EnemyController enemy in FindObjectsOfType<MutantEnemy>())
+		{
 			enemy.Freeze();
 		}
 	}
@@ -79,7 +101,7 @@ public class EnemySpawnManager : MonoBehaviour
 
 		foreach (EnemyController enemy in FindObjectsOfType<MutantEnemy>())
 		{
-			enemy.Freeze();
+			enemy.UnFreeze();
 		}
 	}
 }

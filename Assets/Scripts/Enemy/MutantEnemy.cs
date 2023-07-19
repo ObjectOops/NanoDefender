@@ -9,11 +9,11 @@ public class MutantEnemy : EnemyController
 
 	public float moveSpeed;
 	public float downSpeed;
+	private float shootTimer;
 
 	new void Start()
 	{
-        player = FindObjectOfType<PlayerController>();
-        base.Start();
+		base.Start();
 	}
 
 	void Update()
@@ -26,6 +26,16 @@ public class MutantEnemy : EnemyController
 		{
 			return;
 		}
+		ShootActions();
+
+		float xDifAbs = Math.Abs(transform.position.x - player.transform.position.x);
+		int dir = Math.Sign(transform.position.x - player.transform.position.x);
+		if (xDifAbs > 0.2f)
+		{
+			spriteRenderer.flipX = dir == -1 ? true : false;
+		}
+
+
 		switch (state)
 		{
 			case State.TOWARDS_HUMAN:
@@ -47,7 +57,10 @@ public class MutantEnemy : EnemyController
 	{
 		AudioManager.instance.PlaySound("Enemy Death");
 		freeze = true;
-		Destroy(this.gameObject);
+		GetComponent<Collider2D>().enabled = false;
+
+		animator.SetTrigger("death");
+		Invoke("Destroy", 0.517f);
 	}
 
 	private void TowardsActions()
@@ -107,12 +120,55 @@ public class MutantEnemy : EnemyController
 
 	private void UpActions()
 	{
-		
+
 	}
 
 	private void UpTransitions()
 	{
-		
+
+	}
+
+	private void ShootActions()
+	{
+		if (state.Equals(State.EXPLODE))
+		{
+			return;
+		}
+
+		if (!spriteRenderer.isVisible)
+		{
+			return;
+		}
+
+		if (shootTimer + shootOffset >= 2f)
+		{
+			shootTimer = 0f;
+			StartCoroutine(ShootBurst());
+		}
+
+		shootTimer += Time.deltaTime;
+	}
+
+	private IEnumerator ShootBurst()
+	{
+		ShootOnce();
+		yield return new WaitForSeconds(0.5f);
+		ShootOnce();
+	}
+
+	private void ShootOnce()
+	{
+		int rand = UnityEngine.Random.Range(0, 2);
+		Vector3 playerPos = (player.transform.position);
+		if (rand == 0)
+		{
+			playerPos += new Vector3(UnityEngine.Random.Range(-3, 4), UnityEngine.Random.Range(-3, 4));
+		}
+
+		Vector3 playerDir = (playerPos - transform.position).normalized;
+		EnemyBullet bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity, GameObject.Find("Scroller").transform);
+		bullet.SetDirection(playerDir);
+		AudioManager.instance.PlaySound("MutantShoot");
 	}
 
 	public enum State

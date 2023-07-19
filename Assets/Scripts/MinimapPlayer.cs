@@ -4,31 +4,20 @@ using UnityEngine;
 
 public class MinimapPlayer : MonoBehaviour
 {
-	public RectTransform minimapBounds;
+
 	public PlayerController player;
 	public CameraOffset camOffset;
-	private float prevX;
-	private float lastFrameX;
-	private float lerpTimer;
-
+	public GameObject testObject;
+	public GameObject testWorldObject;
+	public BoxCollider2D worldBounds;
+	public RectTransform minimapBounds;
 
 	//what the fuck
 	//how does any of this work
 	//gets player position and scales it to be in bounds of minimap
 
-
 	private void Update()
 	{
-		// float xValue = ((int)camOffset.playerOffset) * -10;
-		// if(xValue != lastFrameX) {
-		//     prevX = lastFrameX;
-		// }
-
-		// float targetX = Mathf.Lerp(prevX, xValue, lerpTimer);
-		// if (xValue != targetX)
-		// {
-		// 	lerpTimer += Time.deltaTime;
-		// }
 		Vector3 worldXVec = camOffset.transform.position;
 		float unscaledX = Camera.main.WorldToScreenPoint(worldXVec).x;
 
@@ -42,13 +31,6 @@ public class MinimapPlayer : MonoBehaviour
 
 		Vector3 minimapPoint = new Vector3(transform.position.x, yValue, transform.position.z);
 		transform.position = minimapPoint;
-
-		// if (targetX == xValue)
-		// {
-		// 	prevX = xValue;
-		// 	lerpTimer = 0;
-		// }
-		// lastFrameX = xValue;
 	}
 
 	private double Scale(int value, int min, int max, int minScale, int maxScale)

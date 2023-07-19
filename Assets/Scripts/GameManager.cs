@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
 	public EnemySpawnManager enemySpawnManager;
 	public HumanSpawnManager humanSpawnManager;
-	public UIManager uiManager;
+	[Scene]
+	public string endScene;
 
 	private float gameTimer;
 	private bool firstSpawn;
@@ -14,10 +16,10 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		humanSpawnManager.PopulateLevel(10);
+		humanSpawnManager.PopulateLevel(15);
 
 		// SpawnEnemies();
-		enemySpawnManager.PopulateLevel(10);
+		enemySpawnManager.PopulateLevel(5);
 
 		Application.targetFrameRate = 144;
 	}
@@ -38,11 +40,22 @@ public class GameManager : MonoBehaviour
 		}
 
 		gameTimer += Time.deltaTime;
+
+		if (enemySpawnManager.GetAliveEnemies() == 0)
+		{
+			PlayerPrefs.SetInt("score", UIManager.instance.points);
+			int highScore = PlayerPrefs.GetInt("highscore", 9999);
+			if (UIManager.instance.points > highScore)
+			{
+				PlayerPrefs.SetInt("highscore", UIManager.instance.points);
+			}
+			SceneManager.LoadScene(endScene);
+		}
 	}
 
 	public void SpawnEnemies()
 	{
-		// enemySpawnManager.PopulateLevel(5);
+		enemySpawnManager.PopulateLevel(5);
 	}
 
 	public void FreezeEnemies()
@@ -67,6 +80,6 @@ public class GameManager : MonoBehaviour
 				++points;
 			}
 		}
-		uiManager.SetPoints(points);
+		UIManager.instance.SetPoints(points);
 	}
 }

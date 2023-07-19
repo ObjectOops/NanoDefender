@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
   enemyName: Lander
+  minimapSprite: {fileID: 21300000, guid: 74211271bd68c473c986d15e9ac973f3, type: 3}
   pointValue: 150
-  moveSpeed: 1

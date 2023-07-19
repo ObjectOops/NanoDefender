@@ -17,9 +17,10 @@ public class Laser : MonoBehaviour
 		transform.position += transform.right * direction * speed * Time.deltaTime;
 		SpawnTrail();
 	}
-	
-	public void SetDirection(int dir) {
-	    this.direction = dir;
+
+	public void SetDirection(int dir)
+	{
+		this.direction = dir;
 	}
 
 	private void OnCollisionEnter2D(Collision2D other)
@@ -29,6 +30,12 @@ public class Laser : MonoBehaviour
 			StopLaser();
 			UIManager.instance.AddPoints(enemy.GetPointValue());
 			enemy.Die();
+		}
+
+		if (other.gameObject.TryGetComponent<Human>(out Human human))
+		{
+			StopLaser();
+			human.Die();
 		}
 	}
 
