@@ -8,6 +8,11 @@ public class PlayerAnimator : MonoBehaviour
 
 	private void Update()
 	{
+		if (UIManager.paused)
+		{
+			return;
+		}
+		
 		bool moving = input.gameInput.Accelerating;
 
 		anim.SetBool("moving", moving);

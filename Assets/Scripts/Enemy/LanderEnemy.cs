@@ -7,19 +7,38 @@ public class LanderEnemy : EnemyController
 {
 	private State state;
 
+
+
 	public float moveSpeed;
 	public float downSpeed;
 
+	private float shootTimer;
+
+	new void Start()
+	{
+		base.Start();
+	}
+
+
 	void Update()
 	{
-		if (human == null)
-		{
-			return;
-		}
+
 		if (freeze)
 		{
 			return;
 		}
+
+		ShootActions();
+
+		if (human == null)
+		{
+			return;
+		}
+
+		int dir = Math.Sign(transform.position.x - player.transform.position.x);
+		spriteRenderer.flipX = dir == -1 ? true : false;
+
+
 		switch (state)
 		{
 			case State.TOWARDS_BOTTOM:
@@ -50,10 +69,13 @@ public class LanderEnemy : EnemyController
 		AudioManager.instance.PlaySound("Enemy Death");
 		freeze = true;
 		GetComponent<Collider2D>().enabled = false;
-		if (human.transform.parent.Equals(this.transform))
+		if (human != null)
 		{
-			human.transform.parent = GameObject.Find("Scroller").transform;
-			human.isTargeted = false;
+			if (human.transform.parent.Equals(this.transform))
+			{
+				human.transform.parent = GameObject.Find("Scroller").transform;
+				human.isTargeted = false;
+			}
 		}
 
 		animator.SetTrigger("death");
@@ -161,13 +183,56 @@ public class LanderEnemy : EnemyController
 	{
 		human.transform.parent = GameObject.Find("Scroller").transform;
 		// human.transform.position = 
-		human.DieSequence();
+		human.MutantAnimation();
 		Destroy(this.gameObject);
 	}
 
 	private void ExplodeTransitions()
 	{
 
+	}
+
+	private void ShootActions()
+	{
+		if (state.Equals(State.EXPLODE))
+		{
+			return;
+		}
+
+		if (!spriteRenderer.isVisible)
+		{
+			return;
+		}
+
+		if (shootTimer + shootOffset >= 3f)
+		{
+			shootTimer = 0f;
+			ShootOnce();
+		}
+
+		shootTimer += Time.deltaTime;
+	}
+
+	private IEnumerator ShootBurst()
+	{
+		ShootOnce();
+		yield return new WaitForSeconds(0.7f);
+		ShootOnce();
+	}
+
+	private void ShootOnce()
+	{
+		int rand = UnityEngine.Random.Range(0, 2);
+		Vector3 playerPos = (player.transform.position);
+		if (rand == 0)
+		{
+			playerPos += new Vector3(UnityEngine.Random.Range(-3, 4), UnityEngine.Random.Range(-3, 4));
+		}
+
+		Vector3 playerDir = (playerPos - transform.position).normalized;
+		EnemyBullet bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity, GameObject.Find("Scroller").transform);
+		bullet.SetDirection(playerDir);
+		AudioManager.instance.PlaySound("LanderShoot");
 	}
 
 	public enum State

@@ -19,6 +19,8 @@ public class UIManager : MonoBehaviour
 	public Transform bombHolder;
 	public GameObject refreshScreen;
 
+	public PauseMenuManager pauseMenu;
+
 	public int points;
 
 	[Header("Prefabs")]
@@ -27,6 +29,8 @@ public class UIManager : MonoBehaviour
 
 	private bool flash;
 	private float flashTimer;
+
+	public static bool paused;
 
 	void Start()
 	{
@@ -44,6 +48,27 @@ public class UIManager : MonoBehaviour
 
 	void Update()
 	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			paused = !paused;
+			pauseMenu.gameObject.SetActive(paused);
+			if (!paused)
+			{   
+				pauseMenu.CloseOthers();
+			}
+		}
+
+		if (paused)
+		{
+			Time.timeScale = 0f;
+			AudioListener.pause = true;
+		}
+		else
+		{
+			Time.timeScale = 1f;
+			AudioListener.pause = false;
+		}
+
 		if (flashTimer >= 0.25f && !flash)
 		{
 			flash = true;
@@ -149,11 +174,12 @@ public class UIManager : MonoBehaviour
 	public void ShowGameOver()
 	{
 		gameOverText.gameObject.SetActive(true);
+
 	}
 
 	public IEnumerator ResetScene()
 	{
 		yield return new WaitForSeconds(2f);
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
 	}
 }

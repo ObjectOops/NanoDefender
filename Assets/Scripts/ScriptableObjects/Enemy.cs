@@ -8,7 +8,9 @@ public class Enemy : ScriptableObject
 	public Sprite sprite;
 	public string enemyName;
 	
+	public Sprite minimapSprite;
+	
 	public int pointValue;
-	public float moveSpeed;
+	
 }
 

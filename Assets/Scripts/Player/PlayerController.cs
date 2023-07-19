@@ -20,8 +20,12 @@ public class PlayerController : MonoBehaviour
 	public CameraOffset offset;
 	public Laser laserPrefab;
 	public Transform shootPoint;
+	public Transform movingShootPoint;
 	public Transform humanHoldPoint;
 	public ParticleSystem deathParticles;
+	public GameObject flash;
+
+	public bool holdingHuman;
 
 	/***********************************
 	*private variables
@@ -48,6 +52,11 @@ public class PlayerController : MonoBehaviour
 
 	void Update()
 	{
+		if (UIManager.paused)
+		{
+			return;
+		}
+		
 		AnyActions();
 		AnyTransitions();
 		switch (state)
@@ -101,6 +110,9 @@ public class PlayerController : MonoBehaviour
 		{
 			return;
 		}
+
+		animator.anim.SetBool("holding", holdingHuman);
+
 		if (input.gameInput.RightPressed)
 		{
 			flipped = false;
@@ -115,7 +127,7 @@ public class PlayerController : MonoBehaviour
 		}
 		if (input.gameInput.AttackPressed)
 		{
-			ShootLaser();
+			ShootLaser(input.gameInput.Accelerating);
 			AudioManager.instance.PlaySound("Laser");
 		}
 		if (input.gameInput.BombPressed)
@@ -132,21 +144,39 @@ public class PlayerController : MonoBehaviour
 						UIManager.AddPoints(enemy.GetPointValue());
 					}
 				}
-				AudioManager.instance.PlaySound("Smart Bomb");
-				StartCoroutine(BombRinging());
+
+				// StartCoroutine(BombRinging());
+				StartCoroutine(Flash());
 			}
 		}
 	}
 
+	private IEnumerator Flash()
+	{
+		yield return new WaitForSeconds(0.2f);
+		AudioManager.instance.PlaySound("Smart Bomb");
+		flash.SetActive(true);
+		yield return new WaitForSeconds(0.03f);
+		flash.SetActive(false);
+		yield return new WaitForSeconds(0.03f);
+		flash.SetActive(true);
+		yield return new WaitForSeconds(0.03f);
+		flash.SetActive(false);
+		yield return new WaitForSeconds(0.03f);
+		flash.SetActive(true);
+		yield return new WaitForSeconds(0.03f);
+		flash.SetActive(false);
+	}
+
 	private IEnumerator BombRinging()
-    {
-		int iterations = 5;
+	{
+		int iterations = 1;
 		for (int i = 0; i < iterations; ++i)
-        {
-			yield return new WaitForSeconds(1);
+		{
+			yield return new WaitForSeconds(0.2f);
 			AudioManager.instance.PlaySound("Smart Bomb Ringing", 1 - (float)i / iterations);
-        }
-    }
+		}
+	}
 
 	public void AnyTransitions()
 	{
@@ -178,6 +208,8 @@ public class PlayerController : MonoBehaviour
 
 		moveLerp += Time.deltaTime / 2f;
 		moveLerp = Mathf.Clamp(moveLerp, 0f, 1f);
+
+		AudioManager.instance.PlaySoundAndWait("Thrust");
 
 		// float lerpedSpriteX = Mathf.Lerp(startX, startX + 1f * lastInputDir, (rightVelocity / maxSpeed) * moveLerp);
 
@@ -222,11 +254,21 @@ public class PlayerController : MonoBehaviour
 
 	}
 
-	private void ShootLaser()
+	private void ShootLaser(bool tilted)
 	{
-		Laser laserInst = Instantiate(laserPrefab, shootPoint.position, Quaternion.identity);
-		int dir = flipped ? -1 : 1;
-		laserInst.SetDirection(dir);
+		if (tilted)
+		{
+			Laser laserInst = Instantiate(laserPrefab, movingShootPoint.position, Quaternion.identity);
+			int dir = flipped ? -1 : 1;
+			laserInst.SetDirection(dir);
+		}
+		else
+		{
+			Laser laserInst = Instantiate(laserPrefab, shootPoint.position, Quaternion.identity);
+			int dir = flipped ? -1 : 1;
+			laserInst.SetDirection(dir);
+		}
+
 	}
 
 	private void OnCollisionEnter2D(Collision2D other)
@@ -234,6 +276,13 @@ public class PlayerController : MonoBehaviour
 		if (other.gameObject.TryGetComponent<EnemyController>(out EnemyController enemy))
 		{
 			enemy.Die();
+			Die();
+			return;
+		}
+
+		if (other.gameObject.TryGetComponent<EnemyBullet>(out EnemyBullet bullet))
+		{
+			Destroy(bullet.gameObject);
 			Die();
 		}
 	}
@@ -248,25 +297,38 @@ public class PlayerController : MonoBehaviour
 	{
 		state = State.IDLE;
 		offset.freeze = true;
-        
-        animator.DieAnim();
-        deathParticles.Play();		
+
+		animator.DieAnim();
+		deathParticles.Play();
 		manager.FreezeEnemies();
+		foreach (EnemyBullet bullet in FindObjectsOfType<EnemyBullet>())
+		{
+			Destroy(bullet.gameObject);
+		}
 		AudioManager.instance.PlaySound("Player Death");
 
 		yield return new WaitForSeconds(1.4f);
-		
+
 		bool dead = !UIManager.DecrementHealth();
-		if(dead) {
-		    UIManager.ShowGameOver();
-		    StartCoroutine(UIManager.ResetScene());
-		    
-		    spriteRenderer.enabled = false;
-		    yield break;
+		if (dead)
+		{
+			UIManager.ShowGameOver();
+			PlayerPrefs.SetInt("score", UIManager.instance.points);
+			int highScore = PlayerPrefs.GetInt("highscore", 0);
+			if (UIManager.instance.points > highScore)
+			{
+				PlayerPrefs.SetInt("highscore", UIManager.instance.points);
+			}
+			StartCoroutine(UIManager.ResetScene());
+
+			spriteRenderer.enabled = false;
+			yield break;
 		}
 		UIManager.ShowRefreshScreen();
-        
-        offset.freeze = false;
+
+		scrollManager.Scroll(new Vector2(Random.Range(-100, 101), 0f));
+
+		offset.freeze = false;
 		offset.SetXOffsetInstant(3);
 		transform.position = new Vector3(transform.position.x, 0, transform.position.y);
 		transform.localScale = new Vector3(1, 1, 1);

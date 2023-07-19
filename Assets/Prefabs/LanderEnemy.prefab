@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 1989167953, guid: ed7403e24b122423095d4f7bf193fd70, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.99215686, g: 0.7411765, b: 0.7411765, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 1353453336487125951}
   - component: {fileID: -7915294070719160153}
   - component: {fileID: 3482949120781682773}
+  - component: {fileID: 1593150100345150567}
   m_Layer: 0
   m_Name: LanderEnemy
   m_TagString: Enemy
@@ -156,6 +157,10 @@ MonoBehaviour:
   player: {fileID: 0}
   human: {fileID: 0}
   enemyData: {fileID: 11400000, guid: f249a8cbbe9b54299993c4d72feee4ac, type: 2}
+  bulletPrefab: {fileID: 768454327775202355, guid: 70701188ddd034a72bb87040a1cb7303, type: 3}
+  worldBounds: {fileID: 0}
+  minimapBounds: {fileID: 0}
+  minimapHolder: {fileID: 0}
   moveSpeed: 1.7
   downSpeed: 0.7
 --- !u!61 &-7915294070719160153
@@ -205,3 +210,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 7
+--- !u!114 &1593150100345150567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353453336487125949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 905f6185723e543519e4e4f828071890, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minimapObjectPrefab: {fileID: 2899906693818172670, guid: ba1733567f19a423593908f15a0fa85d, type: 3}

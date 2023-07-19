@@ -11,12 +11,15 @@ public class Human : MonoBehaviour
 	public MutantEnemy mutantPrefab;
 	public Animator animator;
 
+	public Sprite minimapSprite;
+
 	private float distanceFallen = 0;
 	private float velocity;
 
 	void Start()
 	{
 		animator.SetFloat("offset", Random.Range(0, 1f));
+		GetComponent<MinimapObject>().Init(minimapSprite);
 	}
 
 	void Update()
@@ -36,6 +39,8 @@ public class Human : MonoBehaviour
 				transform.parent = GameObject.Find("Scroller").transform;
 				animator.SetBool("frown", false);
 				UIManager.instance.AddPoints(500);
+				AudioManager.instance.PlaySound("HumanSave");
+				FindObjectOfType<PlayerController>().holdingHuman = false;
 			}
 			else
 			{
@@ -44,17 +49,18 @@ public class Human : MonoBehaviour
 		}
 	}
 
-	public void DieSequence()
+	public void MutantAnimation()
 	{
 		animator.SetTrigger("mutant");
 		Invoke("SpawnMutant", 0.850f);
 	}
 
-	public void SpawnMutant()
+	private void SpawnMutant()
 	{
+
 		MutantEnemy enemy = Instantiate(mutantPrefab, transform.position, Quaternion.identity, FindObjectOfType<ScrollManager>().transform);
 		enemy.Init();
-		Destroy(this.gameObject);
+		Destroy();
 	}
 
 	public void Frown()
@@ -79,8 +85,22 @@ public class Human : MonoBehaviour
 	{
 		if (distanceFallen >= deathDistance)
 		{
-			Destroy(this.gameObject);
+			Die();
+		} else {
+			animator.SetBool("frown", false);
 		}
+	}
+
+	public void Die()
+	{
+		animator.SetTrigger("death");
+		AudioManager.instance.PlaySound("HumanDie");
+		Invoke("Destroy", 0.433f);
+	}
+
+	private void Destroy()
+	{
+		Destroy(this.gameObject);
 	}
 
 	private void OnCollisionEnter2D(Collision2D other)
@@ -93,6 +113,7 @@ public class Human : MonoBehaviour
 				transform.position = player.humanHoldPoint.position;
 				isHeld = true;
 				UIManager.instance.AddPoints(500);
+				player.holdingHuman = true;
 			}
 		}
 	}
