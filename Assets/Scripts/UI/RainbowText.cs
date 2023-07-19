@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class RainbowText : MonoBehaviour
 {
+	// Green, yellow, orange, red, purple, blue, cyan.
 
-	//green yellow orange red purple blue cyan
-	public List<Color> colors;
-	public float lerpSpeed;
+	[SerializeField]
+	private List<Color> colors;
+	[SerializeField]
+	private float lerpSpeed;
+
 	private TMP_Text text;
-
 	private Color currentColor;
 	private Color targetColor;
 	private float lerpTime;
@@ -36,7 +38,7 @@ public class RainbowText : MonoBehaviour
 		Color lerpedColor = Color.Lerp(currentColor, targetColor, lerpTime);
 		text.color = lerpedColor;
 
-		lerpTime += Time.deltaTime * lerpSpeed;
+		lerpTime += lerpSpeed * Time.deltaTime;
 	}
 
 }

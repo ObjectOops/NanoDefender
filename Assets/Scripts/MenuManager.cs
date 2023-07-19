@@ -6,16 +6,20 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-	[Scene]
-	public string gameScene;
+	[SerializeField][Scene]
+	private string gameScene;
 
-	public TMP_Text scoreText;
-	public TMP_Text prevScore;
-	public AudioSource source;
+	[SerializeField]
+	private TMP_Text highScore, prevScore;
+	[SerializeField]
+	private AudioSource source;
+
+	[SerializeField]
+	private float sceneTransitionDelay;
 
 	private void Start()
 	{
-		scoreText.text = $"HIGHSCORE:{PlayerPrefs.GetInt("highscore", 9999)}";
+		highScore.text = $"HIGHSCORE:{PlayerPrefs.GetInt("highscore", 9999)}";
 		prevScore.text = $"SCORE:{PlayerPrefs.GetInt("score", 0)}";
 	}
 
@@ -24,7 +28,7 @@ public class MenuManager : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
 			source.Play();
-			Invoke("LoadScene", 0.2f);
+			Invoke(nameof(LoadScene), sceneTransitionDelay);
 		}
 	}
 
