@@ -23,7 +23,7 @@ public class MenuManager : MonoBehaviour
 		prevScore.text = $"SCORE:{PlayerPrefs.GetInt("score", 0)}";
 	}
 
-	void Update()
+	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
