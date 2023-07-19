@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,12 +15,12 @@ public class AudioManager : MonoBehaviour
 	[SerializeField]
 	private AudioSource audioComponent;
 
-	private bool heeHee;
-
 	[HideInInspector]
 	public Dictionary<string, AudioClip> audioMap = new Dictionary<string, AudioClip>();
 
-	void Start()
+	// private bool heeHee;
+
+	private void Start()
 	{
 		instance = this;
 		if (audioNames.Count != audioClips.Count)
@@ -33,11 +32,11 @@ public class AudioManager : MonoBehaviour
 			audioMap.Add(audioNames[i], audioClips[i]);
 		}
 
-		int rand = UnityEngine.Random.Range(1, 21);
-		if (rand == 1)
-		{
-			heeHee = true;
-		}
+		// int rand = UnityEngine.Random.Range(1, 21);
+		// if (rand == 1)
+		// {
+		// 	heeHee = true;
+		// }
 	}
 
 	public void PlaySound(string name, float volumeScale = 1)
@@ -45,21 +44,20 @@ public class AudioManager : MonoBehaviour
 		audioComponent.PlayOneShot(audioMap[name], volumeScale);
 	}
 
-	public void PlaySoundAndWait(string name, float volumeScale = 1)
+	public void PlaySoundAndWait(string name)
 	{
 		if (!audioComponent.isPlaying)
 		{
 			audioComponent.clip = audioMap[name];
 			audioComponent.Play();
 		}
-
 	}
 
-	private void Update()
-	{
-		if (heeHee)
-		{
-			bgMusic.pitch = 1 + Mathf.Clamp(UnityEngine.Random.Range((-Time.time - 3f) / 20f, (Time.time - 3f) / 20f), 0, float.MaxValue);
-		}
-	}
+	// private void Update()
+	// {
+	// 	if (heeHee)
+	// 	{
+	// 		bgMusic.pitch = 1 + Mathf.Clamp(UnityEngine.Random.Range((-Time.time - 3f) / 20f, (Time.time - 3f) / 20f), 0, float.MaxValue);
+	// 	}
+	// }
 }
