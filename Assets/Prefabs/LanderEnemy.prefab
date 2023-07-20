@@ -158,11 +158,13 @@ MonoBehaviour:
   human: {fileID: 0}
   enemyData: {fileID: 11400000, guid: f249a8cbbe9b54299993c4d72feee4ac, type: 2}
   bulletPrefab: {fileID: 768454327775202355, guid: 70701188ddd034a72bb87040a1cb7303, type: 3}
-  moveSpeed: 1.7
-  downSpeed: 0.7
   terrainMask:
     serializedVersion: 2
     m_Bits: 8
+  moveSpeed: 1.7
+  downSpeed: 0.7
+  shootCoolDown: 3
+  deathDuration: 0.533
 --- !u!61 &-7915294070719160153
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -3206,13 +3206,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 2
   smartBombs: 3
+  points: 0
   pointsText: {fileID: 41184149}
   gameOverText: {fileID: 1748461234}
   healthHolder: {fileID: 1988975158}
   bombHolder: {fileID: 637306622}
   refreshScreen: {fileID: 1493533398}
   pauseMenu: {fileID: 782125385}
-  points: 0
   healthIcon: {fileID: 1178210015270457107, guid: 37cee40d74ba445579206f3a8364abf6, type: 3}
   bombIcon: {fileID: 2948281556323750798, guid: 3cc2f42766c164d6fa57cf138ae20ff6, type: 3}
 --- !u!1 &703193471
@@ -3655,9 +3655,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42895d90103234bf2ac648c7ec8fcb59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionsMenu: {fileID: 320986419}
   optionsButton: {fileID: 492881937}
   quitButton: {fileID: 1773111469}
-  optionsMenu: {fileID: 320986419}
 --- !u!1 &803339391
 GameObject:
   m_ObjectHideFlags: 0
@@ -17375,6 +17375,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   humanprefab: {fileID: 4779483421191360506, guid: cfb926fcc8c6c43d7a9be37bbfdec461, type: 3}
+  leftMostSpawn: -50
+  rightMostSpawn: 51
   humanSpawnY: {fileID: 639560160}
   scroller: {fileID: 14019291}
 --- !u!1 &1735506286
@@ -18402,6 +18404,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   landerPrefab: {fileID: 1353453336487125951, guid: 511165ad82f4a449bb1ead146347cba0, type: 3}
   bomberPrefab: {fileID: 1441305959319743589, guid: 5e94e40afe7d34842834804f0c05caa6, type: 3}
+  leftMostSpawn: -50
+  rightMostSpawn: 51
   landerSpawnY: {fileID: 1796859652}
   scroller: {fileID: 14019291}
   maxLanders: 0
@@ -18617,6 +18621,7 @@ MonoBehaviour:
     bomberRate: 0
   humans: 060000000a0000000f000000190000002800000000000000
   spawnTimer: 5
+  wave: -1
 --- !u!1 &1988975157
 GameObject:
   m_ObjectHideFlags: 0
@@ -18904,7 +18909,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2046160905
 Transform:
   m_ObjectHideFlags: 0
@@ -18932,6 +18937,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85dd3970724ce411098b1e3f0bccd446, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
+  started: 0
 --- !u!1 &2046797765
 GameObject:
   m_ObjectHideFlags: 0

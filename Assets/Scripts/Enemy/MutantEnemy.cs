@@ -1,14 +1,14 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MutantEnemy : EnemyController
 {
-	private State state;
+	// Magic numbers ahead.
 
-	public float moveSpeed;
-	public float downSpeed;
+	public float moveSpeed, downSpeed, shootCoolDown = 2f, deathDuration = 0.517f;
+
+	private State state;
 	private float shootTimer;
 
 	new void Start()
@@ -18,23 +18,20 @@ public class MutantEnemy : EnemyController
 
 	void Update()
 	{
-		if (player == null)
+		if (player == null || freeze)
 		{
 			return;
 		}
-		if (freeze)
-		{
-			return;
-		}
+
 		ShootActions();
 
-		float xDifAbs = Math.Abs(transform.position.x - player.transform.position.x);
-		int dir = Math.Sign(transform.position.x - player.transform.position.x);
+		float xDifAbs = Mathf.Abs(transform.position.x - player.transform.position.x);
+		int dir = (int)Mathf.Sign(transform.position.x - player.transform.position.x);
 		if (xDifAbs > 0.2f)
 		{
-			spriteRenderer.flipX = dir == -1 ? true : false;
+			// dir == -1 ? true : false
+			spriteRenderer.flipX = dir == -1;
 		}
-
 
 		switch (state)
 		{
@@ -55,21 +52,21 @@ public class MutantEnemy : EnemyController
 
 	public override void Die()
 	{
-		AudioManager.instance.PlaySound("Enemy Death");
-		freeze = true;
 		GetComponent<Collider2D>().enabled = false;
+		freeze = true;
+		AudioManager.instance.PlaySound("Enemy Death");
 
 		animator.SetTrigger("death");
-		Invoke("Destroy", 0.517f);
+		Invoke(nameof(Destroy), deathDuration);
 	}
 
 	private void TowardsActions()
 	{
 		float currentX = transform.position.x;
 
-		int dirTowardsHuman = Math.Sign(player.transform.position.x - currentX);
+		int dirTowardsHuman = (int)Mathf.Sign(player.transform.position.x - currentX);
 
-		float newX = (currentX + (dirTowardsHuman * moveSpeed * Time.deltaTime));
+		float newX = currentX + (dirTowardsHuman * moveSpeed * Time.deltaTime);
 
 		transform.position = new Vector2(newX, transform.position.y);
 	}
@@ -90,7 +87,7 @@ public class MutantEnemy : EnemyController
 	{
 		float currentY = transform.position.y;
 
-		float newY = (currentY - (downSpeed * Time.deltaTime));
+		float newY = currentY - (downSpeed * Time.deltaTime);
 
 		transform.position = new Vector2(transform.position.x, newY);
 	}
@@ -107,11 +104,6 @@ public class MutantEnemy : EnemyController
 			state = State.UP;
 		}
 
-		float enemyX = transform.position.x;
-		float humanX = player.transform.position.x;
-
-		float differenceX = Mathf.Abs(enemyX - humanX);
-
 		if (difference >= 0.5f)
 		{
 			state = State.TOWARDS_HUMAN;
@@ -120,27 +112,22 @@ public class MutantEnemy : EnemyController
 
 	private void UpActions()
 	{
-
+		// Nothing.
 	}
 
 	private void UpTransitions()
 	{
-
+		// Nothing.
 	}
 
 	private void ShootActions()
 	{
-		if (state.Equals(State.EXPLODE))
+		if (state.Equals(State.EXPLODE) || !spriteRenderer.isVisible)
 		{
 			return;
 		}
 
-		if (!spriteRenderer.isVisible)
-		{
-			return;
-		}
-
-		if (shootTimer + shootOffset >= 2f)
+		if (shootTimer + shootOffset >= shootCoolDown)
 		{
 			shootTimer = 0f;
 			StartCoroutine(ShootBurst());
@@ -158,11 +145,12 @@ public class MutantEnemy : EnemyController
 
 	private void ShootOnce()
 	{
-		int rand = UnityEngine.Random.Range(0, 2);
-		Vector3 playerPos = (player.transform.position);
+		// Adds inaccuracy to enemy projectiles.
+		int rand = Random.Range(0, 2);
+		Vector3 playerPos = player.transform.position;
 		if (rand == 0)
 		{
-			playerPos += new Vector3(UnityEngine.Random.Range(-3, 4), UnityEngine.Random.Range(-3, 4));
+			playerPos += new Vector3(Random.Range(-3, 4), Random.Range(-3, 4));
 		}
 
 		Vector3 playerDir = (playerPos - transform.position).normalized;

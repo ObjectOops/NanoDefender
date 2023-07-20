@@ -54,6 +54,9 @@ MonoBehaviour:
   bulletPrefab: {fileID: 768454327775202355, guid: bc6fc9a24ecca46fa808c0623076948e, type: 3}
   moveSpeed: 6
   downSpeed: 5
+  shootTimer: 0
+  shootCoolDown: 2
+  deathDuration: 0.517
 --- !u!61 &5047656054706485879
 BoxCollider2D:
   m_ObjectHideFlags: 0

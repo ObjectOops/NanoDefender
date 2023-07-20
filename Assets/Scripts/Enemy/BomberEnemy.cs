@@ -1,15 +1,12 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BomberEnemy : EnemyController
 {
-	private State state;
+	public float moveSpeed, downSpeed, shootCoolDown = 2f, bombTimeSpacing = 0.3f, deathDuration = 0.6f;
 
-	public float moveSpeed;
-	public float downSpeed;
+	private State state;
 	private float shootTimer;
 
 	new void Start()
@@ -24,13 +21,14 @@ public class BomberEnemy : EnemyController
 			return;
 		}
 
-		float xDifAbs = Math.Abs(transform.position.x - player.transform.position.x);
-		int dir = Math.Sign(transform.position.x - player.transform.position.x);
-		if (xDifAbs > 0.2f)
-		{
-			spriteRenderer.flipX = dir == -1 ? true : false;
-		}
+		float absDiffX = Mathf.Abs(transform.position.x - player.transform.position.x);
+		int dir = (int)Mathf.Sign(transform.position.x - player.transform.position.x);
 
+		if (absDiffX > 0.2f)
+		{
+			// dir == -1 ? true : false
+			spriteRenderer.flipX = dir == -1;
+		}
 
 		switch (state)
 		{
@@ -42,7 +40,6 @@ public class BomberEnemy : EnemyController
 				BombActions();
 				BombTransitions();
 				break;
-
 		}
 	}
 
@@ -58,46 +55,49 @@ public class BomberEnemy : EnemyController
 
 	private void SineActions()
 	{
-		transform.position = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, (Mathf.Sin((shootOffset + Time.time)) * 3f));
+		transform.position = new Vector2(
+			transform.position.x + moveSpeed * Time.deltaTime, 
+			Mathf.Sin(shootOffset + Time.time) * 3f
+		);
 	}
 
 	private void SineTransitions()
 	{
-		if (spriteRenderer.isVisible)
+		if (!spriteRenderer.isVisible)
 		{
-			if (shootTimer >= 2f)
-			{
-				state = State.BOMB;
-				shootTimer = 0f;
-			}
-			shootTimer += Time.deltaTime;
+			return;
 		}
+		if (shootTimer >= shootCoolDown)
+		{
+			state = State.BOMB;
+			shootTimer = 0f;
+		}
+		shootTimer += Time.deltaTime;
 	}
 
 	public override void Die()
 	{
-		AudioManager.instance.PlaySound("Enemy Death");
-		freeze = true;
 		GetComponent<Collider2D>().enabled = false;
-
+		freeze = true;
 		animator.SetTrigger("death");
-		Invoke("Destroy", 0.6f);
+		AudioManager.instance.PlaySound("Enemy Death");
+		Invoke(nameof(Destroy), deathDuration);
 	}
 
 	public IEnumerator DropBombs()
 	{
-		int bombCount = UnityEngine.Random.Range(2, 4);
+		int bombCount = Random.Range(2, 4);
 		for (int i = 0; i < bombCount; i++)
 		{
 			DropBomb();
-			yield return new WaitForSeconds(0.3f);
+			yield return new WaitForSeconds(bombTimeSpacing);
 		}
 	}
 
 	private void DropBomb()
 	{
 		EnemyBullet bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity, GameObject.Find("Scroller").transform);
-		bullet.SetDirection(Vector2.zero);
+		bullet.SetDirection(Vector2.zero); // Mines don't move.
 		animator.SetTrigger("attack");
 		AudioManager.instance.PlaySound("BomberShoot");
 	}
@@ -106,6 +106,5 @@ public class BomberEnemy : EnemyController
 	{
 		SINE,
 		BOMB,
-		EXPLODE
 	}
 }

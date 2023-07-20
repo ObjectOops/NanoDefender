@@ -1,13 +1,15 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HumanSpawnManager : MonoBehaviour
 {
-	public GameObject humanprefab;
-	public Transform humanSpawnY;
-	public Transform scroller;
+	[SerializeField]
+	private GameObject humanprefab;
+	[SerializeField]
+	private int leftMostSpawn = -50, rightMostSpawn = 51;
+	[SerializeField]
+	private Transform humanSpawnY, scroller;
 
 	private List<GameObject> humans = new List<GameObject>();
 
@@ -15,7 +17,7 @@ public class HumanSpawnManager : MonoBehaviour
 	{
 		for (int i = 0; i < humanCount; i++)
 		{
-			float randX = UnityEngine.Random.Range(-50, 51);
+			float randX = Random.Range(leftMostSpawn, rightMostSpawn);
 			Vector2 pos = new Vector2(randX, humanSpawnY.position.y);
 			GameObject human = Instantiate(humanprefab, pos, Quaternion.identity, scroller);
 			humans.Add(human);
