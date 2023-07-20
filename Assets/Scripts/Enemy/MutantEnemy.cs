@@ -168,6 +168,7 @@ public class MutantEnemy : EnemyController
 		Vector3 playerDir = (playerPos - transform.position).normalized;
 		EnemyBullet bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity, GameObject.Find("Scroller").transform);
 		bullet.SetDirection(playerDir);
+		animator.SetTrigger("attack");
 		AudioManager.instance.PlaySound("MutantShoot");
 	}
 

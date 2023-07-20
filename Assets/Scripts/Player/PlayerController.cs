@@ -74,8 +74,10 @@ public class PlayerController : MonoBehaviour
 				GlideTransitions();
 				break;
 			case State.DIE:
-				DieActions();
-				DieTransitions();
+				if(!input.invulnerable) {
+					DieActions();
+					DieTransitions();
+				}
 				break;
 
 		}
@@ -99,7 +101,7 @@ public class PlayerController : MonoBehaviour
 
 		transform.position += new Vector3(0f, newY, 0f);
 
-		float clampedY = Mathf.Clamp(transform.position.y, -5f, 3f);
+		float clampedY = Mathf.Clamp(transform.position.y, -4.5f, 2.8f);
 
 		transform.position = new Vector3(transform.position.x, clampedY, 0);
 	}
@@ -273,24 +275,35 @@ public class PlayerController : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D other)
 	{
-		if (other.gameObject.TryGetComponent<EnemyController>(out EnemyController enemy))
-		{
-			enemy.Die();
-			Die();
-			return;
-		}
+		if(!input.invulnerable) {
+			if (other.gameObject.TryGetComponent<EnemyController>(out EnemyController enemy))
+			{
+				enemy.Die();
+				Die();
+				return;
+			}
 
-		if (other.gameObject.TryGetComponent<EnemyBullet>(out EnemyBullet bullet))
-		{
-			Destroy(bullet.gameObject);
-			Die();
+			if (other.gameObject.TryGetComponent<EnemyBullet>(out EnemyBullet bullet))
+			{
+				Destroy(bullet.gameObject);
+				Die();
+			}
 		}
 	}
 
 	private void Die()
 	{
-		state = State.DIE;
-		freezeControls = true;
+		if(!input.invulnerable) {
+			state = State.DIE;
+			freezeControls = true;
+		}
+	}
+	
+	public void ResetPlayer() {
+		offset.SetXOffsetInstant(3);
+		transform.position = new Vector3(transform.position.x, 0, transform.position.y);
+		transform.localScale = new Vector3(1, 1, 1);
+		flipped = false;
 	}
 
 	private IEnumerator DeathSequence()
@@ -324,15 +337,13 @@ public class PlayerController : MonoBehaviour
 			spriteRenderer.enabled = false;
 			yield break;
 		}
+		
 		UIManager.ShowRefreshScreen();
 
 		scrollManager.Scroll(new Vector2(Random.Range(-100, 101), 0f));
 
 		offset.freeze = false;
-		offset.SetXOffsetInstant(3);
-		transform.position = new Vector3(transform.position.x, 0, transform.position.y);
-		transform.localScale = new Vector3(1, 1, 1);
-		flipped = false;
+		ResetPlayer();
 
 		yield return new WaitForSeconds(0.15f);
 		UIManager.HideRefreshScreen();

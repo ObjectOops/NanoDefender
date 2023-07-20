@@ -7,12 +7,14 @@ public class LanderEnemy : EnemyController
 {
 	private State state;
 
-
-
 	public float moveSpeed;
 	public float downSpeed;
 
 	private float shootTimer;
+
+	private float hitOffset;
+
+	public LayerMask terrainMask;
 
 	new void Start()
 	{
@@ -120,14 +122,28 @@ public class LanderEnemy : EnemyController
 
 		float newX = (currentX + (dirTowardsHuman * moveSpeed * Time.deltaTime));
 
-		transform.position = new Vector2(newX, transform.position.y);
+		RaycastHit2D hit = Physics2D.Raycast(transform.position + (transform.right * dirTowardsHuman * 0.3f), Vector2.down, 50f, terrainMask);
+		if (hit)
+		{
+			if (hit.distance <= 0.3f)
+			{
+				hitOffset = 1;
+			}
+			else
+			{
+				hitOffset = -1;
+			}
+		}
+
+		transform.position = new Vector2(newX, transform.position.y + (hitOffset * moveSpeed * Time.deltaTime));
 	}
+
 	private void TowardsTransitions()
 	{
 		float enemyX = transform.position.x;
 		float humanX = human.transform.position.x;
 
-		float difference = Mathf.Abs(enemyX - humanX);
+		float difference = Mathf.Abs(enemyX - (humanX));
 
 		if (difference < 0.1f)
 		{
@@ -141,6 +157,11 @@ public class LanderEnemy : EnemyController
 
 		float newY = (currentY - (downSpeed * Time.deltaTime));
 
+		// if (newY <= human.transform.position.y + 0.5f)
+		// {
+		// 	newY = (currentY + (downSpeed * Time.deltaTime));
+		// }
+
 		transform.position = new Vector2(transform.position.x, newY);
 	}
 
@@ -149,7 +170,7 @@ public class LanderEnemy : EnemyController
 		float enemyY = transform.position.y;
 		float humanY = human.transform.position.y;
 
-		float difference = Mathf.Abs(enemyY - humanY);
+		float difference = enemyY - (humanY);
 
 		if (difference < 0.5f)
 		{
@@ -232,6 +253,7 @@ public class LanderEnemy : EnemyController
 		Vector3 playerDir = (playerPos - transform.position).normalized;
 		EnemyBullet bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity, GameObject.Find("Scroller").transform);
 		bullet.SetDirection(playerDir);
+		animator.SetTrigger("attack");
 		AudioManager.instance.PlaySound("LanderShoot");
 	}
 

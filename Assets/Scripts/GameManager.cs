@@ -11,51 +11,117 @@ public class GameManager : MonoBehaviour
 	public string endScene;
 
 	private float gameTimer;
-	private bool firstSpawn;
-	private int points = 0;
+
+	[Header("Waves")]
+	public AttackWaveEndManager waveEndManager;
+	public List<EnemyCounts> enemies;
+	public List<int> humans;
+	public int spawnTimer = 5;
+
+	private bool waveStarted;
+	private bool allSpawned;
+	[HideInInspector]
+	public int wave = -1;
+	private int landerCount;
+	private int bomberCount;
+	private int landerSpawnRate;
+	private int bomberSpawnRate;
+	private int humanCount;
+
+
+	[System.Serializable]
+	public struct EnemyCounts
+	{
+		public int landers;
+		public int landerRate;
+		public int bombers;
+		public int bomberRate;
+	}
+
 
 	private void Start()
 	{
-		humanSpawnManager.PopulateLevel(15);
+		Application.targetFrameRate = 144;
 
 		// SpawnEnemies();
-		enemySpawnManager.PopulateLevel(5);
+		Invoke("StartWave", 3f);
+	}
 
-		Application.targetFrameRate = 144;
+	private void StartWave()
+	{
+		wave++;
+
+		gameTimer = 0f;
+
+		landerCount = enemies[wave].landers;
+		bomberCount = enemies[wave].bombers;
+		landerSpawnRate = enemies[wave].landerRate;
+		bomberSpawnRate = enemies[wave].bomberRate;
+		humanCount = humans[wave];
+
+		enemySpawnManager.SetMaxLanders(landerCount);
+		enemySpawnManager.SetMaxBombers(bomberCount);
+
+		humanSpawnManager.PopulateLevel(humanCount);
+		enemySpawnManager.SpawnLanders(landerSpawnRate);
+		enemySpawnManager.SpawnBombers(bomberSpawnRate);
+
+		waveStarted = true;
 	}
 
 	private void Update()
 	{
-		if (gameTimer >= 2f && !firstSpawn)
+		if (!waveStarted)
 		{
-			SpawnEnemies();
-			firstSpawn = true;
-			gameTimer = 0;
+			return;
 		}
 
-		if (gameTimer >= 5f)
+		if (gameTimer >= spawnTimer)
 		{
-			SpawnEnemies();
+			bool allSpawned = SpawnEnemies(landerSpawnRate, bomberSpawnRate);
+			this.allSpawned = allSpawned;
 			gameTimer = 0;
 		}
 
 		gameTimer += Time.deltaTime;
 
-		if (enemySpawnManager.GetAliveEnemies() == 0)
+		if (enemySpawnManager.GetAliveEnemies() == 0 && allSpawned)
 		{
-			PlayerPrefs.SetInt("score", UIManager.instance.points);
-			int highScore = PlayerPrefs.GetInt("highscore", 9999);
-			if (UIManager.instance.points > highScore)
-			{
-				PlayerPrefs.SetInt("highscore", UIManager.instance.points);
-			}
-			SceneManager.LoadScene(endScene);
+			StartCoroutine(EndWave());
 		}
 	}
 
-	public void SpawnEnemies()
+	public IEnumerator EndWave()
 	{
-		enemySpawnManager.PopulateLevel(5);
+		waveStarted = false;
+		waveEndManager.gameObject.SetActive(true);
+		waveEndManager.EndWave(wave + 1);
+
+		humanSpawnManager.DestroyHumans();
+
+		yield return new WaitForSeconds(3f);
+		FindObjectOfType<PlayerController>().ResetPlayer();
+		waveEndManager.gameObject.SetActive(false);
+		yield return new WaitForSeconds(2f);
+		StartWave();
+	}
+
+	public void EndGame()
+	{
+		PlayerPrefs.SetInt("score", UIManager.instance.points);
+		int highScore = PlayerPrefs.GetInt("highscore", 9999);
+		if (UIManager.instance.points > highScore)
+		{
+			PlayerPrefs.SetInt("highscore", UIManager.instance.points);
+		}
+		SceneManager.LoadScene(endScene);
+	}
+
+	public bool SpawnEnemies(int landerCount, int bomberCount)
+	{
+		bool landersSpawned = enemySpawnManager.SpawnLanders(landerCount);
+		bool bombersSpawned = enemySpawnManager.SpawnBombers(bomberCount);
+		return landersSpawned && bombersSpawned;
 	}
 
 	public void FreezeEnemies()
@@ -68,18 +134,4 @@ public class GameManager : MonoBehaviour
 		enemySpawnManager.UnFreezeEnemies();
 	}
 
-
-	public void Bomb()
-	{
-		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-		foreach (GameObject enemy in enemies)
-		{
-			if (enemy.transform.GetChild(0).GetComponent<SpriteRenderer>().isVisible)
-			{
-				Destroy(enemy);
-				++points;
-			}
-		}
-		UIManager.instance.SetPoints(points);
-	}
 }

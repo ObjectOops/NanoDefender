@@ -12,7 +12,7 @@ public class BGLooper : MonoBehaviour
 	private void Start()
 	{
 		originalPosition = transform.position;
-		size = GetComponentInChildren<SpriteRenderer>().sprite.bounds.max.x;
+		// size = GetComponentInChildren<SpriteRenderer>().sprite.bounds.max.x;
 	}
 
 	private void Update()
