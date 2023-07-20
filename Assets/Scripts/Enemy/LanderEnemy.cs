@@ -159,14 +159,20 @@ public class LanderEnemy : EnemyController
 		float enemyY = transform.position.y;
 		float humanY = human.transform.position.y;
 
-		float difference = enemyY - (humanY);
+		float difference = Mathf.Abs(enemyY - humanY);
 
-		if (difference < 0.5f)
+		if (enemyY >= humanY && difference < 0.5f)
 		{
 			human.transform.parent = this.transform;
 			human.Frown();
 			state = State.UP;
 		}
+		else if (enemyY < humanY && difference < 1f)
+        {
+			human.transform.parent = this.transform;
+			human.Frown();
+			state = State.UP;
+        }
 	}
 
 	private void UpActions()
@@ -192,7 +198,7 @@ public class LanderEnemy : EnemyController
 	{
 		human.transform.parent = GameObject.Find("Scroller").transform;
 		human.MutantAnimation();
-		Destroy(this.gameObject);
+		Destroy(gameObject);
 	}
 
 	private void ExplodeTransitions()

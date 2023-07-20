@@ -6,7 +6,7 @@ public class MutantEnemy : EnemyController
 {
 	// Magic numbers ahead.
 
-	public float moveSpeed, downSpeed, shootCoolDown = 2f, deathDuration = 0.517f;
+	public float moveSpeed, downUpSpeed, shootCoolDown = 2f, deathDuration = 0.517f;
 
 	private State state;
 	private float shootTimer;
@@ -35,7 +35,7 @@ public class MutantEnemy : EnemyController
 
 		switch (state)
 		{
-			case State.TOWARDS_HUMAN:
+			case State.TOWARDS_PLAYER:
 				TowardsActions();
 				TowardsTransitions();
 				break;
@@ -64,60 +64,81 @@ public class MutantEnemy : EnemyController
 	{
 		float currentX = transform.position.x;
 
-		int dirTowardsHuman = (int)Mathf.Sign(player.transform.position.x - currentX);
+		int dirTowardsPlayer = (int)Mathf.Sign(player.transform.position.x - currentX);
 
-		float newX = currentX + (dirTowardsHuman * moveSpeed * Time.deltaTime);
+		float newX = currentX + (dirTowardsPlayer * moveSpeed * Time.deltaTime);
 
 		transform.position = new Vector2(newX, transform.position.y);
 	}
 	private void TowardsTransitions()
 	{
-		float enemyX = transform.position.x;
-		float humanX = player.transform.position.x;
+		float enemyX = transform.position.x, enemyY = transform.position.y;
+		float playerX = player.transform.position.x, playerY = player.transform.position.y;
 
-		float difference = Mathf.Abs(enemyX - humanX);
+		float differenceX = Mathf.Abs(enemyX - playerX), dirY = Mathf.Sign(enemyY - playerY);
 
-		if (difference < 0.1f)
+		if (differenceX < 0.1f && dirY == 1)
 		{
 			state = State.DOWN;
 		}
+		else if (differenceX < 0.1f && dirY == -1)
+        {
+			state = State.UP;
+        }
 	}
 
 	private void DownActions()
 	{
 		float currentY = transform.position.y;
 
-		float newY = currentY - (downSpeed * Time.deltaTime);
+		float newY = currentY - (downUpSpeed * Time.deltaTime);
 
 		transform.position = new Vector2(transform.position.x, newY);
 	}
 
 	private void DownTransitions()
 	{
-		float enemyY = transform.position.y;
-		float humanY = player.transform.position.y;
+		float enemyY = transform.position.y, enemyX = transform.position.x;
+		float playerY = player.transform.position.y, playerX = player.transform.position.x;
 
-		float difference = Mathf.Abs(enemyY - humanY);
+		float differenceX = Mathf.Abs(enemyX - playerX), dirY = Mathf.Sign(enemyY - playerY);
 
-		if (difference < 0.1f)
+		if (dirY == -1)
 		{
 			state = State.UP;
 		}
 
-		if (difference >= 0.5f)
+		if (differenceX >= 0.5f)
 		{
-			state = State.TOWARDS_HUMAN;
+			state = State.TOWARDS_PLAYER;
 		}
 	}
 
 	private void UpActions()
 	{
-		// Nothing.
+		float currentY = transform.position.y;
+
+		float newY = currentY + (downUpSpeed * Time.deltaTime);
+
+		transform.position = new Vector2(transform.position.x, newY);
 	}
 
 	private void UpTransitions()
 	{
-		// Nothing.
+		float enemyY = transform.position.y, enemyX = transform.position.x;
+		float playerY = player.transform.position.y, playerX = player.transform.position.x;
+
+		float differenceX = Mathf.Abs(enemyX - playerX), dirY = Mathf.Sign(enemyY - playerY);
+
+		if (dirY == 1)
+		{
+			state = State.DOWN;
+		}
+
+		if (differenceX >= 0.5f)
+		{
+			state = State.TOWARDS_PLAYER;
+		}
 	}
 
 	private void ShootActions()
@@ -162,7 +183,7 @@ public class MutantEnemy : EnemyController
 
 	public enum State
 	{
-		TOWARDS_HUMAN,
+		TOWARDS_PLAYER,
 		DOWN,
 		UP,
 		EXPLODE

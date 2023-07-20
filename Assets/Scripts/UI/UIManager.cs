@@ -10,8 +10,8 @@ public class UIManager : MonoBehaviour
 	public static UIManager instance;
 
 	[Header("Parameters")]
-	public int health;
-	public int smartBombs;
+	public int health, healthIconsCountInitial = 10;
+	public int smartBombs, smartBombIconsCountInitial = 3;
 	public int points;
 
 	[Header("HUD")]
@@ -42,7 +42,7 @@ public class UIManager : MonoBehaviour
 	{
 		instance = this;
 		gameOverText.gameObject.SetActive(false);
-		for (int i = 0; i < health; i++)
+		for (int i = 0; i < healthIconsCountInitial; i++)
 		{
 			healthObjects.Add(Instantiate(healthIcon, Vector3.zero, Quaternion.identity, healthHolder));
 		}
@@ -50,6 +50,8 @@ public class UIManager : MonoBehaviour
 		{
 			bombObjects.Add(Instantiate(bombIcon, Vector3.zero, Quaternion.Euler(0, 0, 90), bombHolder));
 		}
+		SetHealth(health);
+		SetBombs(smartBombs);
 	}
 
 	private void Update()
@@ -129,6 +131,11 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
+	public void IncrementHealth()
+    {
+		SetHealth(health + 1);
+    }
+
 	public bool UseBomb()
 	{
 		if (smartBombs > 0)
@@ -138,6 +145,14 @@ public class UIManager : MonoBehaviour
 		}
 		return false;
 	}
+
+	public void StockBomb()
+    {
+		if (smartBombs < smartBombIconsCountInitial)
+        {
+			SetBombs(smartBombs + 1);
+        }
+    }
 
 	public void SetBombs(int count)
 	{
@@ -165,8 +180,14 @@ public class UIManager : MonoBehaviour
 
 	public void AddPoints(int count)
 	{
+		float thousandsPrev = points / 10_000;
 		points += count;
+		float thousandsNow = points / 10_000;
 		pointsText.text = $"{points}";
+		if (thousandsNow > thousandsPrev)
+        {
+			IncrementHealth();
+        }
 	}
 
 	public void ShowRefreshScreen()
@@ -182,7 +203,6 @@ public class UIManager : MonoBehaviour
 	public void ShowGameOver()
 	{
 		gameOverText.gameObject.SetActive(true);
-
 	}
 
 	public IEnumerator ResetScene()

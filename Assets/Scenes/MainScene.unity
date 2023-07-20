@@ -153,7 +153,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 194860622}
-  - {fileID: 1824745119}
   - {fileID: 1449024794}
   - {fileID: 2046797766}
   - {fileID: 2123203867}
@@ -953,7 +952,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 14.3125
-  size: 0
 --- !u!114 &170180676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1438,7 +1436,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 16
-  size: 0
 --- !u!114 &250795966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1973,7 +1970,7 @@ Transform:
   - {fileID: 229444629}
   - {fileID: 587196677}
   m_Father: {fileID: 14019291}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &411340300
 MonoBehaviour:
@@ -2001,7 +1998,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 16
-  size: 0
 --- !u!1 &425648546
 GameObject:
   m_ObjectHideFlags: 0
@@ -2413,7 +2409,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 14.3125
-  size: 0
 --- !u!114 &497108259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2581,6 +2576,7 @@ MonoBehaviour:
   playerOffset: 3
   player: {fileID: 2022186553}
   lerpPoint: 0
+  lerpSpeed: 0.01
   freeze: 0
 --- !u!114 &519420034
 MonoBehaviour:
@@ -2685,7 +2681,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 16
-  size: 0
 --- !u!212 &520333581
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2863,7 +2858,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 14.3125
-  size: 0
 --- !u!1 &587196676
 GameObject:
   m_ObjectHideFlags: 0
@@ -3694,7 +3688,7 @@ Transform:
   - {fileID: 1089247230}
   - {fileID: 284467095}
   m_Father: {fileID: 14019291}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &803339393
 MonoBehaviour:
@@ -3709,7 +3703,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 16
-  size: 0
 --- !u!114 &803339394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3930,7 +3923,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 14.3125
-  size: 0
 --- !u!114 &877515104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4190,7 +4182,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 14.3125
-  size: 0
 --- !u!114 &954923731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4801,7 +4792,7 @@ Transform:
   - {fileID: 1384157909}
   - {fileID: 978081848}
   m_Father: {fileID: 14019291}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1091625624
 MonoBehaviour:
@@ -4816,7 +4807,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 16
-  size: 0
 --- !u!114 &1091625625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5119,7 +5109,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 14.3125
-  size: 0
 --- !u!114 &1160070884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5232,7 +5221,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 14.3125
-  size: 0
 --- !u!114 &1166380678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5421,7 +5409,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 14.3125
-  size: 0
 --- !u!114 &1183187812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5534,7 +5521,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 14.3125
-  size: 0
 --- !u!114 &1189175461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10777,7 +10763,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 16
-  size: 0
 --- !u!114 &1362804951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10953,7 +10938,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 14.3125
-  size: 0
 --- !u!114 &1387954979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11194,7 +11178,7 @@ Transform:
   - {fileID: 1735506287}
   - {fileID: 497108257}
   m_Father: {fileID: 14019291}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1449024795
 MonoBehaviour:
@@ -16645,7 +16629,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 14.3125
-  size: 0
 --- !u!114 &1574366045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17426,7 +17409,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 14.3125
-  size: 0
 --- !u!114 &1735506289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17919,7 +17901,7 @@ Transform:
   m_Children:
   - {fileID: 208810991}
   m_Father: {fileID: 14019291}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1796859651
 GameObject:
@@ -17952,57 +17934,6 @@ Transform:
   m_Father: {fileID: 1735933890}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1824745118
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1824745119}
-  - component: {fileID: 1824745120}
-  m_Layer: 0
-  m_Name: TerrainGenerator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1824745119
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1824745118}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 14019291}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1824745120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1824745118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c5a82ac8869f439db976a7c380d030e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  terrainPiece: {fileID: 6508019603666911893, guid: de161789d685745588eff4af0f8440b8, type: 3}
-  terrainUIPiece: {fileID: 6288174477649771434, guid: 4b6bf9415a3c9462883733f301bb208a, type: 3}
-  minimap: {fileID: 643759466}
-  terrainWidth: 100
-  maxUp: 45
-  scroller: {fileID: 14019291}
-  terrainPoints: []
 --- !u!1 &1871820816
 GameObject:
   m_ObjectHideFlags: 0
@@ -18292,7 +18223,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 16
-  size: 0
 --- !u!212 &1877267487
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -18823,13 +18753,17 @@ MonoBehaviour:
   animator: {fileID: 1684351838}
   UIManager: {fileID: 697541854}
   scrollManager: {fileID: 14019292}
-  offset: {fileID: 519420033}
+  cameraOffset: {fileID: 519420033}
   laserPrefab: {fileID: 3518372284016162598, guid: 85a8aa03de751534a813b3f43be6b875, type: 3}
   shootPoint: {fileID: 1573293216}
   movingShootPoint: {fileID: 1114589520}
   humanHoldPoint: {fileID: 1368968516}
   deathParticles: {fileID: 1529812255}
   flash: {fileID: 1526109996}
+  cameraOffsetX: 3
+  flashDuration: 0.03
+  deathDuration: 1.4
+  resumeDuration: 0.15
   holdingHuman: 0
 --- !u!114 &2022186554
 MonoBehaviour:
@@ -18845,7 +18779,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invulnerable: 0
   cheatcode: 110100001101000012010000120100001401000013010000140100001301000062000000610000000d000000
-  codeIndex: 0
 --- !u!61 &2022186555
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -18973,7 +18906,7 @@ Transform:
   - {fileID: 520333579}
   - {fileID: 1877267485}
   m_Father: {fileID: 14019291}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2046797767
 MonoBehaviour:
@@ -19252,7 +19185,7 @@ Transform:
   - {fileID: 280508817}
   - {fileID: 907127571}
   m_Father: {fileID: 14019291}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2123203868
 MonoBehaviour:
@@ -19280,7 +19213,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDif: 16
-  size: 0
 --- !u!1001 &4990109802107544966
 PrefabInstance:
   m_ObjectHideFlags: 0
