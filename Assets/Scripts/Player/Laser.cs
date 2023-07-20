@@ -35,8 +35,11 @@ public class Laser : MonoBehaviour
 
 		if (other.gameObject.TryGetComponent(out Human human))
 		{
-			StopLaser();
-			human.Die();
+			if (!human.isHeld)
+            {
+				StopLaser();
+				human.Die();
+            }
 			return;
 		}
 

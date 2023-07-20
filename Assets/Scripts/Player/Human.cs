@@ -65,6 +65,8 @@ public class Human : MonoBehaviour
 	{
 		MutantEnemy enemy = Instantiate(mutantPrefab, transform.position, Quaternion.identity, FindObjectOfType<ScrollManager>().transform);
 		enemy.Init();
+		float enemyY = enemy.transform.position.y;
+		enemy.transform.position = new Vector3(enemy.transform.position.x, enemyY > 2.8f ? 2.8f : enemyY);
 		Destroy();
 	}
 
