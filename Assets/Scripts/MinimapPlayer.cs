@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class MinimapPlayer : MonoBehaviour
 {
+	// Magic numbers ahead.
 
+	// Public for readability.
 	public PlayerController player;
 	public CameraOffset camOffset;
 	public GameObject testObject;
@@ -12,16 +14,11 @@ public class MinimapPlayer : MonoBehaviour
 	public BoxCollider2D worldBounds;
 	public RectTransform minimapBounds;
 
-	//what the fuck
-	//how does any of this work
-	//gets player position and scales it to be in bounds of minimap
-
 	private void Update()
 	{
 		Vector3 worldXVec = camOffset.transform.position;
-		float unscaledX = Camera.main.WorldToScreenPoint(worldXVec).x;
 
-		float targetX = (worldXVec.x * -10);
+		float targetX = worldXVec.x * -10;
 
 		transform.localPosition = new Vector3(targetX, transform.localPosition.y, transform.localPosition.z);
 
