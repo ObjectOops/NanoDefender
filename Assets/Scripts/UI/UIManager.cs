@@ -187,6 +187,7 @@ public class UIManager : MonoBehaviour
 		if (thousandsNow > thousandsPrev)
         {
 			IncrementHealth();
+			StockBomb();
         }
 	}
 
