@@ -1,9 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
-
-	public PlayerInput input;
+	[SerializeField]
+	private PlayerInput input;
 	public Animator anim;
 
 	private void Update()
@@ -13,24 +15,24 @@ public class PlayerAnimator : MonoBehaviour
 			return;
 		}
 		
-		bool moving = input.gameInput.Accelerating;
+		bool moving = input.GameInput.Accelerating;
 
 		anim.SetBool("moving", moving);
 
-		bool attack = input.gameInput.AttackPressed;
+		bool attack = input.GameInput.AttackPressed;
 		if (attack)
 		{
 			anim.SetTrigger("attack");
 		}
 
-		bool smartBomb = input.gameInput.BombPressed;
+		bool smartBomb = input.GameInput.BombPressed;
 		if (smartBomb)
 		{
 			anim.SetTrigger("bomb");
 		}
 	}
 
-	public void DieAnim()
+	public void DeathAnimation()
 	{
 		anim.SetBool("death", true);
 	}

@@ -4,21 +4,26 @@ using UnityEngine;
 
 public class Human : MonoBehaviour
 {
-	public bool isTargeted;
+	[Header("Parameters")]
 	public bool onGround = true;
-	public bool isHeld;
-	public float fallSpeed, deathDistance, groundElevationY;
-	public MutantEnemy mutantPrefab;
-	public Animator animator;
+	public float fallSpeed, deathDistance, groundElevationY, mutationDuration, deathDuration;
 
-	public Sprite minimapSprite;
+	[Header("Additional Components")]
+	[SerializeField]
+	private MutantEnemy mutantPrefab;
+	[SerializeField]
+	private Animator animator;
+	[SerializeField]
+	private Sprite minimapSprite;
 
-	private float distanceFallen = 0;
-	private float velocity;
+	[HideInInspector]
+	public bool isTargeted, isHeld;
+
+	private float distanceFallen, velocity;
 
 	void Start()
 	{
-		animator.SetFloat("offset", Random.Range(0, 1f));
+		animator.SetFloat("offset", Random.Range(0f, 1f));
 		GetComponent<MinimapObject>().Init(minimapSprite);
 	}
 
@@ -53,12 +58,11 @@ public class Human : MonoBehaviour
 	public void MutantAnimation()
 	{
 		animator.SetTrigger("mutant");
-		Invoke("SpawnMutant", 0.850f);
+		Invoke(nameof(SpawnMutant), mutationDuration);
 	}
 
 	private void SpawnMutant()
 	{
-
 		MutantEnemy enemy = Instantiate(mutantPrefab, transform.position, Quaternion.identity, FindObjectOfType<ScrollManager>().transform);
 		enemy.Init();
 		Destroy();
@@ -93,28 +97,24 @@ public class Human : MonoBehaviour
 	public void Die()
 	{
 		animator.SetTrigger("death");
-		Invoke("Destroy", 0.433f);
+		Invoke(nameof(Destroy), deathDuration);
 	}
 
 	private void Destroy()
 	{
 		AudioManager.instance.PlaySound("HumanDie");
-		Destroy(this.gameObject);
+		Destroy(gameObject);
 	}
 
 	private void OnCollisionEnter2D(Collision2D other)
 	{
-		if (other.gameObject.TryGetComponent<PlayerController>(out PlayerController player))
+		if (other.gameObject.TryGetComponent(out PlayerController player) && !onGround && !isTargeted)
 		{
-			if (!onGround && !isTargeted)
-			{
-				transform.parent = player.humanHoldPoint;
-				transform.position = player.humanHoldPoint.position;
-				isHeld = true;
-				UIManager.instance.AddPoints(500);
-				player.holdingHuman = true;
-			}
+			transform.parent = player.humanHoldPoint;
+			transform.position = player.humanHoldPoint.position;
+			isHeld = true;
+			UIManager.instance.AddPoints(500);
+			player.holdingHuman = true;
 		}
 	}
-
 }

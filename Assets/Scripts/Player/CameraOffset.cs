@@ -4,29 +4,26 @@ using UnityEngine;
 
 public class CameraOffset : MonoBehaviour
 {
-	public float playerOffset;
-	public PlayerController player;
+	[SerializeField]
+	private float playerOffset;
+	[SerializeField]
+	private PlayerController player;
+	[SerializeField]
+	private float lerpPoint, lerpSpeed = 0.01f;
 
-	public float lerpPoint;
-	private float lerpTimer;
-
-	private bool flipping;
-	
 	public bool freeze;
 
-	void Start()
-	{
-
-	}
+	private float lerpTimer;
+	private bool flipping;
 
 	void FixedUpdate()
 	{
-		if(freeze) {
+		if (freeze) {
 			return;
 		}
 		
 		Vector3 playerPos = player.transform.position;
-		playerPos.z = transform.position.z;
+		playerPos.z = transform.position.z; // Prevent camera from moving forward into foreground.
 
 		if (flipping)
 		{
@@ -36,9 +33,8 @@ public class CameraOffset : MonoBehaviour
 		}
 		else
 		{
-			float xLerped = Mathf.Lerp(transform.position.x, playerPos.x + playerOffset, 0.01f);
+			float xLerped = Mathf.Lerp(transform.position.x, playerPos.x + playerOffset, lerpSpeed);
 			transform.position = new Vector3(xLerped, transform.position.y, transform.position.z);
-			// transform.position = Vector3.Lerp(transform.position, playerPos + playerOffset, 0.01f);
 		}
 	}
 
