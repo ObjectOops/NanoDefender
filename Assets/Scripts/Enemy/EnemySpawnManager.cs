@@ -1,18 +1,22 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemySpawnManager : MonoBehaviour
 {
-	public LanderEnemy landerPrefab;
-	public BomberEnemy bomberPrefab;
-	public Transform landerSpawnY;
+	[Header("Enemy Types")]
+	[SerializeField]
+	private LanderEnemy landerPrefab;
+	[SerializeField]
+	private BomberEnemy bomberPrefab;
 
-	public Transform scroller;
-	public int maxLanders;
-	public int maxBombers;
+	[Header("Spawn Parameters")]
+	[SerializeField]
+	private int leftMostSpawn = -50, rightMostSpawn = 51;
+	[SerializeField]
+	private Transform landerSpawnY, scroller;
+	[SerializeField]
+	private int maxLanders, maxBombers;
 
 	private List<Human> humans = new List<Human>();
 	private List<EnemyController> spawnedLanders = new List<EnemyController>();
@@ -31,11 +35,12 @@ public class EnemySpawnManager : MonoBehaviour
 				return true;
 			}
 
-			float randX = UnityEngine.Random.Range(-50, 51);
+			float randX = Random.Range(leftMostSpawn, rightMostSpawn);
 			Vector2 pos = new Vector2(randX, landerSpawnY.position.y);
-			BomberEnemy enemy = Instantiate(bomberPrefab, pos, Quaternion.identity, scroller);
 
+			BomberEnemy enemy = Instantiate(bomberPrefab, pos, Quaternion.identity, scroller);
 			enemy.Init();
+
 			spawnedBombers.Add(enemy);
 		}
 		return false;
@@ -53,38 +58,27 @@ public class EnemySpawnManager : MonoBehaviour
 			}
 		}
 
-		if (humans.Count == 0)
-		{
-			return true;
-		}
-
-		if (spawnedLanders.Count >= maxLanders)
+		if (humans.Count == 0 || spawnedLanders.Count >= maxLanders)
 		{
 			return true;
 		}
 
 		for (int i = 0; i < enemyCount; i++)
 		{
-			if (humans.Count == 0)
+			if (humans.Count == 0 || spawnedLanders.Count >= maxLanders)
 			{
 				return true;
 			}
 
-			if (spawnedLanders.Count >= maxLanders)
-			{
-				return true;
-			}
-
-			float randX = UnityEngine.Random.Range(-50, 51);
+			float randX = Random.Range(leftMostSpawn, rightMostSpawn);
 			Vector2 pos = new Vector2(randX, landerSpawnY.position.y);
+			
 			LanderEnemy enemy = Instantiate(landerPrefab, pos, Quaternion.identity, scroller);
-
-			Human nonTargeted = humans[UnityEngine.Random.Range(0, humans.Count)];
-
+			Human nonTargeted = humans[Random.Range(0, humans.Count)];
 			enemy.Init();
 			enemy.SetTarget(nonTargeted);
-			spawnedLanders.Add(enemy);
 
+			spawnedLanders.Add(enemy);
 			humans.Remove(nonTargeted);
 		}
 		return false;
@@ -102,8 +96,7 @@ public class EnemySpawnManager : MonoBehaviour
 		this.maxBombers = max;
 	}
 
-
-	public int GetAliveEnemies()
+	public int GetAliveEnemyCount()
 	{
 		int i = 0;
 		foreach (EnemyController enemy in spawnedLanders)
@@ -122,13 +115,15 @@ public class EnemySpawnManager : MonoBehaviour
 			}
 		}
 
-		foreach (EnemyController enemy in FindObjectsOfType<MutantEnemy>())
+		MutantEnemy[] spawnedMutants = FindObjectsOfType<MutantEnemy>();
+		foreach (EnemyController enemy in spawnedMutants)
 		{
 			if (enemy != null)
 			{
 				i++;
 			}
 		}
+
 		return i;
 	}
 
@@ -150,9 +145,13 @@ public class EnemySpawnManager : MonoBehaviour
 			}
 		}
 
-		foreach (EnemyController enemy in FindObjectsOfType<MutantEnemy>())
+		MutantEnemy[] spawnedMutants = FindObjectsOfType<MutantEnemy>();
+		foreach (EnemyController enemy in spawnedMutants)
 		{
-			enemy.Freeze();
+			if (enemy != null)
+            {
+				enemy.Freeze();
+            }
 		}
 	}
 
@@ -174,9 +173,13 @@ public class EnemySpawnManager : MonoBehaviour
 			}
 		}
 
-		foreach (EnemyController enemy in FindObjectsOfType<MutantEnemy>())
+		MutantEnemy[] spawnedMutants = FindObjectsOfType<MutantEnemy>();
+		foreach (EnemyController enemy in spawnedMutants)
 		{
-			enemy.UnFreeze();
+			if (enemy != null)
+            {
+				enemy.UnFreeze();
+            }
 		}
 	}
 }

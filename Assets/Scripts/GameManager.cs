@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
 
 		gameTimer += Time.deltaTime;
 
-		if (enemySpawnManager.GetAliveEnemies() == 0 && allSpawned)
+		if (enemySpawnManager.GetAliveEnemyCount() == 0 && allSpawned)
 		{
 			StartCoroutine(EndWave());
 		}

@@ -8,10 +8,8 @@ public class EnemyBullet : MonoBehaviour
 	public float moveSpeed;
 	public bool destroyOnLeave;
 
-	private float despawnTimer;
-
 	private SpriteRenderer spriteRenderer;
-
+	private float despawnTimer;
 
 	private void Start()
 	{
@@ -20,7 +18,7 @@ public class EnemyBullet : MonoBehaviour
 
 	private void Update()
 	{
-		transform.position += direction * moveSpeed * Time.deltaTime;
+		transform.position += moveSpeed * Time.deltaTime * direction; // IDE suggested order for performance.
 		if (destroyOnLeave && !spriteRenderer.isVisible)
 		{
 			Destroy(this.gameObject);

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,20 +8,21 @@ public abstract class EnemyController : MonoBehaviour
 	public Human human;
 	public Enemy enemyData;
 	public EnemyBullet bulletPrefab;
-	private int points;
 
 	internal SpriteRenderer spriteRenderer;
 	internal float shootOffset;
 	internal Animator animator;
 	internal bool freeze;
 
+	private int points;
+
 	public void Start()
 	{
-		animator = GetComponentInChildren<Animator>();
-		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-		animator.SetFloat("offset", UnityEngine.Random.Range(0f, 1f));
 		player = FindObjectOfType<PlayerController>();
-		shootOffset = UnityEngine.Random.Range(0f, 1f);
+		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		animator = GetComponentInChildren<Animator>();
+		animator.SetFloat("offset", Random.Range(0f, 1f));
+		shootOffset = Random.Range(0f, 1f);
 		
 		GetComponent<MinimapObject>().Init(enemyData);
 	}

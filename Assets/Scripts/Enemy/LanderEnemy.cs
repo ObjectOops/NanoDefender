@@ -1,30 +1,26 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LanderEnemy : EnemyController
 {
+	// Magic numbers ahead.
+
+	[SerializeField]
+	private LayerMask terrainMask;
+
+	public float moveSpeed, downSpeed, shootCoolDown = 3f, deathDuration = 0.533f;
+
 	private State state;
-
-	public float moveSpeed;
-	public float downSpeed;
-
-	private float shootTimer;
-
-	private float hitOffset;
-
-	public LayerMask terrainMask;
+	private float shootTimer, hitOffset;
 
 	new void Start()
 	{
 		base.Start();
 	}
 
-
 	void Update()
 	{
-
 		if (freeze)
 		{
 			return;
@@ -37,9 +33,9 @@ public class LanderEnemy : EnemyController
 			return;
 		}
 
-		int dir = Math.Sign(transform.position.x - player.transform.position.x);
-		spriteRenderer.flipX = dir == -1 ? true : false;
-
+		int dir = (int)Mathf.Sign(transform.position.x - player.transform.position.x);
+		// dir == -1 ? true : false
+		spriteRenderer.flipX = dir == -1;
 
 		switch (state)
 		{
@@ -68,9 +64,9 @@ public class LanderEnemy : EnemyController
 
 	public override void Die()
 	{
-		AudioManager.instance.PlaySound("Enemy Death");
-		freeze = true;
 		GetComponent<Collider2D>().enabled = false;
+		freeze = true;
+		AudioManager.instance.PlaySound("Enemy Death");
 		if (human != null)
 		{
 			if (human.transform.parent.Equals(this.transform))
@@ -79,11 +75,9 @@ public class LanderEnemy : EnemyController
 				human.isTargeted = false;
 			}
 		}
-
 		animator.SetTrigger("death");
-		Invoke("Destroy", 0.533f);
+		Invoke(nameof(Destroy), deathDuration);
 	}
-
 
 	public void SetTarget(Human human)
 	{
@@ -95,13 +89,13 @@ public class LanderEnemy : EnemyController
 	{
 		float currentX = transform.position.x;
 
-		int dirTowardsHuman = Math.Sign(human.transform.position.x - currentX);
+		int dirTowardsHuman = (int)Mathf.Sign(human.transform.position.x - currentX);
 
-		float newX = (currentX + (dirTowardsHuman * moveSpeed / 5f * Time.deltaTime));
+		float newX = currentX + (dirTowardsHuman * moveSpeed / 5f * Time.deltaTime);
 
 		float currentY = transform.position.y;
 
-		float newY = (currentY - (downSpeed * 1.25f * Time.deltaTime));
+		float newY = currentY - (downSpeed * 1.25f * Time.deltaTime);
 
 		transform.position = new Vector2(newX, newY);
 	}
@@ -118,11 +112,11 @@ public class LanderEnemy : EnemyController
 	{
 		float currentX = transform.position.x;
 
-		int dirTowardsHuman = Math.Sign(human.transform.position.x - currentX);
+		int dirTowardsHuman = (int)Mathf.Sign(human.transform.position.x - currentX);
 
-		float newX = (currentX + (dirTowardsHuman * moveSpeed * Time.deltaTime));
+		float newX = currentX + (dirTowardsHuman * moveSpeed * Time.deltaTime);
 
-		RaycastHit2D hit = Physics2D.Raycast(transform.position + (transform.right * dirTowardsHuman * 0.3f), Vector2.down, 50f, terrainMask);
+		RaycastHit2D hit = Physics2D.Raycast(transform.position + (0.3f * dirTowardsHuman * transform.right), Vector2.down, 50f, terrainMask);
 		if (hit)
 		{
 			if (hit.distance <= 0.3f)
@@ -143,7 +137,7 @@ public class LanderEnemy : EnemyController
 		float enemyX = transform.position.x;
 		float humanX = human.transform.position.x;
 
-		float difference = Mathf.Abs(enemyX - (humanX));
+		float difference = Mathf.Abs(enemyX - humanX);
 
 		if (difference < 0.1f)
 		{
@@ -155,12 +149,7 @@ public class LanderEnemy : EnemyController
 	{
 		float currentY = transform.position.y;
 
-		float newY = (currentY - (downSpeed * Time.deltaTime));
-
-		// if (newY <= human.transform.position.y + 0.5f)
-		// {
-		// 	newY = (currentY + (downSpeed * Time.deltaTime));
-		// }
+		float newY = currentY - (downSpeed * Time.deltaTime);
 
 		transform.position = new Vector2(transform.position.x, newY);
 	}
@@ -184,7 +173,7 @@ public class LanderEnemy : EnemyController
 	{
 		float currentY = transform.position.y;
 
-		float newY = (currentY + (downSpeed * Time.deltaTime));
+		float newY = currentY + (downSpeed * Time.deltaTime);
 
 		transform.position = new Vector2(transform.position.x, newY);
 	}
@@ -192,9 +181,8 @@ public class LanderEnemy : EnemyController
 	private void UpTransitions()
 	{
 		float enemyY = transform.position.y;
-		float topY = 3;
 
-		if (enemyY >= topY)
+		if (enemyY >= 3f)
 		{
 			state = State.EXPLODE;
 		}
@@ -203,51 +191,44 @@ public class LanderEnemy : EnemyController
 	private void ExplodeActions()
 	{
 		human.transform.parent = GameObject.Find("Scroller").transform;
-		// human.transform.position = 
 		human.MutantAnimation();
 		Destroy(this.gameObject);
 	}
 
 	private void ExplodeTransitions()
 	{
-
+		// Nothing.
 	}
 
 	private void ShootActions()
 	{
-		if (state.Equals(State.EXPLODE))
+		if (state.Equals(State.EXPLODE) || !spriteRenderer.isVisible)
 		{
 			return;
 		}
-
-		if (!spriteRenderer.isVisible)
-		{
-			return;
-		}
-
-		if (shootTimer + shootOffset >= 3f)
+		if (shootTimer + shootOffset >= shootCoolDown)
 		{
 			shootTimer = 0f;
 			ShootOnce();
 		}
-
 		shootTimer += Time.deltaTime;
 	}
 
-	private IEnumerator ShootBurst()
-	{
-		ShootOnce();
-		yield return new WaitForSeconds(0.7f);
-		ShootOnce();
-	}
+	// private IEnumerator ShootBurst()
+	// {
+	// 	ShootOnce();
+	// 	yield return new WaitForSeconds(0.7f);
+	// 	ShootOnce();
+	// }
 
 	private void ShootOnce()
 	{
-		int rand = UnityEngine.Random.Range(0, 2);
+		// Adds inaccuracy to enemy projectiles.
+		int rand = Random.Range(0, 2);
 		Vector3 playerPos = (player.transform.position);
 		if (rand == 0)
 		{
-			playerPos += new Vector3(UnityEngine.Random.Range(-3, 4), UnityEngine.Random.Range(-3, 4));
+			playerPos += new Vector3(Random.Range(-3, 4), Random.Range(-3, 4));
 		}
 
 		Vector3 playerDir = (playerPos - transform.position).normalized;
