@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class AttackWaveEndManager : MonoBehaviour
 {
-    public TMP_Text waveText;
-    public TMP_Text bonusText;
+    [SerializeField]
+    private TMP_Text waveText, bonusText;
     
     public void EndWave(int wave) {
         waveText.text = $"ATTACK WAVE {wave} COMPLETED";
