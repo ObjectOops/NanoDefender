@@ -73,6 +73,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 40
+  lerpSpeed: 4.53
   trail: {fileID: 7911748258290703969}
   trailGradients:
   - serializedVersion: 2
@@ -186,7 +187,7 @@ SpriteRenderer:
   m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!198 &7911748258290703969

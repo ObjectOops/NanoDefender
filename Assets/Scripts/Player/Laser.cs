@@ -1,42 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
 	[SerializeField]
-	private float speed;
-	private int direction;
+	private float speed, lerpSpeed;
 
 	public ParticleSystem trail;
 	public List<Gradient> trailGradients;
 
+	private int direction;
+
 	void Update()
 	{
-		transform.position += transform.right * direction * speed * Time.deltaTime;
+		transform.position += direction * speed * Time.deltaTime * transform.right; // Ordered this way for performance.
 		SpawnTrail();
 	}
 
-	public void SetDirection(int dir)
+	public void SetDirection(int direction)
 	{
-		this.direction = dir;
+		this.direction = direction;
 	}
 
 	private void OnCollisionEnter2D(Collision2D other)
 	{
-		if (other.gameObject.TryGetComponent<EnemyController>(out EnemyController enemy))
+		if (other.gameObject.TryGetComponent(out EnemyController enemy))
 		{
 			StopLaser();
-			UIManager.instance.AddPoints(enemy.GetPointValue());
 			enemy.Die();
+			UIManager.instance.AddPoints(enemy.GetPointValue());
+			return;
 		}
 
-		if (other.gameObject.TryGetComponent<Human>(out Human human))
+		if (other.gameObject.TryGetComponent(out Human human))
 		{
 			StopLaser();
 			human.Die();
+			return;
 		}
+
+		//if (other.gameObject.TryGetComponent<BossController>(out BossController boss))
+		//{
+		//	StopLaser();
+		//	boss.Damage();
+		//	return;
+		//}
 	}
 
 	private void SpawnTrail()
@@ -48,7 +57,7 @@ public class Laser : MonoBehaviour
 	{
 		ParticleSystem.MainModule main = trail.main;
 
-		int rand = UnityEngine.Random.Range(0, trailGradients.Count);
+		int rand = Random.Range(0, trailGradients.Count);
 		Gradient trailGradient = trailGradients[rand];
 		Color startColor = trailGradient.Evaluate(0);
 		Color endColor = trailGradient.Evaluate(1);
@@ -59,11 +68,10 @@ public class Laser : MonoBehaviour
 		while (lerpValue < 1f)
 		{
 			main.startColor = Color.Lerp(startColor, endColor, lerpValue);
-			lerpValue += Time.deltaTime * 4.53f;
+			lerpValue += Time.deltaTime * lerpSpeed;
 			yield return null;
 		}
 		main.startColor = endColor;
-		// yield return new WaitForSeconds();
 		Destroy(transform.gameObject);
 	}
 
@@ -71,5 +79,4 @@ public class Laser : MonoBehaviour
 	{
 		Destroy(gameObject);
 	}
-
 }

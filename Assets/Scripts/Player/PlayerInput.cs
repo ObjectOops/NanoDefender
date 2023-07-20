@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-	public FrameInput gameInput { get; private set; }
+	public FrameInput GameInput { get; private set; }
 	public bool invulnerable;
 
-	private bool listening;
+	[SerializeField]
+	private List<KeyCode> cheatcode;
 
-	public List<KeyCode> cheatcode;
-	public int codeIndex;
+	private int codeIndex;
+	private bool listening;
 
 	private void Update()
 	{
 		float yMove = Input.GetAxisRaw("Vertical");
-		gameInput = new FrameInput
+		GameInput = new FrameInput
 		{
 			yMovement = yMove,
 			LeftPressed = Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow),
@@ -24,6 +25,7 @@ public class PlayerInput : MonoBehaviour
 			AttackPressed = Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown(KeyCode.Return),
 			BombPressed = Input.GetKeyDown(KeyCode.E),
 		};
+
 		if (Input.GetKeyDown(KeyCode.UpArrow) && !listening)
 		{
 			listening = true;
@@ -57,6 +59,5 @@ public class PlayerInput : MonoBehaviour
 		public bool AttackPressed;
 		public bool BombPressed;
 		public float yMovement;
-
 	}
 }

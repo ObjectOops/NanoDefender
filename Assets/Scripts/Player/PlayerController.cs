@@ -1,7 +1,6 @@
 using System.Collections;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,13 +10,13 @@ public class PlayerController : MonoBehaviour
 	public float ySpeed;
 	public float damping;
 
-	[Header("References")]
+	[Header("References")] // Stay public for readability.
 	public GameManager manager;
 	public PlayerInput input;
 	public PlayerAnimator animator;
 	public UIManager UIManager;
 	public ScrollManager scrollManager;
-	public CameraOffset offset;
+	public CameraOffset cameraOffset;
 	public Laser laserPrefab;
 	public Transform shootPoint;
 	public Transform movingShootPoint;
@@ -25,32 +24,32 @@ public class PlayerController : MonoBehaviour
 	public ParticleSystem deathParticles;
 	public GameObject flash;
 
+	[Header("Others")]
+	public float cameraOffsetX = 3f, flashDuration = 0.03f, deathDuration = 1.4f, resumeDuration = 0.15f;
+
+	[HideInInspector]
 	public bool holdingHuman;
 
-	/***********************************
-	*private variables
-	***********************************/
-	private Rigidbody2D rb;
+	/* 
+	 * Private Variables
+	 */
 	private SpriteRenderer spriteRenderer;
 	private Vector2 moveDelta;
-	private float velocity;
-	private bool flipped;
-	private float startX;
-	private float moveLerp;
-	private bool freezeControls;
-
 	private State state;
+	private float velocity, moveLerp;
+	private bool flipped, freezeControls;
 
+	/*
+	 * The Only Constants
+	 */
+	private const float lowerBoundY = -4.5f, upperBoundY = 2.8f, leftMapBound = -100, rightMapBound = 101;
 
-
-	void Start()
+	private void Start()
 	{
-		rb = GetComponent<Rigidbody2D>();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-		startX = spriteRenderer.transform.position.x;
 	}
 
-	void Update()
+	private void Update()
 	{
 		if (UIManager.paused)
 		{
@@ -83,30 +82,30 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	void FixedUpdate()
+	private void FixedUpdate()
 	{
-		moveDelta.x = (velocity) * Time.deltaTime;
+		moveDelta.x = velocity * Time.deltaTime;
 		scrollManager.Scroll(moveDelta);
 
 		if (!freezeControls)
 		{
-			YMovement();
+			MovementY();
 		}
 	}
 
-	void YMovement()
+	private void MovementY()
 	{
 		float yAxis = Input.GetAxisRaw("Vertical");
 		float newY = yAxis * ySpeed * Time.deltaTime;
 
 		transform.position += new Vector3(0f, newY, 0f);
 
-		float clampedY = Mathf.Clamp(transform.position.y, -4.5f, 2.8f);
+		float clampedY = Mathf.Clamp(transform.position.y, lowerBoundY, upperBoundY);
 
 		transform.position = new Vector3(transform.position.x, clampedY, 0);
 	}
 
-	public void AnyActions()
+	private void AnyActions()
 	{
 		if (freezeControls)
 		{
@@ -115,29 +114,29 @@ public class PlayerController : MonoBehaviour
 
 		animator.anim.SetBool("holding", holdingHuman);
 
-		if (input.gameInput.RightPressed)
+		if (input.GameInput.RightPressed)
 		{
 			flipped = false;
-			offset.SetXOffset(3);
+			cameraOffset.SetXOffset(cameraOffsetX);
 			transform.localScale = new Vector3(1, 1, 1);
 		}
-		if (input.gameInput.LeftPressed)
+		if (input.GameInput.LeftPressed)
 		{
 			flipped = true;
-			offset.SetXOffset(-3);
+			cameraOffset.SetXOffset(-cameraOffsetX);
 			transform.localScale = new Vector3(-1, 1, 1);
 		}
-		if (input.gameInput.AttackPressed)
+		if (input.GameInput.AttackPressed)
 		{
-			ShootLaser(input.gameInput.Accelerating);
+			ShootLaser(input.GameInput.Accelerating);
 			AudioManager.instance.PlaySound("Laser");
 		}
-		if (input.gameInput.BombPressed)
+		if (input.GameInput.BombPressed)
 		{
-			bool success = UIManager.UseBomb();
-			if (success)
+			if (UIManager.UseBomb())
 			{
-				foreach (EnemyController enemy in GameObject.FindObjectsOfType<EnemyController>())
+				EnemyController[] enemyControllers = FindObjectsOfType<EnemyController>();
+				foreach (EnemyController enemy in enemyControllers)
 				{
 					SpriteRenderer renderer = enemy.GetComponentInChildren<SpriteRenderer>();
 					if (renderer.isVisible)
@@ -146,7 +145,6 @@ public class PlayerController : MonoBehaviour
 						UIManager.AddPoints(enemy.GetPointValue());
 					}
 				}
-
 				// StartCoroutine(BombRinging());
 				StartCoroutine(Flash());
 			}
@@ -155,54 +153,54 @@ public class PlayerController : MonoBehaviour
 
 	private IEnumerator Flash()
 	{
-		yield return new WaitForSeconds(0.2f);
+		yield return new WaitForSeconds(flashDuration - 0.01f);
 		AudioManager.instance.PlaySound("Smart Bomb");
 		flash.SetActive(true);
-		yield return new WaitForSeconds(0.03f);
+		yield return new WaitForSeconds(flashDuration);
 		flash.SetActive(false);
-		yield return new WaitForSeconds(0.03f);
+		yield return new WaitForSeconds(flashDuration);
 		flash.SetActive(true);
-		yield return new WaitForSeconds(0.03f);
+		yield return new WaitForSeconds(flashDuration);
 		flash.SetActive(false);
-		yield return new WaitForSeconds(0.03f);
+		yield return new WaitForSeconds(flashDuration);
 		flash.SetActive(true);
-		yield return new WaitForSeconds(0.03f);
+		yield return new WaitForSeconds(flashDuration);
 		flash.SetActive(false);
 	}
 
-	private IEnumerator BombRinging()
-	{
-		int iterations = 1;
-		for (int i = 0; i < iterations; ++i)
-		{
-			yield return new WaitForSeconds(0.2f);
-			AudioManager.instance.PlaySound("Smart Bomb Ringing", 1 - (float)i / iterations);
-		}
-	}
+	// private IEnumerator BombRinging()
+	// {
+	// 	int iterations = 1;
+	// 	for (int i = 0; i < iterations; ++i)
+	// 	{
+	// 		yield return new WaitForSeconds(flashDuration - 0.01);
+	// 		AudioManager.instance.PlaySound("Smart Bomb Ringing", 1 - (float)i / iterations);
+	// 	}
+	// }
 
-	public void AnyTransitions()
+	private void AnyTransitions()
 	{
 		if (freezeControls)
 		{
 			return;
 		}
-		if (input.gameInput.Accelerating)
+		if (input.GameInput.Accelerating)
 		{
 			state = State.MOVING;
 		}
 	}
 
-	public void IdleActions()
+	private void IdleActions()
 	{
-
+		// Nothing.
 	}
 
-	public void IdleTransitions()
+	private void IdleTransitions()
 	{
-
+		// Nothing.
 	}
 
-	public void MoveActions()
+	private void MoveActions()
 	{
 		int dir = flipped ? -1 : 1;
 		velocity += dir * moveSpeed * Time.deltaTime;
@@ -212,37 +210,26 @@ public class PlayerController : MonoBehaviour
 		moveLerp = Mathf.Clamp(moveLerp, 0f, 1f);
 
 		AudioManager.instance.PlaySoundAndWait("Thrust");
-
-		// float lerpedSpriteX = Mathf.Lerp(startX, startX + 1f * lastInputDir, (rightVelocity / maxSpeed) * moveLerp);
-
-		// spriteRenderer.transform.position = new Vector2(lerpedSpriteX, spriteRenderer.transform.position.y);
 	}
 
-	public void MoveTransitions()
+	private void MoveTransitions()
 	{
-		if (!input.gameInput.Accelerating)
+		if (!input.GameInput.Accelerating)
 		{
 			state = State.GLIDING;
 		}
 	}
 
-	public void GlideActions()
+	private void GlideActions()
 	{
 		moveLerp -= Time.deltaTime;
 		moveLerp = Mathf.Clamp(moveLerp, 0f, 1f);
-
-		// float lerpedSpriteX = Mathf.Lerp(startX, startX + 1f * lastInputDir, moveLerp);
-
-		// spriteRenderer.transform.position = new Vector2(lerpedSpriteX, spriteRenderer.transform.position.y);
-
-		// rightVelocity = Mathf.Lerp(maxSpeed, 0f, frictionLerp);
 		velocity *= (1f - damping * Time.deltaTime);
-		// frictionLerp += (Mathf.Pow(rightVelocity, 2) / 100f * Time.deltaTime);
 	}
 
-	public void GlideTransitions()
+	private void GlideTransitions()
 	{
-
+		// Nothing.
 	}
 
 	public void DieActions()
@@ -253,7 +240,7 @@ public class PlayerController : MonoBehaviour
 
 	public void DieTransitions()
 	{
-
+		// Nothing.
 	}
 
 	private void ShootLaser(bool tilted)
@@ -270,20 +257,17 @@ public class PlayerController : MonoBehaviour
 			int dir = flipped ? -1 : 1;
 			laserInst.SetDirection(dir);
 		}
-
 	}
 
 	private void OnCollisionEnter2D(Collision2D other)
 	{
 		if(!input.invulnerable) {
-			if (other.gameObject.TryGetComponent<EnemyController>(out EnemyController enemy))
+			if (other.gameObject.TryGetComponent(out EnemyController enemy))
 			{
 				enemy.Die();
 				Die();
-				return;
 			}
-
-			if (other.gameObject.TryGetComponent<EnemyBullet>(out EnemyBullet bullet))
+			else if (other.gameObject.TryGetComponent(out EnemyBullet bullet))
 			{
 				Destroy(bullet.gameObject);
 				Die();
@@ -300,7 +284,7 @@ public class PlayerController : MonoBehaviour
 	}
 	
 	public void ResetPlayer() {
-		offset.SetXOffsetInstant(3);
+		cameraOffset.SetXOffsetInstant(cameraOffsetX);
 		transform.position = new Vector3(transform.position.x, 0, transform.position.y);
 		transform.localScale = new Vector3(1, 1, 1);
 		flipped = false;
@@ -309,20 +293,24 @@ public class PlayerController : MonoBehaviour
 	private IEnumerator DeathSequence()
 	{
 		state = State.IDLE;
-		offset.freeze = true;
+		cameraOffset.freeze = true;
 
-		animator.DieAnim();
-		deathParticles.Play();
 		manager.FreezeEnemies();
-		foreach (EnemyBullet bullet in FindObjectsOfType<EnemyBullet>())
+		animator.DeathAnimation();
+		deathParticles.Play();
+
+		EnemyBullet[] enemyBullets = FindObjectsOfType<EnemyBullet>();
+		foreach (EnemyBullet bullet in enemyBullets)
 		{
 			Destroy(bullet.gameObject);
 		}
 		AudioManager.instance.PlaySound("Player Death");
 
-		yield return new WaitForSeconds(1.4f);
+		yield return new WaitForSeconds(deathDuration);
 
+		// Don't worry about it.
 		bool dead = !UIManager.DecrementHealth();
+
 		if (dead)
 		{
 			UIManager.ShowGameOver();
@@ -340,12 +328,12 @@ public class PlayerController : MonoBehaviour
 		
 		UIManager.ShowRefreshScreen();
 
-		scrollManager.Scroll(new Vector2(Random.Range(-100, 101), 0f));
+		scrollManager.Scroll(new Vector2(Random.Range(leftMapBound, rightMapBound), 0f));
 
-		offset.freeze = false;
+		cameraOffset.freeze = false;
 		ResetPlayer();
 
-		yield return new WaitForSeconds(0.15f);
+		yield return new WaitForSeconds(resumeDuration);
 		UIManager.HideRefreshScreen();
 
 		animator.Reset();
@@ -360,5 +348,4 @@ public class PlayerController : MonoBehaviour
 		GLIDING,
 		DIE
 	}
-
 }
