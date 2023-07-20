@@ -1,8 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -10,9 +6,6 @@ public class ScrollManager : MonoBehaviour
 {
 	public BoxCollider2D bounds;
 	public BoxCollider2D minimapBounds;
-	public Tilemap terrain;
-	public TileBase tile;
-	public TerrainGenerator terrainGen;
 	public Transform minimapScroll;
 
 	public void Scroll(Vector2 moveDelta)
@@ -31,9 +24,13 @@ public class ScrollManager : MonoBehaviour
 			if (!bounds.bounds.Contains(toScroll.position))
 			{
 				int sign = Math.Sign(moveDelta.x);
-				toScroll.position = new Vector2(toScroll.position.x + (int)(100 * sign), toScroll.position.y);
+				toScroll.position = bounds.bounds.ClosestPoint(new Vector2(toScroll.position.x + (int)(100 * sign), toScroll.position.y));
+				continue;
 			}
+
+		
 		}
+
 
 		for (int i = 0; i < minimapScroll.childCount; i++)
 		{
@@ -47,19 +44,5 @@ public class ScrollManager : MonoBehaviour
 				toScroll.localPosition = new Vector2(toScroll.localPosition.x + (int)(399 * sign), toScroll.localPosition.y);
 			}
 		}
-
-		// List<GameObject> points = terrainGen.terrainPoints;
-
-		// foreach (GameObject point in points)
-		// {
-		// 	Vector2 pointPos = point.transform.position;
-		// 	point.transform.position -= new Vector3(moveDelta.x, moveDelta.y, 0);
-
-		// 	if (!bounds.bounds.Contains(pointPos))
-		// 	{
-		// 		Vector2 newPointPos = new Vector2(pointPos.x + 100, pointPos.y);
-		// 		point.transform.position = newPointPos;
-		// 	}
-		// }
 	}
 }

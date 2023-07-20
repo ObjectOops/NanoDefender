@@ -25,6 +25,8 @@ public class Human : MonoBehaviour
 	void Update()
 	{
 		onGround = OnGround();
+		animator.SetBool("onGround", onGround);
+
 		if (!onGround && !isTargeted && !isHeld)
 		{
 			Fall();
@@ -37,7 +39,6 @@ public class Human : MonoBehaviour
 				distanceFallen = 0;
 				isHeld = false;
 				transform.parent = GameObject.Find("Scroller").transform;
-				animator.SetBool("frown", false);
 				UIManager.instance.AddPoints(500);
 				AudioManager.instance.PlaySound("HumanSave");
 				FindObjectOfType<PlayerController>().holdingHuman = false;
@@ -65,7 +66,7 @@ public class Human : MonoBehaviour
 
 	public void Frown()
 	{
-		animator.SetBool("frown", true);
+		animator.SetTrigger("frown");
 	}
 
 	public bool OnGround()
@@ -86,20 +87,18 @@ public class Human : MonoBehaviour
 		if (distanceFallen >= deathDistance)
 		{
 			Die();
-		} else {
-			animator.SetBool("frown", false);
 		}
 	}
 
 	public void Die()
 	{
 		animator.SetTrigger("death");
-		AudioManager.instance.PlaySound("HumanDie");
 		Invoke("Destroy", 0.433f);
 	}
 
 	private void Destroy()
 	{
+		AudioManager.instance.PlaySound("HumanDie");
 		Destroy(this.gameObject);
 	}
 

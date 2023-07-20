@@ -6,8 +6,12 @@ public class EnemyBullet : MonoBehaviour
 {
 	public Vector3 direction;
 	public float moveSpeed;
+	public bool destroyOnLeave;
+
+	private float despawnTimer;
 
 	private SpriteRenderer spriteRenderer;
+
 
 	private void Start()
 	{
@@ -17,9 +21,17 @@ public class EnemyBullet : MonoBehaviour
 	private void Update()
 	{
 		transform.position += direction * moveSpeed * Time.deltaTime;
-		if (!spriteRenderer.isVisible)
+		if (destroyOnLeave && !spriteRenderer.isVisible)
 		{
 			Destroy(this.gameObject);
+		}
+		else
+		{
+			if (despawnTimer > 10f)
+			{
+				Destroy(this.gameObject);
+			}
+			despawnTimer += Time.deltaTime;
 		}
 	}
 

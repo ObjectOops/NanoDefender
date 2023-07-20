@@ -71,11 +71,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 1989167953, guid: ed7403e24b122423095d4f7bf193fd70, type: 3}
-  m_Color: {r: 0.99215686, g: 0.7411765, b: 0.7411765, a: 1}
+  m_SortingLayerID: -630205671
+  m_SortingLayer: 1
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 599045064, guid: 2eb1a6d2f9af14ab5a79a0b8403c3ba7, type: 3}
+  m_Color: {r: 1, g: 0.74509805, b: 0.74509805, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -158,11 +158,11 @@ MonoBehaviour:
   human: {fileID: 0}
   enemyData: {fileID: 11400000, guid: f249a8cbbe9b54299993c4d72feee4ac, type: 2}
   bulletPrefab: {fileID: 768454327775202355, guid: 70701188ddd034a72bb87040a1cb7303, type: 3}
-  worldBounds: {fileID: 0}
-  minimapBounds: {fileID: 0}
-  minimapHolder: {fileID: 0}
   moveSpeed: 1.7
   downSpeed: 0.7
+  terrainMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!61 &-7915294070719160153
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -208,7 +208,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 7
 --- !u!114 &1593150100345150567
 MonoBehaviour:

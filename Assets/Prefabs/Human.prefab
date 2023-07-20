@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4779483421191360508}
   - component: {fileID: 368667528733644751}
-  - component: {fileID: 4876531597942297488}
   - component: {fileID: 5212372649487201673}
+  - component: {fileID: 4876531597942297488}
   - component: {fileID: 3434720498285976608}
   m_Layer: 0
   m_Name: Human
@@ -57,32 +57,6 @@ MonoBehaviour:
   mutantPrefab: {fileID: 4282684119748027090, guid: 8d52e079791c142889e1600685cf2f3c, type: 3}
   animator: {fileID: 4850655447055656175}
   minimapSprite: {fileID: 21300000, guid: 07045d8e748cc412b85958ece2dae9df, type: 3}
---- !u!61 &4876531597942297488
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4779483421191360506}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.018248111, y: -0.013686091}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.48978287, y: 0.489783}
-  m_EdgeRadius: 0
 --- !u!50 &5212372649487201673
 Rigidbody2D:
   serializedVersion: 4
@@ -102,8 +76,34 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!61 &4876531597942297488
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4779483421191360506}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.015, y: -0.015}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 0.5}
+  m_EdgeRadius: 0
 --- !u!114 &3434720498285976608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,9 +188,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingLayerID: -630205671
+  m_SortingLayer: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 1832084256, guid: b05cc79aa9c7b45b9aaf7424fe2958cf, type: 3}
   m_Color: {r: 0.9811321, g: 0.64328945, b: 0.65912586, a: 1}
   m_FlipX: 0
