@@ -13,8 +13,8 @@ public class PlayerAnimator : MonoBehaviour
 
 	private Animator faceAnimation;
 
-    private void Start()
-    {
+	private void Start()
+	{
 		faceAnimation = faceObject.GetComponent<Animator>();
 	}
 
@@ -24,7 +24,7 @@ public class PlayerAnimator : MonoBehaviour
 		{
 			return;
 		}
-		
+
 		bool moving = input.GameInput.Accelerating;
 
 		anim.SetBool("moving", moving);
@@ -35,12 +35,11 @@ public class PlayerAnimator : MonoBehaviour
 		{
 			anim.SetTrigger("attack");
 		}
+	}
 
-		bool smartBomb = input.GameInput.BombPressed;
-		if (smartBomb)
-		{
-			anim.SetTrigger("bomb");
-		}
+	public void BombAnimation()
+	{
+		anim.SetTrigger("bomb");
 	}
 
 	public void DeathAnimation()

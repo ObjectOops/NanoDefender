@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,7 +27,7 @@ public class MutantEnemy : EnemyController
 		ShootActions();
 
 		float xDifAbs = Mathf.Abs(transform.position.x - player.transform.position.x);
-		int dir = (int)Mathf.Sign(transform.position.x - player.transform.position.x);
+		int dir = Math.Sign(transform.position.x - player.transform.position.x);
 		if (xDifAbs > 0.2f)
 		{
 			// dir == -1 ? true : false
@@ -82,9 +83,9 @@ public class MutantEnemy : EnemyController
 			state = State.DOWN;
 		}
 		else if (differenceX < 0.1f && dirY == -1)
-        {
+		{
 			state = State.UP;
-        }
+		}
 	}
 
 	private void DownActions()
@@ -125,8 +126,11 @@ public class MutantEnemy : EnemyController
 
 	private void UpTransitions()
 	{
-		float enemyY = transform.position.y, enemyX = transform.position.x;
-		float playerY = player.transform.position.y, playerX = player.transform.position.x;
+		float enemyY = transform.position.y;
+		float enemyX = transform.position.x;
+		
+		float playerY = player.transform.position.y;
+		float playerX = player.transform.position.x;
 
 		float differenceX = Mathf.Abs(enemyX - playerX), dirY = Mathf.Sign(enemyY - playerY);
 
@@ -167,11 +171,11 @@ public class MutantEnemy : EnemyController
 	private void ShootOnce()
 	{
 		// Adds inaccuracy to enemy projectiles.
-		int rand = Random.Range(0, 2);
+		int rand = UnityEngine.Random.Range(0, 2);
 		Vector3 playerPos = player.transform.position;
 		if (rand == 0)
 		{
-			playerPos += new Vector3(Random.Range(-3, 4), Random.Range(-3, 4));
+			playerPos += new Vector3(UnityEngine.Random.Range(-3, 4), UnityEngine.Random.Range(-3, 4));
 		}
 
 		Vector3 playerDir = (playerPos - transform.position).normalized;

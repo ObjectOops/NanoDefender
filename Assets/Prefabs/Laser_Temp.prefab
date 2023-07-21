@@ -58,7 +58,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.06, y: 0.06}
+  m_Size: {x: 0.8, y: 0.06}
   m_EdgeRadius: 0
 --- !u!114 &3518372284016162598
 MonoBehaviour:
@@ -73,7 +73,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 40
-  lerpSpeed: 4.53
+  lerpSpeed: 4.4
   trail: {fileID: 7911748258290703969}
   trailGradients:
   - serializedVersion: 2

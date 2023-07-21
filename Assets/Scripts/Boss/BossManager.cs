@@ -6,7 +6,18 @@ public class BossManager : MonoBehaviour
 {
 	public GameManager gameManager;
 	public bool started;
+	public bool debugStart;
+	public int bossWave;
 
+	public BossController bossPrefab;
+	private BossController boss;
+	public Transform bossSpawnPoint;
+
+	[Header("Animations")]
+	public GameObject bossSpawn;
+	public GameObject bossVignette;
+
+	private bool lastFramePhase;
 
 	void Start()
 	{
@@ -15,9 +26,53 @@ public class BossManager : MonoBehaviour
 
 	void Update()
 	{
-		if (gameManager.wave == gameManager.enemies.Count - 1)
+		if (debugStart)
 		{
-			started = true;
+			StartBoss();
+		}
+
+		if (started)
+		{
+			FindObjectOfType<CameraOffset>().freeze = true;
+		}
+
+		if (boss != null)
+		{
+			if (!lastFramePhase && boss.secondPhase)
+			{
+				bossVignette.GetComponent<Animator>().SetTrigger("phase2");
+			}
+			
+			lastFramePhase = boss.secondPhase;
 		}
 	}
+
+	public void StartBoss()
+	{
+		started = true;
+		debugStart = false;
+		SpawnAnimation();
+	}
+
+	public void SpawnAnimation()
+	{
+		bossSpawn.SetActive(true);
+		StartCoroutine(InstantiateBoss());
+	}
+
+	public IEnumerator InstantiateBoss()
+	{
+		yield return new WaitForSeconds(2.5f);
+		SpawnBoss();
+
+		bossVignette.SetActive(true);
+		yield return new WaitForSeconds(0.1f);
+		bossSpawn.SetActive(false);
+	}
+
+	public void SpawnBoss()
+	{
+		boss = Instantiate(bossPrefab, bossSpawnPoint.position, Quaternion.identity);
+	}
+
 }

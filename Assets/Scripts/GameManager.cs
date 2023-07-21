@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 {
 	public EnemySpawnManager enemySpawnManager;
 	public HumanSpawnManager humanSpawnManager;
+	public BossManager bossManager;
+
 	[Scene]
 	public string endScene;
 
@@ -41,7 +43,8 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		Application.targetFrameRate = 144;
+		Application.targetFrameRate = -1;
+		QualitySettings.vSyncCount = 0;
 
 		// SpawnEnemies();
 		Invoke("StartWave", 3f);
@@ -76,6 +79,17 @@ public class GameManager : MonoBehaviour
 			return;
 		}
 
+		if (bossManager.bossWave == wave)
+		{
+			EndWaveForBoss();
+			return;
+		}
+
+		if (bossManager.started)
+		{
+			return;
+		}
+
 		if (gameTimer >= spawnTimer)
 		{
 			bool allSpawned = SpawnEnemies(landerSpawnRate, bomberSpawnRate);
@@ -89,6 +103,13 @@ public class GameManager : MonoBehaviour
 		{
 			StartCoroutine(EndWave());
 		}
+	}
+
+	public void EndWaveForBoss()
+	{
+		waveStarted = false;
+		humanSpawnManager.DestroyHumans();
+		bossManager.StartBoss();
 	}
 
 	public IEnumerator EndWave()
