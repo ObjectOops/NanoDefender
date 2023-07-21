@@ -132,9 +132,9 @@ public class UIManager : MonoBehaviour
 	}
 
 	public void IncrementHealth()
-    {
+	{
 		SetHealth(health + 1);
-    }
+	}
 
 	public bool UseBomb()
 	{
@@ -147,12 +147,12 @@ public class UIManager : MonoBehaviour
 	}
 
 	public void StockBomb()
-    {
+	{
 		if (smartBombs < smartBombIconsCountInitial)
-        {
+		{
 			SetBombs(smartBombs + 1);
-        }
-    }
+		}
+	}
 
 	public void SetBombs(int count)
 	{
@@ -185,10 +185,10 @@ public class UIManager : MonoBehaviour
 		float thousandsNow = points / 10_000;
 		pointsText.text = $"{points}";
 		if (thousandsNow > thousandsPrev)
-        {
+		{
 			IncrementHealth();
 			StockBomb();
-        }
+		}
 	}
 
 	public void ShowRefreshScreen()
