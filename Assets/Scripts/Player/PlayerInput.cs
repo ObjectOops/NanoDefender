@@ -23,14 +23,16 @@ public class PlayerInput : MonoBehaviour
 			RightPressed = Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow),
 			Accelerating = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.Space),
 			AttackPressed = Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown(KeyCode.Return),
-			BombPressed = Input.GetKeyDown(KeyCode.E),
+			BombPressed = Input.GetKeyDown(KeyCode.L),
+			HyperspacePressed = Input.GetKeyDown(KeyCode.J),
 		};
 
 		if (Input.GetKeyDown(KeyCode.UpArrow) && !listening)
 		{
 			listening = true;
 			codeIndex++;
-		} else if (listening)
+		}
+		else if (listening)
 		{
 			if (codeIndex >= cheatcode.Count)
 			{
@@ -58,6 +60,7 @@ public class PlayerInput : MonoBehaviour
 		public bool Accelerating;
 		public bool AttackPressed;
 		public bool BombPressed;
+		public bool HyperspacePressed;
 		public float yMovement;
 	}
 }

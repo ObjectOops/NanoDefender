@@ -12,10 +12,19 @@ public class Laser : MonoBehaviour
 
 	private int direction;
 
+	private float laserTimer;
+
 	void Update()
 	{
 		transform.position += direction * speed * Time.deltaTime * transform.right; // Ordered this way for performance.
 		SpawnTrail();
+
+		if (laserTimer > 3f)
+		{
+			Destroy(gameObject);
+		}
+
+		laserTimer += Time.deltaTime;
 	}
 
 	public void SetDirection(int direction)
@@ -36,19 +45,19 @@ public class Laser : MonoBehaviour
 		if (other.gameObject.TryGetComponent(out Human human))
 		{
 			if (!human.isHeld)
-            {
+			{
 				StopLaser();
 				human.Die();
-            }
+			}
 			return;
 		}
 
-		//if (other.gameObject.TryGetComponent<BossController>(out BossController boss))
-		//{
-		//	StopLaser();
-		//	boss.Damage();
-		//	return;
-		//}
+		if (other.gameObject.TryGetComponent<BossController>(out BossController boss))
+		{
+			StopLaser();
+			boss.Damage();
+			return;
+		}
 	}
 
 	private void SpawnTrail()

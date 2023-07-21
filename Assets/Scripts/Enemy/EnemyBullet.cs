@@ -8,18 +8,28 @@ public class EnemyBullet : MonoBehaviour
 	public float moveSpeed;
 	public bool destroyOnLeave;
 
+	private bool entered;
+	private bool lastFrameVisible;
+
 	private SpriteRenderer spriteRenderer;
 	private float despawnTimer;
 
 	private void Start()
 	{
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		if (spriteRenderer.isVisible)
+		{
+			entered = true;
+		}
 	}
 
 	private void Update()
 	{
 		transform.position += moveSpeed * Time.deltaTime * direction; // IDE suggested order for performance.
-		if (destroyOnLeave && !spriteRenderer.isVisible)
+		if(!lastFrameVisible && spriteRenderer.isVisible) {
+			entered = true;
+		}
+		if (destroyOnLeave && entered && !spriteRenderer.isVisible)
 		{
 			Destroy(this.gameObject);
 		}
@@ -31,6 +41,8 @@ public class EnemyBullet : MonoBehaviour
 			}
 			despawnTimer += Time.deltaTime;
 		}
+		
+		lastFrameVisible = spriteRenderer.isVisible;
 	}
 
 	public void SetDirection(Vector3 direction)
