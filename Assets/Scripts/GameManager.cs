@@ -74,18 +74,18 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (!waveStarted)
+		if (bossManager.started)
 		{
 			return;
 		}
-
-		if (bossManager.bossWave == wave)
+		
+		if (wave == 5)
 		{
 			EndWaveForBoss();
 			return;
 		}
 
-		if (bossManager.started)
+		if (!waveStarted)
 		{
 			return;
 		}
@@ -101,6 +101,7 @@ public class GameManager : MonoBehaviour
 
 		if (enemySpawnManager.GetAliveEnemyCount() == 0 && allSpawned)
 		{
+
 			StartCoroutine(EndWave());
 		}
 	}
@@ -108,6 +109,7 @@ public class GameManager : MonoBehaviour
 	public void EndWaveForBoss()
 	{
 		waveStarted = false;
+		allSpawned = false;
 		humanSpawnManager.DestroyHumans();
 		bossManager.StartBoss();
 	}
@@ -115,10 +117,12 @@ public class GameManager : MonoBehaviour
 	public IEnumerator EndWave()
 	{
 		waveStarted = false;
+		// AudioManager.instance.PlaySound("Win");
 		waveEndManager.gameObject.SetActive(true);
 		waveEndManager.EndWave(wave + 1);
 
 		humanSpawnManager.DestroyHumans();
+		enemySpawnManager.DestroyEnemies();
 
 		yield return new WaitForSeconds(3f);
 		FindObjectOfType<PlayerController>().ResetPlayer();

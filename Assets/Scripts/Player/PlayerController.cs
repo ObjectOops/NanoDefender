@@ -163,7 +163,7 @@ public class PlayerController : MonoBehaviour
 		if (input.GameInput.HyperspacePressed)
 		{
 			scrollManager.Scroll(new Vector2(Random.Range(-100, 101), 0f));
-			StartCoroutine(Flash());
+			StartCoroutine(HyperSpace());
 		}
 	}
 
@@ -181,6 +181,12 @@ public class PlayerController : MonoBehaviour
 		yield return new WaitForSeconds(0.03f);
 		flash.SetActive(true);
 		yield return new WaitForSeconds(0.03f);
+		flash.SetActive(false);
+	}
+	
+	private IEnumerator HyperSpace() {
+		flash.SetActive(true);
+		yield return new WaitForSeconds(0.5f);
 		flash.SetActive(false);
 	}
 	
@@ -336,6 +342,7 @@ public class PlayerController : MonoBehaviour
 		if (dead)
 		{
 			UIManager.ShowGameOver();
+			AudioManager.instance.PlaySound("Lose");
 			PlayerPrefs.SetInt("score", UIManager.instance.points);
 			int highScore = PlayerPrefs.GetInt("highscore", 0);
 			if (UIManager.instance.points > highScore)

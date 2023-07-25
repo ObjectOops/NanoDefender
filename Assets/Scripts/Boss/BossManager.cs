@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class BossManager : MonoBehaviour
 {
@@ -16,6 +18,8 @@ public class BossManager : MonoBehaviour
 	[Header("Animations")]
 	public GameObject bossSpawn;
 	public GameObject bossVignette;
+	
+	public Volume postProcess;
 
 	private bool lastFramePhase;
 
@@ -30,7 +34,7 @@ public class BossManager : MonoBehaviour
 		{
 			StartBoss();
 		}
-
+		
 		if (started)
 		{
 			FindObjectOfType<CameraOffset>().freeze = true;
@@ -42,15 +46,30 @@ public class BossManager : MonoBehaviour
 			{
 				bossVignette.GetComponent<Animator>().SetTrigger("phase2");
 			}
-			
+
 			lastFramePhase = boss.secondPhase;
 		}
 	}
 
 	public void StartBoss()
 	{
+		StartCoroutine(MusicIntro());
+	}
+
+	public IEnumerator MusicIntro()
+	{
 		started = true;
 		debugStart = false;
+		float timer = 0f;
+		while (timer < 4f)
+		{
+			StartCoroutine(AudioManager.instance.PlayBossIntro());
+			yield return null;
+			timer += Time.deltaTime;
+		}
+		yield return StartCoroutine(AudioManager.instance.PlayBossIntro());
+	
+		AudioManager.instance.PlayBossMusic();
 		SpawnAnimation();
 	}
 

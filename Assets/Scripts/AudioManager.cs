@@ -39,6 +39,26 @@ public class AudioManager : MonoBehaviour
 		// }
 	}
 
+	public IEnumerator PlayBossIntro()
+	{
+		bgMusic.Stop();
+		bgMusic.clip = audioMap["BossStart"];
+		bgMusic.loop = false;
+		bgMusic.Play();
+		while (bgMusic.isPlaying)
+		{
+			yield return null;
+		}
+	}
+
+	public void PlayBossMusic()
+	{
+		bgMusic.Stop();
+		bgMusic.clip = audioMap["BossLoop"];
+		bgMusic.loop = true;
+		bgMusic.Play();
+	}
+
 	public void PlaySound(string name, float volumeScale = 1)
 	{
 		audioComponent.PlayOneShot(audioMap[name], volumeScale);

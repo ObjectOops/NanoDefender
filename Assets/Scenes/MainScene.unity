@@ -17335,6 +17335,12 @@ MonoBehaviour:
   - HumanDie
   - HumanSave
   - BomberShoot
+  - BossStart
+  - BossLoop
+  - BossAttack
+  - BossHurt
+  - Win
+  - Lose
   audioClips:
   - {fileID: 8300000, guid: d2b36d782c791d3478c05bf1a04fa3c7, type: 3}
   - {fileID: 8300000, guid: 48911979c228bd047b5133af81ecb6e6, type: 3}
@@ -17347,6 +17353,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3ba3e2fd1a9774de18d7603ea00f7bbf, type: 3}
   - {fileID: 8300000, guid: e643b6725136f44d5930f022932e826a, type: 3}
   - {fileID: 8300000, guid: 59c9708cb502643b68589f6ced69869e, type: 3}
+  - {fileID: 8300000, guid: f238aaa1dc95f40768b150c775e60c55, type: 3}
+  - {fileID: 8300000, guid: 06727b41f684247a388c2a6e032debef, type: 3}
+  - {fileID: 8300000, guid: 15c25c5d2c6d84cb7961bbe2ae4d2d75, type: 3}
+  - {fileID: 8300000, guid: 352d4afa65cca45cda9906cc8434168c, type: 3}
+  - {fileID: 8300000, guid: 92c1b7f95982445a8bd1364fcaf207d4, type: 3}
+  - {fileID: 8300000, guid: 20d376aaf25e34da78b662a41652df72, type: 3}
   audioComponent: {fileID: 1689605284}
 --- !u!82 &1689605284
 AudioSource:
@@ -19306,6 +19318,7 @@ MonoBehaviour:
   bossSpawnPoint: {fileID: 1261806865}
   bossSpawn: {fileID: 587777471}
   bossVignette: {fileID: 702095911}
+  postProcess: {fileID: 0}
 --- !u!1 &2046797765
 GameObject:
   m_ObjectHideFlags: 0
