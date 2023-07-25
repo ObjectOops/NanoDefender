@@ -8,15 +8,11 @@ public class AudioManager : MonoBehaviour
 
 	public AudioSource bgMusic;
 
-	[SerializeField]
-	private List<string> audioNames;
-	[SerializeField]
-	private List<AudioClip> audioClips;
-	[SerializeField]
-	private AudioSource audioComponent;
+	[SerializeField] private List<string> audioNames;
+	[SerializeField] private List<AudioClip> audioClips;
+	[SerializeField] private AudioSource audioComponent;
 
-	[HideInInspector]
-	public Dictionary<string, AudioClip> audioMap = new Dictionary<string, AudioClip>();
+	[HideInInspector] public Dictionary<string, AudioClip> audioMap = new Dictionary<string, AudioClip>();
 
 	private void Start()
 	{

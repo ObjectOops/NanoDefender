@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class CameraOffset : MonoBehaviour
 {
-	[SerializeField]
-	private float playerOffset;
-	[SerializeField]
-	private PlayerController player;
-	[SerializeField]
-	private float lerpPoint, lerpSpeed = 0.01f;
+	[SerializeField] private PlayerController player;
+	[SerializeField] private float playerOffset;
+	[SerializeField] private float lerpPoint, lerpSpeed = 0.01f;
 
 	public bool freeze;
 
 	private float lerpTimer;
 	private bool flipping;
 
-	void FixedUpdate()
+	private void FixedUpdate()
 	{
 		if (freeze) {
 			return;

@@ -6,12 +6,10 @@ using UnityEngine.UI;
 public class PauseMenuManager : MonoBehaviour
 {
 	[Header("Menus")]
-	[SerializeField]
-	private GameObject optionsMenu;
+	[SerializeField] private GameObject optionsMenu;
 
 	[Header("UI Elements")]
-	[SerializeField]
-	private Button optionsButton, quitButton;
+	[SerializeField] private Button optionsButton, quitButton;
 
 	private void Start()
 	{

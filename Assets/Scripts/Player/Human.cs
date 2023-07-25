@@ -7,27 +7,24 @@ public class Human : MonoBehaviour
 	[Header("Parameters")]
 	public bool onGround = true;
 	public float fallSpeed, deathDistance, groundElevationY, mutationDuration, deathDuration;
+	public int pointValue = 500;
 
 	[Header("Additional Components")]
-	[SerializeField]
-	private MutantEnemy mutantPrefab;
-	[SerializeField]
-	private Animator animator;
-	[SerializeField]
-	private Sprite minimapSprite;
+	[SerializeField] private MutantEnemy mutantPrefab;
+	[SerializeField] private Animator animator;
+	[SerializeField] private Sprite minimapSprite;
 
-	[HideInInspector]
-	public bool isTargeted, isHeld;
+	[HideInInspector] public bool isTargeted, isHeld;
 
 	private float distanceFallen, velocity;
 
-	void Start()
+	private void Start()
 	{
 		animator.SetFloat("offset", Random.Range(0f, 1f));
 		GetComponent<MinimapObject>().Init(minimapSprite);
 	}
 
-	void Update()
+	private void Update()
 	{
 		onGround = OnGround();
 		animator.SetBool("onGround", onGround);
@@ -75,7 +72,7 @@ public class Human : MonoBehaviour
 		animator.SetTrigger("frown");
 	}
 
-	public bool OnGround()
+	private bool OnGround()
 	{
 		return transform.position.y <= groundElevationY;
 	}
@@ -115,7 +112,7 @@ public class Human : MonoBehaviour
 			transform.parent = player.humanHoldPoint;
 			transform.position = player.humanHoldPoint.position;
 			isHeld = true;
-			UIManager.instance.AddPoints(500);
+			UIManager.instance.AddPoints(pointValue);
 			player.holdingHuman = true;
 		}
 	}

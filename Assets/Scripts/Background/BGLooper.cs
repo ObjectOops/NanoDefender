@@ -6,8 +6,7 @@ public class BGLooper : MonoBehaviour
 {
 	private Vector3 originalPosition;
 
-	[HideInInspector]
-	public float maxDif = 16.39f;
+	[HideInInspector] private float maxDif = 16.39f;
 
 	private void Start()
 	{

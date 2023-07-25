@@ -6,18 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class BossController : MonoBehaviour
 {
-	private Animator animator;
-	private State state;
-	private SpriteRenderer spriteRenderer;
-
-	public Sprite minimapSprite;
-	public int hits;
-	public int secondPhaseHits;
-
+	[SerializeField] private Sprite minimapSprite;
+	[SerializeField] private int hits, secondPhaseHits;
+	[SerializeField][Scene] private string endScene;
 	public bool secondPhase;
-	
-	[Scene]
-	public string endScene;
 
 	[Header("Attack 1")]
 	public EnemyBullet bossProjectile;
@@ -27,7 +19,6 @@ public class BossController : MonoBehaviour
 	public EnemyBullet bossProjectile2;
 	public Transform attackTwoSpawns;
 	public Transform attackTwoRotator;
-	private Vector3 attackTwoStartPos;
 
 	[Header("Attack 3")]
 	public EnemyBullet bossProjectile3;
@@ -36,23 +27,26 @@ public class BossController : MonoBehaviour
 	[Header("Attack 4")]
 	public EnemyBullet bossProjectile4;
 	public Transform attackFourSpawns;
+
+	[Header("Other")]
+	public float timeBetweenAttacks = 5f;
+
+	private Vector3 attackTwoStartPos;
+	
 	private float attackFourTimer;
 	private int prevProjectile;
 
-	public float timeBetweenAttacks = 5f;
-	private float attackTimer;
-
-	private float targetX;
-
+	private Animator animator;
 	private Vector3 originalPosition;
-	private float moveLerpTimer;
+	private State state;
+	private float attackTimer, targetX, moveLerpTimer;
 	private bool dead;
 
+	private float attackOneDelay = 0.667f, attackTwoDelay = 0.4f, attackThreeDelay = 0.22f;
 
-	void Start()
+	private void Start()
 	{
 		animator = GetComponentInChildren<Animator>();
-		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		attackTwoStartPos = attackTwoRotator.transform.position;
 		originalPosition = transform.position;
 		FindObjectOfType<ScrollManager>().TintBoss();
@@ -93,21 +87,21 @@ public class BossController : MonoBehaviour
 	{
 		animator.SetTrigger("death");
 		AudioManager.instance.PlaySound("Win");
-		Invoke("LoadEndScene", 4f);
+		Invoke(nameof(LoadEndScene), 4f);
 		dead = true;
 	}
 	
-	public void LoadEndScene() {
+	private void LoadEndScene() {
 		SceneManager.LoadScene(endScene);
 	}
 
-	void Update()
+	private void Update()
 	{
 		if (dead)
 		{
 			return;
 		}
-		FindObjectOfType<ScrollManager>().Scroll(new Vector2(-(Time.deltaTime * 5f), 0f));
+		FindObjectOfType<ScrollManager>().Scroll(new Vector2(Time.deltaTime * 5f * -1, 0f));
 		
 		if (secondPhase)
 		{
@@ -138,15 +132,14 @@ public class BossController : MonoBehaviour
 				AttackThreeTransitions();
 				break;
 			case State.DEAD:
-				Debug.Log("DEAD!");
+				// Debug.Log("DEAD!");
 				break;
 		}
 	}
 
 	private void IdleActions()
 	{
-
-
+		// Nothing.
 	}
 
 	private void IdleTransitions()
@@ -171,7 +164,7 @@ public class BossController : MonoBehaviour
 	private void AttackOneActions()
 	{
 		animator.SetTrigger("attack1");
-		Invoke("SpawnAttackOneProjectiles", 0.667f);
+		Invoke(nameof(SpawnAttackOneProjectiles), attackOneDelay);
 	}
 
 	private void SpawnAttackOneProjectiles()
@@ -193,11 +186,7 @@ public class BossController : MonoBehaviour
 	private void AttackTwoActions()
 	{
 		animator.SetTrigger("attack2");
-		Invoke("SpawnAttackTwoProjectiles", 0.4f);
-		if (secondPhase)
-		{
-
-		}
+		Invoke(nameof(SpawnAttackTwoProjectiles), attackTwoDelay);
 	}
 
 	private void SpawnAttackTwoProjectiles()
@@ -207,14 +196,12 @@ public class BossController : MonoBehaviour
 		{
 			Transform spawn = attackTwoSpawns.GetChild(i);
 			EnemyBullet bossProj = Instantiate(bossProjectile2, spawn.position, Quaternion.identity, attackTwoRotator);
-			// bossProj.SetDirection(spawn.up);
 			bossProj.SetDirection(Vector3.zero);
 		}
-
 		StartCoroutine(RotateAttackTwo());
 	}
 
-	public IEnumerator RotateAttackTwo()
+	private IEnumerator RotateAttackTwo()
 	{
 		float time = 0f;
 		while (time < 7f)
@@ -239,11 +226,10 @@ public class BossController : MonoBehaviour
 		state = State.ROTATE_ATTACK_2;
 	}
 
-
 	private void AttackThreeActions()
 	{
 		animator.SetTrigger("attack3");
-		Invoke("SpawnAttackThreeProjectiles", 0.22f);
+		Invoke(nameof(SpawnAttackThreeProjectiles), attackThreeDelay);
 	}
 
 	private void SpawnAttackThreeProjectiles()
@@ -289,7 +275,6 @@ public class BossController : MonoBehaviour
 			int i when i == 1 && rand == 3 => 2,
 			int i when i == 3 && rand == 1 => 2,
 			_ => rand
-
 		};
 
 		Transform attackPattern = attackFourSpawns.Find($"Attack_4_{rand}");
@@ -309,7 +294,7 @@ public class BossController : MonoBehaviour
 		state = State.IDLE;
 	}
 
-	public enum State
+	private enum State
 	{
 		IDLE,
 		ATTACK_1,

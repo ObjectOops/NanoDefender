@@ -10,8 +10,8 @@ public abstract class EnemyController : MonoBehaviour
 	public EnemyBullet bulletPrefab;
 
 	internal SpriteRenderer spriteRenderer;
-	internal float shootOffset;
 	internal Animator animator;
+	internal float shootOffset;
 	internal bool freeze;
 
 	private int points;

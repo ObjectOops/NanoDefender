@@ -7,8 +7,7 @@ public class PlayerInput : MonoBehaviour
 	public FrameInput GameInput { get; private set; }
 	public bool invulnerable;
 
-	[SerializeField]
-	private List<KeyCode> cheatcode;
+	[SerializeField] private List<KeyCode> cheatcode;
 
 	private int codeIndex;
 	private bool listening;

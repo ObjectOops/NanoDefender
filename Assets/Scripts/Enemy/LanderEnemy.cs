@@ -6,8 +6,7 @@ public class LanderEnemy : EnemyController
 {
 	// Magic numbers ahead.
 
-	[SerializeField]
-	private LayerMask terrainMask;
+	[SerializeField] private LayerMask terrainMask;
 
 	public float moveSpeed, downSpeed, shootCoolDown = 3f, deathDuration = 0.533f;
 

@@ -6,16 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class MenuManagerEnd : MonoBehaviour
 {
-	[SerializeField][Scene]
-	private string gameScene;
+	[SerializeField][Scene] private string gameScene;
 
-	[SerializeField]
-	private TMP_Text scoreText;
-	[SerializeField]
-	private AudioSource source;
+	[SerializeField] private TMP_Text scoreText;
+	[SerializeField] private AudioSource source;
 
-	[SerializeField]
-	private float sceneTransitionDelay;
+	[SerializeField] private float sceneTransitionDelay;
 
 	private void Start()
 	{

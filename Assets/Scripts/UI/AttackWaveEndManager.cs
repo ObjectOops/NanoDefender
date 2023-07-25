@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class AttackWaveEndManager : MonoBehaviour
 {
-	[SerializeField]
-	private TMP_Text waveText, bonusText;
+	[SerializeField] private TMP_Text waveText, bonusText;
 	public Transform humanBonus;
 	public GameObject humanUI;
 

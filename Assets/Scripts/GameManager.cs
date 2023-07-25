@@ -5,40 +5,30 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-	[SerializeField]
-	[Scene]
-	private string endScene;
+	[SerializeField][Scene] private string endScene;
 
 	[Header("Managers")]
-	[SerializeField]
-	private EnemySpawnManager enemySpawnManager;
-	[SerializeField]
-	private HumanSpawnManager humanSpawnManager;
-	[SerializeField]
-	private BossManager bossManager;
+	[SerializeField] private EnemySpawnManager enemySpawnManager;
+	[SerializeField] private HumanSpawnManager humanSpawnManager;
+	[SerializeField] private BossManager bossManager;
 
 	[Header("Waves")]
-	[SerializeField]
-	private AttackWaveEndManager waveEndManager;
-	[SerializeField]
-	private int bossWave = 5;
+	[SerializeField] private AttackWaveEndManager waveEndManager;
+	[SerializeField] private int bossWave = 5;
 
-	[System.Serializable]
-	public struct EnemyCounts
+	[System.Serializable] public struct EnemyCounts
 	{
 		public int landers;
 		public int landerRate;
 		public int bombers;
 		public int bomberRate;
 	}
-	[SerializeField]
-	private List<EnemyCounts> enemies;
-	[SerializeField]
-	private List<int> humans;
+	[SerializeField] private List<EnemyCounts> enemies;
+	[SerializeField] private List<int> humans;
+	
 	public int spawnTimer = 5;
 
-	[HideInInspector]
-	public int wave = -1;
+	[HideInInspector] public int wave = -1;
 
 	private bool waveStarted;
 	private bool allSpawned;

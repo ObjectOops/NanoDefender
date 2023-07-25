@@ -949,7 +949,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 14.3125
 --- !u!114 &170180676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1500,7 +1499,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 16
 --- !u!114 &250795966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2059,7 +2057,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 16
 --- !u!1 &419501176
 GameObject:
   m_ObjectHideFlags: 0
@@ -2531,7 +2528,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 14.3125
 --- !u!114 &497108259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2736,8 +2732,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dbf7b778397a46a888b5e5ec8611813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerOffset: 3
   player: {fileID: 2022186553}
+  playerOffset: 3
   lerpPoint: 0
   lerpSpeed: 0.01
   freeze: 0
@@ -2843,7 +2839,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 16
 --- !u!212 &520333581
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3020,7 +3015,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 14.3125
 --- !u!1 &587196676
 GameObject:
   m_ObjectHideFlags: 0
@@ -4034,7 +4028,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 16
 --- !u!114 &803339394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4254,7 +4247,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 14.3125
 --- !u!114 &877515104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4513,7 +4505,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 14.3125
 --- !u!114 &954923731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5138,7 +5129,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 16
 --- !u!114 &1091625625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5440,7 +5430,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 14.3125
 --- !u!114 &1160070884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5552,7 +5541,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 14.3125
 --- !u!114 &1166380678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5740,7 +5728,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 14.3125
 --- !u!114 &1183187812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5852,7 +5839,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 14.3125
 --- !u!114 &1189175461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11129,7 +11115,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 16
 --- !u!114 &1362804951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11304,7 +11289,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 14.3125
 --- !u!114 &1387954979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16957,7 +16941,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 14.3125
 --- !u!114 &1574366045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17624,10 +17607,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   humanprefab: {fileID: 4779483421191360506, guid: cfb926fcc8c6c43d7a9be37bbfdec461, type: 3}
-  leftMostSpawn: -50
-  rightMostSpawn: 51
   humanSpawnY: {fileID: 639560160}
   scroller: {fileID: 14019291}
+  leftMostSpawn: -50
+  rightMostSpawn: 51
 --- !u!1 &1735506286
 GameObject:
   m_ObjectHideFlags: 0
@@ -17674,7 +17657,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 14.3125
 --- !u!114 &1735506289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18488,7 +18470,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 16
 --- !u!212 &1877267487
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -18600,10 +18581,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   landerPrefab: {fileID: 1353453336487125951, guid: 511165ad82f4a449bb1ead146347cba0, type: 3}
   bomberPrefab: {fileID: 1441305959319743589, guid: 5e94e40afe7d34842834804f0c05caa6, type: 3}
-  leftMostSpawn: -50
-  rightMostSpawn: 51
   landerSpawnY: {fileID: 1796859652}
   scroller: {fileID: 14019291}
+  leftMostSpawn: -50
+  rightMostSpawn: 51
   maxLanders: 0
   maxBombers: 0
 --- !u!1 &1914804950
@@ -18788,11 +18769,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1abadb1607ad4f35befeaace18fbb48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  endScene: EndScene
   enemySpawnManager: {fileID: 1914160894}
   humanSpawnManager: {fileID: 1722608518}
   bossManager: {fileID: 2046160906}
-  endScene: EndScene
   waveEndManager: {fileID: 1256559222}
+  bossWave: 5
   enemies:
   - landers: 6
     landerRate: 2
@@ -19017,19 +18999,20 @@ MonoBehaviour:
   moveSpeed: 12
   maxSpeed: 18
   ySpeed: 5
-  damping: 1.5
-  manager: {fileID: 1975821792}
+  dampening: 0
+  deathDuration: 1.4
   input: {fileID: 2022186554}
   animator: {fileID: 1684351838}
+  manager: {fileID: 1975821792}
   UIManager: {fileID: 697541854}
   scrollManager: {fileID: 14019292}
-  offset: {fileID: 519420033}
-  laserPrefab: {fileID: 3518372284016162598, guid: 85a8aa03de751534a813b3f43be6b875, type: 3}
-  shootPoint: {fileID: 1573293216}
   idleCollider: {fileID: 2022186557}
-  movingShootPoint: {fileID: 1114589520}
   movingCollider: {fileID: 2022186555}
+  shootPoint: {fileID: 1573293216}
+  movingShootPoint: {fileID: 1114589520}
   humanHoldPoint: {fileID: 1368968516}
+  cameraOffset: {fileID: 519420033}
+  laserPrefab: {fileID: 3518372284016162598, guid: 85a8aa03de751534a813b3f43be6b875, type: 3}
   deathParticles: {fileID: 1529812255}
   flash: {fileID: 1526109996}
   holdingHuman: 0
@@ -19165,14 +19148,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1975821792}
+  bossPrefab: {fileID: 5864926149675890974, guid: 0479717aec4b64def8bc984cabd41a72, type: 3}
+  bossSpawnPoint: {fileID: 1261806865}
   started: 0
   debugStart: 0
   bossWave: 6
-  bossPrefab: {fileID: 5864926149675890974, guid: 0479717aec4b64def8bc984cabd41a72, type: 3}
-  bossSpawnPoint: {fileID: 1261806865}
   bossSpawn: {fileID: 587777471}
   bossVignette: {fileID: 702095911}
-  postProcess: {fileID: 0}
 --- !u!1 &2046797765
 GameObject:
   m_ObjectHideFlags: 0
@@ -19437,7 +19419,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49e64d89a15dc4c7fa2ac4684d7a8c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDif: 16
 --- !u!1001 &4990109802107544966
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ public class ScrollManager : MonoBehaviour
 	public Color normalTintColor;
 	public Color bossTintColor;
 
-	void Start()
+	private void Start()
 	{
 		TintNormal();
 	}
@@ -20,7 +20,7 @@ public class ScrollManager : MonoBehaviour
 		{
 			Transform toScroll = transform.GetChild(i);
 			float parallaxMult = 1f;
-			if (toScroll.TryGetComponent<ParallaxScroller>(out ParallaxScroller parallax))
+			if (toScroll.TryGetComponent(out ParallaxScroller parallax))
 			{
 				parallaxMult = parallax.scrollMultiplier;
 			}
@@ -30,7 +30,10 @@ public class ScrollManager : MonoBehaviour
 			if (!bounds.bounds.Contains(toScroll.position))
 			{
 				int sign = Math.Sign(moveDelta.x);
-				toScroll.position = bounds.bounds.ClosestPoint(new Vector2(toScroll.position.x + (int)(100 * sign), toScroll.position.y));
+				toScroll.position = bounds.bounds.ClosestPoint(
+					new Vector2(toScroll.position.x + (int)(100 * sign), 
+					toScroll.position.y)
+				);
 				continue;
 			}
 		}
@@ -68,13 +71,11 @@ public class ScrollManager : MonoBehaviour
 		Transform fg_vein2 = transform.Find("FG_Vein_2");
 		Tilemap tilemap = transform.Find("FG_Tilemap").GetComponentInChildren<Tilemap>();
 
-
 		List<SpriteRenderer> toTint = new List<SpriteRenderer>();
 		toTint.AddRange(bg.GetComponentsInChildren<SpriteRenderer>());
 		toTint.AddRange(fg.GetComponentsInChildren<SpriteRenderer>());
 		toTint.AddRange(fg_vein.GetComponentsInChildren<SpriteRenderer>());
 		toTint.AddRange(fg_vein2.GetComponentsInChildren<SpriteRenderer>());
-
 
 		foreach (SpriteRenderer spriteRenderer in toTint)
 		{
@@ -82,7 +83,6 @@ public class ScrollManager : MonoBehaviour
 			Color newColor = new Color(bossTintColor.r, bossTintColor.g, bossTintColor.b, oldColor.a);
 			spriteRenderer.color = newColor;
 		}
-
 		tilemap.color = bossTintColor;
 	}
 }

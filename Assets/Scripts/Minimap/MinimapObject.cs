@@ -1,11 +1,11 @@
-
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MinimapObject : MonoBehaviour
 {
-	[SerializeField]
-	private GameObject minimapObjectPrefab;
+	[SerializeField] private GameObject minimapObjectPrefab;
 
 	private Enemy enemy;
 	private Sprite sprite;
@@ -43,7 +43,7 @@ public class MinimapObject : MonoBehaviour
 		this.sprite = sprite;
 	}
 
-	void Update()
+	private void Update()
 	{
 		spawnedMinimap.transform.localPosition = WorldToMinimapSpace(transform.position);
 	}

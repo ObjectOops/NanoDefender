@@ -1,34 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 
 public class BossManager : MonoBehaviour
 {
-	public GameManager gameManager;
+	[SerializeField] private GameManager gameManager;
+	[SerializeField] private BossController bossPrefab;
+
+	public Transform bossSpawnPoint;
 	public bool started;
 	public bool debugStart;
 	public int bossWave;
 
-	public BossController bossPrefab;
-	private BossController boss;
-	public Transform bossSpawnPoint;
-
 	[Header("Animations")]
-	public GameObject bossSpawn;
-	public GameObject bossVignette;
+	[SerializeField] private GameObject bossSpawn, bossVignette;
 	
-	public Volume postProcess;
-
+	private BossController boss;
 	private bool lastFramePhase;
 
-	void Start()
-	{
-
-	}
-
-	void Update()
+	private void Update()
 	{
 		if (debugStart)
 		{
@@ -46,7 +36,6 @@ public class BossManager : MonoBehaviour
 			{
 				bossVignette.GetComponent<Animator>().SetTrigger("phase2");
 			}
-
 			lastFramePhase = boss.secondPhase;
 		}
 	}
@@ -56,7 +45,7 @@ public class BossManager : MonoBehaviour
 		StartCoroutine(MusicIntro());
 	}
 
-	public IEnumerator MusicIntro()
+	private IEnumerator MusicIntro()
 	{
 		started = true;
 		debugStart = false;
@@ -73,13 +62,13 @@ public class BossManager : MonoBehaviour
 		SpawnAnimation();
 	}
 
-	public void SpawnAnimation()
+	private void SpawnAnimation()
 	{
 		bossSpawn.SetActive(true);
 		StartCoroutine(InstantiateBoss());
 	}
 
-	public IEnumerator InstantiateBoss()
+	private IEnumerator InstantiateBoss()
 	{
 		yield return new WaitForSeconds(2.5f);
 		SpawnBoss();
@@ -89,9 +78,8 @@ public class BossManager : MonoBehaviour
 		bossSpawn.SetActive(false);
 	}
 
-	public void SpawnBoss()
+	private void SpawnBoss()
 	{
 		boss = Instantiate(bossPrefab, bossSpawnPoint.position, Quaternion.identity);
 	}
-
 }
