@@ -18,8 +18,6 @@ public class AudioManager : MonoBehaviour
 	[HideInInspector]
 	public Dictionary<string, AudioClip> audioMap = new Dictionary<string, AudioClip>();
 
-	// private bool heeHee;
-
 	private void Start()
 	{
 		instance = this;
@@ -31,12 +29,6 @@ public class AudioManager : MonoBehaviour
 		{
 			audioMap.Add(audioNames[i], audioClips[i]);
 		}
-
-		// int rand = UnityEngine.Random.Range(1, 21);
-		// if (rand == 1)
-		// {
-		// 	heeHee = true;
-		// }
 	}
 
 	public IEnumerator PlayBossIntro()
@@ -72,12 +64,4 @@ public class AudioManager : MonoBehaviour
 			audioComponent.Play();
 		}
 	}
-
-	// private void Update()
-	// {
-	// 	if (heeHee)
-	// 	{
-	// 		bgMusic.pitch = 1 + Mathf.Clamp(UnityEngine.Random.Range((-Time.time - 3f) / 20f, (Time.time - 3f) / 20f), 0, float.MaxValue);
-	// 	}
-	// }
 }
