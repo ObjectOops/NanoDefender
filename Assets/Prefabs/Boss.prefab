@@ -915,6 +915,7 @@ MonoBehaviour:
   hits: 100
   secondPhaseHits: 100
   secondPhase: 0
+  endScene: EndScene
   bossProjectile: {fileID: 768454327775202355, guid: a63b8ef13a06b46429acb6f803a6aad3, type: 3}
   attackOneSpawns: {fileID: 7496477914398875135}
   bossProjectile2: {fileID: 768454327775202355, guid: 0e862e517a69044629e7c55c16bbcc4b, type: 3}

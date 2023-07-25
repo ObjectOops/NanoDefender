@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BossController : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class BossController : MonoBehaviour
 	public int secondPhaseHits;
 
 	public bool secondPhase;
+	
+	[Scene]
+	public string endScene;
 
 	[Header("Attack 1")]
 	public EnemyBullet bossProjectile;
@@ -59,6 +63,7 @@ public class BossController : MonoBehaviour
 
 	public void Damage()
 	{
+		AudioManager.instance.PlaySound("Enemy Death");
 		animator.SetTrigger("hit");
 		if (!secondPhase && hits > 0)
 		{
@@ -87,7 +92,13 @@ public class BossController : MonoBehaviour
 	private void Die()
 	{
 		animator.SetTrigger("death");
+		AudioManager.instance.PlaySound("Win");
+		Invoke("LoadEndScene", 4f);
 		dead = true;
+	}
+	
+	public void LoadEndScene() {
+		SceneManager.LoadScene(endScene);
 	}
 
 	void Update()
@@ -96,7 +107,7 @@ public class BossController : MonoBehaviour
 		{
 			return;
 		}
-		FindObjectOfType<ScrollManager>().Scroll(new Vector2(Time.deltaTime * 5f, 0f));
+		FindObjectOfType<ScrollManager>().Scroll(new Vector2(-(Time.deltaTime * 5f), 0f));
 		
 		if (secondPhase)
 		{
@@ -165,6 +176,7 @@ public class BossController : MonoBehaviour
 
 	private void SpawnAttackOneProjectiles()
 	{
+		AudioManager.instance.PlaySound("BossAttack");
 		for (int i = 0; i < attackOneSpawns.childCount; i++)
 		{
 			Transform spawn = attackOneSpawns.GetChild(i);
@@ -190,6 +202,7 @@ public class BossController : MonoBehaviour
 
 	private void SpawnAttackTwoProjectiles()
 	{
+		AudioManager.instance.PlaySound("BossAttack");
 		for (int i = 0; i < attackTwoSpawns.childCount; i++)
 		{
 			Transform spawn = attackTwoSpawns.GetChild(i);
@@ -235,6 +248,7 @@ public class BossController : MonoBehaviour
 
 	private void SpawnAttackThreeProjectiles()
 	{
+		AudioManager.instance.PlaySound("BossAttack");
 		for (int i = 0; i < attackThreeSpawns.childCount; i++)
 		{
 			Transform spawn = attackThreeSpawns.GetChild(i);

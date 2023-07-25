@@ -127,6 +127,35 @@ public class EnemySpawnManager : MonoBehaviour
 		return i;
 	}
 
+	public void DestroyEnemies()
+	{
+		foreach (EnemyController enemy in spawnedLanders)
+		{
+			if (enemy != null)
+			{
+				Destroy(enemy.gameObject);
+			}
+		}
+
+		foreach (EnemyController enemy in spawnedBombers)
+		{
+			if (enemy != null)
+			{
+				Destroy(enemy.gameObject);
+			}
+		}
+
+		MutantEnemy[] spawnedMutants = FindObjectsOfType<MutantEnemy>();
+		foreach (EnemyController enemy in spawnedMutants)
+		{
+			if (enemy != null)
+			{
+				Destroy(enemy.gameObject);
+			}
+		}
+	}
+
+
 	public void FreezeEnemies()
 	{
 		foreach (EnemyController enemy in spawnedLanders)
