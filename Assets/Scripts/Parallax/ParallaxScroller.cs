@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class ParallaxScroller : MonoBehaviour
 {
-    public float scrollMultiplier;
+	public float scrollMultiplier;
 }

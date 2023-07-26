@@ -172,9 +172,9 @@ public class EnemySpawnManager : MonoBehaviour
 		foreach (EnemyController enemy in spawnedMutants)
 		{
 			if (enemy != null)
-            {
+			{
 				enemy.Freeze();
-            }
+			}
 		}
 	}
 
@@ -200,9 +200,9 @@ public class EnemySpawnManager : MonoBehaviour
 		foreach (EnemyController enemy in spawnedMutants)
 		{
 			if (enemy != null)
-            {
+			{
 				enemy.UnFreeze();
-            }
+			}
 		}
 	}
 }

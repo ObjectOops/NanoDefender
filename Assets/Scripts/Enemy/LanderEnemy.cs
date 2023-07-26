@@ -167,11 +167,11 @@ public class LanderEnemy : EnemyController
 			state = State.UP;
 		}
 		else if (enemyY < humanY && difference < 1f)
-        {
+		{
 			human.transform.parent = this.transform;
 			human.Frown();
 			state = State.UP;
-        }
+		}
 	}
 
 	private void UpActions()
