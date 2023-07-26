@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private AttackWaveEndManager waveEndManager;
 	[SerializeField] private int bossWave = 5;
 
-	[System.Serializable] public struct EnemyCounts
+	[System.Serializable] private struct EnemyCounts
 	{
 		public int landers;
 		public int landerRate;

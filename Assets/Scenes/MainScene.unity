@@ -18999,7 +18999,7 @@ MonoBehaviour:
   moveSpeed: 12
   maxSpeed: 18
   ySpeed: 5
-  dampening: 0
+  dampening: 1.5
   deathDuration: 1.4
   input: {fileID: 2022186554}
   animator: {fileID: 1684351838}
