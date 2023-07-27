@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BG_ConstantMove : MonoBehaviour
+public class BGConstantMove : MonoBehaviour
 {
-	public float moveSpeed;
+	[SerializeField] private float moveSpeed;
 
 	private void Update()
 	{
