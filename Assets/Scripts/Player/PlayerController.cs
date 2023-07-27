@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
 	public float ySpeed;
 	public float dampening;
 	public float deathDuration = 1.4f;
+	public float bossFightInvulnerabilityDuration = 1f;
 
 	[Header("References")]
 	public PlayerInput input;
@@ -367,6 +368,21 @@ public class PlayerController : MonoBehaviour
 		animator.ResetAnimation();
 		manager.UnFreezeEnemies();
 		freezeControls = false;
+
+		// Convenient implementation.
+		// Give temporary invulnerability during boss fight to reduce unnecessary life loss.
+		if (FindObjectOfType<BossManager>().started)
+		{
+			StartCoroutine(TemporaryInvulnerability());
+		}
+	}
+
+	private IEnumerator TemporaryInvulnerability()
+	{
+		input.invulnerable = true;
+		yield return new WaitForSeconds(bossFightInvulnerabilityDuration);
+		input.invulnerable = false;
+		yield return null;
 	}
 
 	private enum State

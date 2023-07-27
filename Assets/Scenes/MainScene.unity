@@ -19022,6 +19022,7 @@ MonoBehaviour:
   ySpeed: 5
   dampening: 1.5
   deathDuration: 1.4
+  bossFightInvulnerabilityDuration: 1
   input: {fileID: 2022186554}
   animator: {fileID: 1684351838}
   manager: {fileID: 1975821792}
