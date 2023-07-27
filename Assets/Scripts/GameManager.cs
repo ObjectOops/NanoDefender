@@ -120,6 +120,13 @@ public class GameManager : MonoBehaviour
 		humanSpawnManager.DestroyHumans();
 		enemySpawnManager.DestroyEnemies();
 
+		// Catch edge-case where the player gets hit by a bullet immediately after wave completion.
+		EnemyBullet[] bullets = FindObjectsOfType<EnemyBullet>();
+		foreach (EnemyBullet bullet in bullets)
+		{
+			Destroy(bullet.gameObject);
+		}
+
 		yield return new WaitForSeconds(3f);
 		FindObjectOfType<PlayerController>().ResetPlayer();
 		waveEndManager.gameObject.SetActive(false);
