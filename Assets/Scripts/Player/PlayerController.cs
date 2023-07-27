@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
 	public ParticleSystem deathParticles;
 	public GameObject flash;
 
-	public bool holdingHuman;
+	[HideInInspector] public bool holdingHuman;
 
 	/*
 	 * Private variables.
@@ -187,6 +187,7 @@ public class PlayerController : MonoBehaviour
 	}
 	
 	private IEnumerator HyperSpace() {
+		AudioManager.instance.PlaySound("Hyperspace");
 		flash.SetActive(true);
 		yield return new WaitForSeconds(0.5f);
 		flash.SetActive(false);
@@ -295,7 +296,8 @@ public class PlayerController : MonoBehaviour
 
 	private void Die()
 	{
-		if (!input.invulnerable)
+		// Also catches the edge-case where multiple bullets hit simultaneously.
+		if (!input.invulnerable && !freezeControls)
 		{
 			state = State.DIE;
 			freezeControls = true;
@@ -307,7 +309,7 @@ public class PlayerController : MonoBehaviour
 		cameraOffset.SetXOffsetInstant(offsetRight);
 		transform.position = new Vector3(transform.position.x, 0, transform.position.y);
 		transform.localScale = new Vector3(1, 1, 1);
-		flipped = false;
+		holdingHuman = flipped = false;
 	}
 
 	private IEnumerator DeathSequence()
@@ -325,6 +327,11 @@ public class PlayerController : MonoBehaviour
 		{
 			Destroy(bullet.gameObject);
 		}
+		// Catch edge case where a cell is being held.
+		foreach (Transform child in transform)
+		{
+			child.BroadcastMessage("Die", SendMessageOptions.DontRequireReceiver);
+		}
 
 		yield return new WaitForSeconds(deathDuration);
 
@@ -333,6 +340,7 @@ public class PlayerController : MonoBehaviour
 		if (dead)
 		{
 			UIManager.ShowGameOver();
+			AudioManager.instance.bgMusic.Stop();
 			AudioManager.instance.PlaySound("Lose");
 			PlayerPrefs.SetInt("score", UIManager.instance.points);
 			int highScore = PlayerPrefs.GetInt("highscore", 0);

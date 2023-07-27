@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour
 		StartWave();
 	}
 
-	private void EndGame()
+	public void EndGame()
 	{
 		PlayerPrefs.SetInt("score", UIManager.instance.points);
 		int highScore = PlayerPrefs.GetInt("highscore", 9999);

@@ -17178,6 +17178,7 @@ MonoBehaviour:
   - BossHurt
   - Win
   - Lose
+  - Hyperspace
   audioClips:
   - {fileID: 8300000, guid: d2b36d782c791d3478c05bf1a04fa3c7, type: 3}
   - {fileID: 8300000, guid: 48911979c228bd047b5133af81ecb6e6, type: 3}
@@ -17196,6 +17197,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 352d4afa65cca45cda9906cc8434168c, type: 3}
   - {fileID: 8300000, guid: 92c1b7f95982445a8bd1364fcaf207d4, type: 3}
   - {fileID: 8300000, guid: 20d376aaf25e34da78b662a41652df72, type: 3}
+  - {fileID: 8300000, guid: 4f594aff1556e304992ead9aaf017084, type: 3}
   audioComponent: {fileID: 1689605284}
 --- !u!82 &1689605284
 AudioSource:

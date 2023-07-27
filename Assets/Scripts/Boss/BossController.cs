@@ -8,6 +8,7 @@ public class BossController : MonoBehaviour
 {
 	[SerializeField] private Sprite minimapSprite;
 	[SerializeField] private int hits, secondPhaseHits;
+	[SerializeField] private float deathDuration = 4f;
 	[SerializeField][Scene] private string endScene;
 	public bool secondPhase;
 
@@ -87,12 +88,12 @@ public class BossController : MonoBehaviour
 	{
 		animator.SetTrigger("death");
 		AudioManager.instance.PlaySound("Win");
-		Invoke(nameof(LoadEndScene), 4f);
+		Invoke(nameof(LoadEndScene), deathDuration);
 		dead = true;
 	}
 	
 	private void LoadEndScene() {
-		SceneManager.LoadScene(endScene);
+		FindObjectOfType<GameManager>().EndGame();
 	}
 
 	private void Update()

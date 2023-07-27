@@ -17,6 +17,7 @@ public class Human : MonoBehaviour
 	[HideInInspector] public bool isTargeted, isHeld;
 
 	private float distanceFallen, velocity;
+	private bool dead;
 
 	private void Start()
 	{
@@ -41,7 +42,7 @@ public class Human : MonoBehaviour
 				distanceFallen = 0;
 				isHeld = false;
 				transform.parent = GameObject.Find("Scroller").transform;
-				UIManager.instance.AddPoints(500);
+				UIManager.instance.AddPoints(pointValue);
 				AudioManager.instance.PlaySound("HumanSave");
 				FindObjectOfType<PlayerController>().holdingHuman = false;
 			}
@@ -95,6 +96,7 @@ public class Human : MonoBehaviour
 
 	public void Die()
 	{
+		dead = true;
 		animator.SetTrigger("death");
 		Invoke(nameof(Destroy), deathDuration);
 	}
@@ -107,12 +109,14 @@ public class Human : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D other)
 	{
-		if (other.gameObject.TryGetComponent(out PlayerController player) && !onGround && !isTargeted)
+		if (other.gameObject.TryGetComponent(out PlayerController player) && 
+			!onGround && 
+			!isTargeted && 
+			!dead)
 		{
 			transform.parent = player.humanHoldPoint;
 			transform.position = player.humanHoldPoint.position;
 			isHeld = true;
-			UIManager.instance.AddPoints(pointValue);
 			player.holdingHuman = true;
 		}
 	}
