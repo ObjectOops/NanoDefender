@@ -7,18 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class OptionsMenuManager : MonoBehaviour
 {
-	[SerializeField]
-	private AudioMixer mixer;
+	[SerializeField] private AudioMixer mixer;
 
 	[Header("Menus")]
-	[SerializeField]
-	private GameObject pauseMenu;
+	[SerializeField] private GameObject pauseMenu;
 
 	[Header("UI Elements")]
-	[SerializeField]
-	private Button backButton;
-	[SerializeField]
-	private Slider musicSlider, sfxSlider;
+	[SerializeField] private Button backButton;
+	[SerializeField] private Slider musicSlider, sfxSlider;
 
 	private float musicVolume;
 	private float sfxVolume;

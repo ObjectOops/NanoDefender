@@ -7,6 +7,7 @@ public class EnemyBullet : MonoBehaviour
 	public Vector3 direction;
 	public float moveSpeed;
 	public bool destroyOnLeave;
+	public float timeout = 10f;
 
 	private bool entered;
 	private bool lastFrameVisible;
@@ -35,7 +36,7 @@ public class EnemyBullet : MonoBehaviour
 		}
 		else
 		{
-			if (despawnTimer > 10f)
+			if (despawnTimer > timeout)
 			{
 				Destroy(this.gameObject);
 			}

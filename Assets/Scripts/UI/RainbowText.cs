@@ -7,10 +7,8 @@ public class RainbowText : MonoBehaviour
 {
 	// Green, yellow, orange, red, purple, blue, cyan.
 
-	[SerializeField]
-	private List<Color> colors;
-	[SerializeField]
-	private float lerpSpeed;
+	[SerializeField] private List<Color> colors;
+	[SerializeField] private float lerpSpeed;
 
 	private TMP_Text text;
 	private Color currentColor;
@@ -26,7 +24,7 @@ public class RainbowText : MonoBehaviour
 		colorIndex = 2;
 	}
 
-	public void FixedUpdate()
+	private void FixedUpdate()
 	{
 		if (lerpTime >= 1f)
 		{
@@ -40,5 +38,4 @@ public class RainbowText : MonoBehaviour
 
 		lerpTime += lerpSpeed * Time.deltaTime;
 	}
-
 }

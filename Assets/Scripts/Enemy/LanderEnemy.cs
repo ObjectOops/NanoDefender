@@ -6,8 +6,7 @@ public class LanderEnemy : EnemyController
 {
 	// Magic numbers ahead.
 
-	[SerializeField]
-	private LayerMask terrainMask;
+	[SerializeField] private LayerMask terrainMask;
 
 	public float moveSpeed, downSpeed, shootCoolDown = 3f, deathDuration = 0.533f;
 
@@ -168,11 +167,11 @@ public class LanderEnemy : EnemyController
 			state = State.UP;
 		}
 		else if (enemyY < humanY && difference < 1f)
-        {
+		{
 			human.transform.parent = this.transform;
 			human.Frown();
 			state = State.UP;
-        }
+		}
 	}
 
 	private void UpActions()

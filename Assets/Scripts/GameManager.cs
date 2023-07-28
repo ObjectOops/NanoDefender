@@ -5,49 +5,46 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-	public EnemySpawnManager enemySpawnManager;
-	public HumanSpawnManager humanSpawnManager;
-	public BossManager bossManager;
+	[SerializeField][Scene] private string endScene;
 
-	[Scene]
-	public string endScene;
-
-	private float gameTimer;
+	[Header("Managers")]
+	[SerializeField] private EnemySpawnManager enemySpawnManager;
+	[SerializeField] private HumanSpawnManager humanSpawnManager;
+	[SerializeField] private BossManager bossManager;
 
 	[Header("Waves")]
-	public AttackWaveEndManager waveEndManager;
-	public List<EnemyCounts> enemies;
-	public List<int> humans;
-	public int spawnTimer = 5;
+	[SerializeField] private AttackWaveEndManager waveEndManager;
+	[SerializeField] private int bossWave = 5;
 
-	private bool waveStarted;
-	private bool allSpawned;
-	[HideInInspector]
-	public int wave = -1;
-	private int landerCount;
-	private int bomberCount;
-	private int landerSpawnRate;
-	private int bomberSpawnRate;
-	private int humanCount;
-
-
-	[System.Serializable]
-	public struct EnemyCounts
+	[System.Serializable] private struct EnemyCounts
 	{
 		public int landers;
 		public int landerRate;
 		public int bombers;
 		public int bomberRate;
 	}
+	[SerializeField] private List<EnemyCounts> enemies;
+	[SerializeField] private List<int> humans;
+	
+	public int spawnTimer = 5;
 
+	[HideInInspector] public int wave = -1;
+
+	private bool waveStarted;
+	private bool allSpawned;
+	private int landerCount;
+	private int bomberCount;
+	private int landerSpawnRate;
+	private int bomberSpawnRate;
+	private int humanCount;
+	private float gameTimer;
 
 	private void Start()
 	{
 		Application.targetFrameRate = -1;
 		QualitySettings.vSyncCount = 0;
 
-		// SpawnEnemies();
-		Invoke("StartWave", 3f);
+		Invoke(nameof(StartWave), 3f);
 	}
 
 	private void StartWave()
@@ -66,6 +63,7 @@ public class GameManager : MonoBehaviour
 		enemySpawnManager.SetMaxBombers(bomberCount);
 
 		humanSpawnManager.PopulateLevel(humanCount);
+
 		enemySpawnManager.SpawnLanders(landerSpawnRate);
 		enemySpawnManager.SpawnBombers(bomberSpawnRate);
 
@@ -74,18 +72,18 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (!waveStarted)
-		{
-			return;
-		}
-
-		if (bossManager.bossWave == wave)
-		{
-			EndWaveForBoss();
-			return;
-		}
-
 		if (bossManager.started)
+		{
+			return;
+		}
+		
+		if (wave == bossWave)
+		{
+			StartBossFight();
+			return;
+		}
+
+		if (!waveStarted)
 		{
 			return;
 		}
@@ -105,20 +103,29 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	public void EndWaveForBoss()
+	private void StartBossFight()
 	{
 		waveStarted = false;
+		allSpawned = false;
 		humanSpawnManager.DestroyHumans();
 		bossManager.StartBoss();
 	}
 
-	public IEnumerator EndWave()
+	private IEnumerator EndWave()
 	{
 		waveStarted = false;
 		waveEndManager.gameObject.SetActive(true);
 		waveEndManager.EndWave(wave + 1);
 
 		humanSpawnManager.DestroyHumans();
+		enemySpawnManager.DestroyEnemies();
+
+		// Catch edge-case where the player gets hit by a bullet immediately after wave completion.
+		EnemyBullet[] bullets = FindObjectsOfType<EnemyBullet>();
+		foreach (EnemyBullet bullet in bullets)
+		{
+			Destroy(bullet.gameObject);
+		}
 
 		yield return new WaitForSeconds(3f);
 		FindObjectOfType<PlayerController>().ResetPlayer();
@@ -154,5 +161,4 @@ public class GameManager : MonoBehaviour
 	{
 		enemySpawnManager.UnFreezeEnemies();
 	}
-
 }

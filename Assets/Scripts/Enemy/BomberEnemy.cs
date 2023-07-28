@@ -9,12 +9,12 @@ public class BomberEnemy : EnemyController
 	private State state;
 	private float shootTimer;
 
-	new void Start()
+	new private void Start()
 	{
 		base.Start();
 	}
 
-	void Update()
+	private void Update()
 	{
 		if (freeze)
 		{
