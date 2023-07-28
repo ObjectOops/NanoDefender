@@ -4,22 +4,20 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
-	[SerializeField]
-	private float speed, lerpSpeed;
+	[SerializeField] private float speed, lerpSpeed, timeout = 3f;
 
 	public ParticleSystem trail;
 	public List<Gradient> trailGradients;
 
 	private int direction;
-
 	private float laserTimer;
 
-	void Update()
+	private void Update()
 	{
 		transform.position += direction * speed * Time.deltaTime * transform.right; // Ordered this way for performance.
 		SpawnTrail();
 
-		if (laserTimer > 3f)
+		if (laserTimer > timeout)
 		{
 			Destroy(gameObject);
 		}
@@ -52,7 +50,7 @@ public class Laser : MonoBehaviour
 			return;
 		}
 
-		if (other.gameObject.TryGetComponent<BossController>(out BossController boss))
+		if (other.gameObject.TryGetComponent(out BossController boss))
 		{
 			StopLaser();
 			boss.Damage();

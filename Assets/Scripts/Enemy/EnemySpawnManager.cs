@@ -5,18 +5,13 @@ using UnityEngine;
 public class EnemySpawnManager : MonoBehaviour
 {
 	[Header("Enemy Types")]
-	[SerializeField]
-	private LanderEnemy landerPrefab;
-	[SerializeField]
-	private BomberEnemy bomberPrefab;
+	[SerializeField] private LanderEnemy landerPrefab;
+	[SerializeField] private BomberEnemy bomberPrefab;
 
 	[Header("Spawn Parameters")]
-	[SerializeField]
-	private int leftMostSpawn = -50, rightMostSpawn = 51;
-	[SerializeField]
-	private Transform landerSpawnY, scroller;
-	[SerializeField]
-	private int maxLanders, maxBombers;
+	[SerializeField] private Transform landerSpawnY, scroller;
+	[SerializeField] private int leftMostSpawn = -50, rightMostSpawn = 51;
+	[SerializeField] private int maxLanders, maxBombers;
 
 	private List<Human> humans = new List<Human>();
 	private List<EnemyController> spawnedLanders = new List<EnemyController>();
@@ -87,13 +82,13 @@ public class EnemySpawnManager : MonoBehaviour
 	public void SetMaxLanders(int max)
 	{
 		spawnedLanders.Clear();
-		this.maxLanders = max;
+		maxLanders = max;
 	}
 
 	public void SetMaxBombers(int max)
 	{
 		spawnedBombers.Clear();
-		this.maxBombers = max;
+		maxBombers = max;
 	}
 
 	public int GetAliveEnemyCount()
@@ -127,6 +122,34 @@ public class EnemySpawnManager : MonoBehaviour
 		return i;
 	}
 
+	public void DestroyEnemies()
+	{
+		foreach (EnemyController enemy in spawnedLanders)
+		{
+			if (enemy != null)
+			{
+				Destroy(enemy.gameObject);
+			}
+		}
+
+		foreach (EnemyController enemy in spawnedBombers)
+		{
+			if (enemy != null)
+			{
+				Destroy(enemy.gameObject);
+			}
+		}
+
+		MutantEnemy[] spawnedMutants = FindObjectsOfType<MutantEnemy>();
+		foreach (EnemyController enemy in spawnedMutants)
+		{
+			if (enemy != null)
+			{
+				Destroy(enemy.gameObject);
+			}
+		}
+	}
+
 	public void FreezeEnemies()
 	{
 		foreach (EnemyController enemy in spawnedLanders)
@@ -149,9 +172,9 @@ public class EnemySpawnManager : MonoBehaviour
 		foreach (EnemyController enemy in spawnedMutants)
 		{
 			if (enemy != null)
-            {
+			{
 				enemy.Freeze();
-            }
+			}
 		}
 	}
 
@@ -177,9 +200,9 @@ public class EnemySpawnManager : MonoBehaviour
 		foreach (EnemyController enemy in spawnedMutants)
 		{
 			if (enemy != null)
-            {
+			{
 				enemy.UnFreeze();
-            }
+			}
 		}
 	}
 }

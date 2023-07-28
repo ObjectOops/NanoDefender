@@ -15,19 +15,15 @@ public class UIManager : MonoBehaviour
 	public int points;
 
 	[Header("HUD")]
-	[SerializeField]
-	private TMP_Text pointsText, gameOverText;
-	[SerializeField]
-	private Transform healthHolder, bombHolder;
-	[SerializeField]
-	private GameObject refreshScreen;
+	[SerializeField] private TMP_Text pointsText, gameOverText;
+	[SerializeField] private Transform healthHolder, bombHolder;
+	[SerializeField] private GameObject refreshScreen;
 
 	private List<GameObject> healthObjects = new List<GameObject>();
 	private List<GameObject> bombObjects = new List<GameObject>();
 
 	[Header("Additional Menus")]
-	[SerializeField]
-	private PauseMenuManager pauseMenu;
+	[SerializeField] private PauseMenuManager pauseMenu;
 
 	[Header("Prefabs")]
 	public GameObject healthIcon;

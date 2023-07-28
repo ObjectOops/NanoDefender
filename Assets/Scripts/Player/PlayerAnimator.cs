@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
-	[SerializeField]
-	private PlayerInput input;
-	[SerializeField]
-	private GameObject faceObject;
-
+	[SerializeField] private PlayerInput input;
+	[SerializeField] private GameObject faceObject;
+	
 	public Animator anim;
-
+	
 	private Animator faceAnimation;
 
 	private void Start()
@@ -55,7 +53,7 @@ public class PlayerAnimator : MonoBehaviour
 		faceAnimation.SetBool("wasHit", false);
 	}
 
-	public void Reset()
+	public void ResetAnimation()
 	{
 		anim.SetBool("death", false);
 		anim.SetTrigger("reset");
