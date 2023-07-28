@@ -9,7 +9,20 @@ https://github.com/ObjectOops/NanoDefender/assets/92550885/49860e04-624f-4cb5-b2
 
 ## About
 This game was developed in one week during the NHSGA Lightning Round by Team 13, 2023.  
-Perforce was used as the primary VCS. This git repository served as a sort of mirror. See `perforce_log.txt`.
+Perforce was used as the primary VCS. This git repository served as a sort of mirror. See `perforce_log.txt`.  
+The staging and main branches contain some bug fixes and project structure reorganization not present during the original game presentation. For the exact version of the project presented, see the perforce branch.
+
+## Controls
+```
+Move Up / Down     --> W, S, Up Arrow, Down Arrow
+Face Left / Right  --> A, D, Left Arrow, Right Arrow
+Thrust             --> Shift, Space
+Shoot              --> K, Enter / Return
+Smart Bomb         --> L
+Hyperspace         --> J
+Pause / Resume     --> Escape
+    - Mouse        --> Quit, Adjust Sound
+```
 
 ## Credits
 Special thanks to my teammates V.J. (production, sound design), S.T. (programming), and A.S. (art), for their expertise and dedication!
